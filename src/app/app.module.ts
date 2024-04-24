@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StartScreenComponent } from './start-screen/start-screen.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
+import { ForgotPasswortComponent } from './forgot-passwort/forgot-passwort.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StartScreenComponent,
-    LoginScreenComponent
+    LoginScreenComponent,
+    ForgotPasswortComponent
   ],
   imports: [
     BrowserModule,

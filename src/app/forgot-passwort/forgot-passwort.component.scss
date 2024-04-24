@@ -1,4 +1,4 @@
-#contentLogin {
+#contentPasswordForget {
     padding: 20px 200px 20px 200px;
     display: flex;
     flex-direction: column;
@@ -15,16 +15,20 @@
     height: auto;
 }
 
-.loginScreen {
+h1 {
+    font-size: 32px;
+}
+
+.screen {
     width: 400px;
-    height: 600px;
+    height: 400px;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 20px;
     border: none;
     color: white;
     display: flex;
     flex-direction: column;
-    align-content: center;    
+    align-content: center;
     padding: 50px;
     box-sizing: border-box;
 
@@ -59,22 +63,6 @@
     outline: none;
 }
 
-.forgotPW {
-    text-decoration: none;
-    color: white;
-    font-size: 12px;
-}
-
-.signUp {
-    color: rgb(180, 180, 180);
-    font-size: 12px;
-}
-
-.signUpLink {
-    color: white;
-    font-size: 14px;
-    text-decoration: none;
-}
-.fullwith{
-    width : 100%;
+.fullwith {
+    width: 100%;
 }
