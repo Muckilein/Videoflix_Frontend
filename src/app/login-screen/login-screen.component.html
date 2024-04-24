@@ -5,21 +5,21 @@
     <div class="middle">
         <div class="loginScreen">
             <h1>Einloggen</h1>
-            <form ngNativeValidate>
-            <div style="margin-bottom:50px;">
-                <div class="inputFields">
-                    <span>Email-Addresse</span>
-                    <input [(ngModel)]="email" class="input" type="email">
+            <form (submit)="login()">
+                <div style="margin-bottom:50px;">
+                    <div class="inputFields">
+                        <span>Email-Addresse</span>
+                        <input [(ngModel)]="email" class="input" type="email" name="email">
+                    </div>
+                    <div class="inputFields">
+                        <span>Passwort</span>
+                        <input [(ngModel)]="password" class="input" type="password" name="password">
+                    </div>
+                    <div>
+                        <button (click)="login()" class="button fullwith">Einloggen</button>
+                    </div>
                 </div>
-                <div class="inputFields">
-                    <span>Passwort</span>
-                    <input [(ngModel)]="password" class="input" type="password">
-                </div>  
-                <div >
-                    <button class="button fullwith">Einloggen</button>
-                </div>               
-            </div>
-        </form>
+            </form>
             <a class="forgotPW" routerLink="/forgotpassword">Passwort vergessen?</a>
             <br>
             <span class="signUp">Sind Sie neu bei Videoflix? <a class="signUpLink" routerLink="/signup">Jetzt

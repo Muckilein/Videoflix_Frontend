@@ -10,13 +10,16 @@ export class LoginScreenComponent {
 
   email:string ="";
   password:string= "";
-  async login(email:string, password:string) {
+
+
+  async login() {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
+
     const raw = JSON.stringify({
-        "username": email,
-        "password": password
+        "username": this.email,
+        "password": this.password
     });
 
     let requestOptions:any = {
@@ -28,12 +31,15 @@ export class LoginScreenComponent {
     try {
         let resp = await fetch(this.pathBackend + "login/", requestOptions);
         let json = await resp.json();
-        this.setToken(json.token);       
+        console.log(json);
+        console.log(json.token);
+        this.setToken(json.token);   
+
 
     } catch (e) {
         // Show error message    
         console.error(e);
-        window.location.href = `/html/index.html`;
+      
     }
 }
 
