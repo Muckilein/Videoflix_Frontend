@@ -6,17 +6,25 @@ import { AppComponent } from './app.component';
 import { StartScreenComponent } from './start-screen/start-screen.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { ForgotPasswortComponent } from './forgot-passwort/forgot-passwort.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { NewPasswordComponent } from './new-password/new-password.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
+  declarations: [    
     AppComponent,
     StartScreenComponent,
     LoginScreenComponent,
-    ForgotPasswortComponent
+    ForgotPasswortComponent,
+    SignUpComponent,
+    NewPasswordComponent,
+    
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
