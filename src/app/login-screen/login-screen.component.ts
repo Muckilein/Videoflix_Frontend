@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-screen',
@@ -11,6 +12,8 @@ export class LoginScreenComponent {
   email:string ="";
   password:string= "";
 
+  constructor(public router: Router) {
+  }
 
   async login() {
     const myHeaders = new Headers();
@@ -34,6 +37,7 @@ export class LoginScreenComponent {
         console.log(json);
         console.log(json.token);
         this.setToken(json.token);   
+        this.router.navigateByUrl("/main");
 
 
     } catch (e) {

@@ -5,16 +5,18 @@
     <div class="middle">
         <div class="screen">
             <h1>Passwort vergessen</h1>
-            <div style="margin-bottom:50px;">
-                <div class="inputFields">
-                    <span>Email-Addresse</span>
-                    <input class="input" type="email">
-                </div>              
-                <div style="margin-top:30px;">
-                    <button class="button fullwith">E-mail senden</button>
-                </div>               
-            </div>        
-         </div>
+            <form (submit)="resetPassword()">
+                <div (submit)="resetPassword()" style="margin-bottom:50px;">
+                    <div class="inputFields">
+                        <span>Email-Addresse</span>
+                        <input [(ngModel)]="email" class="input" type="email" name="email">
+                    </div>
+                    <div style="margin-top:30px;">
+                        <button type="submit" class="button fullwith">E-mail senden</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
     <div class="bottom"></div>
 </div>

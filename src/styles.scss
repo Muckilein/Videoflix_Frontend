@@ -7,8 +7,7 @@ body{
 }
 
 @font-face {
-    font-family: 'Nunito';
-    //src: url('/videoflix-angular/videoflix-angular/assets/fonts/Nunito-VariableFont_wght.ttf') format('truetype');
+    font-family: 'Nunito';   
     src: url('/assets/fonts/Nunito-VariableFont_wght.ttf') format('truetype');
 }
 
@@ -44,4 +43,8 @@ body{
 
 .input:focus {
     outline: none;
+}
+
+.fs14{
+font-size: 14px;
 }

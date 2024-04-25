@@ -5,27 +5,30 @@
     <div class="middle">
         <div class="screen">
             <h1>Registrieren</h1>
-            <div style="margin-bottom:50px;">
-                <div class="inputFields">
-                    <span>Email-Addresse</span>
-                    <input class="input" type="email">
+            <form (submit)="registerUser()">
+                <div style="margin-bottom:50px;">
+                    <div class="inputFields">
+                        <span>Email-Addresse</span>
+                        <input [(ngModel)]="email" class="input" type="email" name="email">
+                    </div>
+                    <div class="inputFields">
+                        <span>Benutzername</span>
+                        <input [(ngModel)]="username" class="input" type="text" name="username">
+                    </div>
+                    <div class="inputFields">
+                        <span>Passwort</span>
+                        <input [(ngModel)]="password" class="input" type="password" name="password">
+                    </div>
+                    <div class="inputFields">
+                        <span>Passwort wiederholen</span>
+                        <input [(ngModel)]="password2" class="input" type="password" name="password2">
+                    </div>
+                    <span *ngIf="notMatch" class="red fs14">Die beiden Passwörter stimmen nicht überein!</span>
+                    <div>
+                        <button type="submit" class="button fullwith">Registrieren</button>
+                    </div>
                 </div>
-                <div class="inputFields">
-                    <span>Benutzername</span>
-                    <input class="input" type="text">
-                </div>
-                <div class="inputFields">
-                    <span>Passwort</span>
-                    <input class="input" type="password">
-                </div>
-                <div class="inputFields">
-                    <span>Passwort wiederholen</span>
-                    <input class="input" type="password">
-                </div>
-                <div>
-                    <button class="button fullwith">Registrieren</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
     <div class="bottom"></div>

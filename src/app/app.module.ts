@@ -9,6 +9,7 @@ import { ForgotPasswortComponent } from './forgot-passwort/forgot-passwort.compo
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
 import { FormsModule } from '@angular/forms';
+import { MainScreenComponent } from './main-screen/main-screen.component';
 
 @NgModule({
   declarations: [    
@@ -18,6 +19,7 @@ import { FormsModule } from '@angular/forms';
     ForgotPasswortComponent,
     SignUpComponent,
     NewPasswordComponent,
+    MainScreenComponent,
     
   ],
   imports: [
