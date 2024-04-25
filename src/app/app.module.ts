@@ -10,6 +10,9 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
 import { FormsModule } from '@angular/forms';
 import { MainScreenComponent } from './main-screen/main-screen.component';
+import { HeaderComponent } from './header/header.component';
+import { SerienComponent } from './serien/serien.component';
+import { FilmeComponent } from './filme/filme.component';
 
 @NgModule({
   declarations: [    
@@ -20,6 +23,9 @@ import { MainScreenComponent } from './main-screen/main-screen.component';
     SignUpComponent,
     NewPasswordComponent,
     MainScreenComponent,
+    HeaderComponent,
+    SerienComponent,
+    FilmeComponent,
     
   ],
   imports: [

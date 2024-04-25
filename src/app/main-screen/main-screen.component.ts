@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './main-screen.component.scss'
 })
 export class MainScreenComponent {
+ 
 
 }

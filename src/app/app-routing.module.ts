@@ -6,6 +6,7 @@ import { ForgotPasswortComponent } from './forgot-passwort/forgot-passwort.compo
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
 import { MainScreenComponent } from './main-screen/main-screen.component';
+import { SerienComponent } from './serien/serien.component';
 
 const routes: Routes = [
   { path: '', component: StartScreenComponent},
@@ -13,7 +14,9 @@ const routes: Routes = [
   { path: 'forgotpassword', component: ForgotPasswortComponent},
   { path: 'signup', component: SignUpComponent},
   { path: 'newPassword', component: NewPasswordComponent},
-  { path: 'main', component: MainScreenComponent}
+  { path: 'main', component: MainScreenComponent},
+  { path: 'serien', component: SerienComponent},
+  { path: 'filme', component: SerienComponent}
 ];
 
 @NgModule({
