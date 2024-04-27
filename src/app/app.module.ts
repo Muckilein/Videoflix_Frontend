@@ -13,6 +13,7 @@ import { MainScreenComponent } from './main-screen/main-screen.component';
 import { HeaderComponent } from './header/header.component';
 import { SerienComponent } from './serien/serien.component';
 import { FilmeComponent } from './filme/filme.component';
+import { UrlcheckerPipe } from './urlchecker.pipe';
 
 @NgModule({
   declarations: [    
@@ -26,6 +27,7 @@ import { FilmeComponent } from './filme/filme.component';
     HeaderComponent,
     SerienComponent,
     FilmeComponent,
+    UrlcheckerPipe,
     
   ],
   imports: [

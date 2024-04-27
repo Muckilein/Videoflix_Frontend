@@ -1,3 +1,9 @@
 <div id="containerMain">
-    <app-header  [number]="0"></app-header>
+    <app-header [number]="0"></app-header>
+    <video #srcVideo id="srcVideo" controls>
+        <!-- <source [src]="videoUrl" type="video/mp4"> -->
+        <source  src="{{videoUrl|urlchecker}}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <button (click)="reload()">reload</button>
 </div>
