@@ -1,9 +1,13 @@
 <div id="containerMain">
     <app-header [number]="0"></app-header>
-    <video #srcVideo id="srcVideo" controls>
-        <!-- <source [src]="videoUrl" type="video/mp4"> -->
-        <source  src="{{videoUrl|urlchecker}}" type="video/mp4">
+    <div class="videoContainer">
+        <video #srcVideo *ngFor="let i of [0,1,2]" id="srcVideo" class="video" controls>
+            <source src="{{videoUrl}}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <!-- <video #srcVideo id="srcVideo" controls>
+        <source src="{{videoUrl}}" type="video/mp4">
         Your browser does not support the video tag.
-    </video>
-    <button (click)="reload()">reload</button>
+    </video> -->   
 </div>

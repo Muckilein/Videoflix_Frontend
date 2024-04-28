@@ -10,6 +10,8 @@ export class UrlcheckerPipe implements PipeTransform {
   // transform(value: unknown, ...args: unknown[]): unknown {
   //   return null;
   // }
+
+  //Not used
   transform(url: string): SafeResourceUrl {
     console.log('transform');   
     let urlBypass =  this.sanitizer.bypassSecurityTrustResourceUrl(url);

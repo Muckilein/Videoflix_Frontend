@@ -1,4 +1,4 @@
-import { Component,ElementRef,ViewChild } from '@angular/core';
+import { Component,ElementRef,QueryList,ViewChild ,ViewChildren} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 @Component({
@@ -8,12 +8,10 @@ import { lastValueFrom } from 'rxjs';
 })
 export class MainScreenComponent {
 
-  videoUrlNew: string="http://127.0.0.1:8000/media/videos/test.mp4";
   videoUrl: string="";  
 
-  @ViewChild('srcVideo') 
-
-  srcVideo!: ElementRef;
+  // @ViewChild('srcVideo') srcVideo!: ElementRef;
+  @ViewChildren('srcVideo') parents!: QueryList<ElementRef>;
 
   constructor() {
    // setTimeout(()=>{this.loadVideo()},2000);
@@ -21,12 +19,10 @@ export class MainScreenComponent {
      
   }
 
-
-
   async loadVideo() {
    let data = await fetch('http://127.0.0.1:8000/videoclip/');
    let json = await data.json();
-   this.videoUrl = ' http://127.0.0.1:8000'+json['video_file'];   
+   this.videoUrl = 'http://127.0.0.1:8000'+json['video_file'];   
    console.log(this.videoUrl);
    setTimeout(()=>{ this.reload();},2000);
   
@@ -35,8 +31,13 @@ export class MainScreenComponent {
   }
 
  reload(){ 
- 
-  this.srcVideo.nativeElement.load();
+  console.log(this.parents);
+  let array = this.parents.toArray();
+  console.log(array);
+  array.forEach(e=>{e.nativeElement.load();});
+  //array[0].nativeElement.load();
+
+ // this.srcVideo.nativeElement.load();
  
  }
 
