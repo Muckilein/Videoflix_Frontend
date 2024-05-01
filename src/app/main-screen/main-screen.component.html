@@ -1,13 +1,35 @@
 <div id="containerMain">
     <app-header [number]="0"></app-header>
     <div class="videoContainer">
-        <video #srcVideo *ngFor="let i of [0,1,2]" id="srcVideo" class="video" controls>
-            <source src="{{videoUrl}}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <div class="videoDiv" [class.foreground]="enterVideo[i]" *ngFor="let i of [0,1,2]">
+            <img class="shortImg" [class.scale]="enterVideo[i]" src="../assets/img/videoThumpnail.jpg"
+                (mouseenter)="handleImage(i,0)" (mouseleave)="handleImage(i,1)">
+            <div *ngIf="enterVideo[i] && showVideo" (mouseleave)="handleVideo(i)" class="shortScreen">
+                <video videos class="video" autoplay>
+                    <source src="{{videoUrl}}" type="video/mp4">
+                </video>
+                <div class="videoButtons">
+                    <img class="playbutton" src="../assets/img/playbutton.png" (click)="openVideo(i)">
+                    <img class="playbutton" src="../assets/img/addToList.png" (click)="addToList(i)">
+                    <div [class.translate40]="blendIn" class="likeButtons" (mouseenter)="blendInLikes(i)"
+                        (mouseleave)="blendOutLikes(i)">
+                       <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
+                                src="../assets/img/playbutton.png">
+                       <img class="playbutton" src="../assets/img/playbutton.png">
+                       <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
+                                src="../assets/img/playbutton.png">
+
+                    </div>
+
+
+
+                </div>
+                <span style="color:white">Discription</span>
+            </div>
+        </div>
+
+
     </div>
-    <!-- <video #srcVideo id="srcVideo" controls>
-        <source src="{{videoUrl}}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video> -->   
 </div>
+<!-- 
+[class.background]="enterVideo[i]"  -->

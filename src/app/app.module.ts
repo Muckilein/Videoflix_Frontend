@@ -14,6 +14,7 @@ import { HeaderComponent } from './header/header.component';
 import { SerienComponent } from './serien/serien.component';
 import { FilmeComponent } from './filme/filme.component';
 import { UrlcheckerPipe } from './urlchecker.pipe';
+import { WatchVideoComponent } from './watch-video/watch-video.component';
 
 @NgModule({
   declarations: [    
@@ -28,6 +29,7 @@ import { UrlcheckerPipe } from './urlchecker.pipe';
     SerienComponent,
     FilmeComponent,
     UrlcheckerPipe,
+    WatchVideoComponent,
     
   ],
   imports: [

@@ -4,23 +4,122 @@
     display: flex;
     flex-direction: column;
     // justify-content: space-between;
-    height: 100%;   
-    gap:50px;
+    height: 100%;
+    gap: 50px;
     background: rgb(10, 193, 148);
-    background: radial-gradient(circle, rgba(10, 193, 148, 1) 0%, rgba(0, 0, 0, 1) 64%);  
+    background: radial-gradient(circle, rgba(10, 193, 148, 1) 0%, rgba(0, 0, 0, 1) 64%);
+
+}
+
+.videoContainer {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-left: 50px;
+}
+
+.videoDiv {
+    width: 300px;
+    height: 170px;   
+    position: relative;
+    background-color: rgb(1, 37, 28); 
+
+    .shortImg {
+        width: 300px;
+        height: 170px;
+        cursor: pointer;
+        position: absolute;
+        left:0;
+        right:0;
+        transition: transform 1s;
+        
+    }
+}
+
+.videoButtons{
+    display: flex;
+    margin-top: 5px;  
+  
+}
+
+.translate40{
+    z-index: 1;
+    transform: translateX(-40px);
+    background-color:rgb(1, 56, 42) !important; 
+}
+
+.likeButtons{
+    position: relative;       
+    background-color:rgb(1, 37, 28); ; 
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    
+}
+
+.opaqu{
+    opacity: 0; /* Startet mit unsichtbarem Inhalt */
+   // transition: opacity 2s ease-in-out;
+    
+}
+
+.animiert {
+    animation: fadeIn 1s ease forwards; /* Verwendet die fadeIn-Animation über 1 Sekunde */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+// .show{
+//     opacity: 1; 
+// }
+
+
+
+.playbutton{
+    cursor: pointer;
+    width: 30px ;
+    height: 30px ;   
+    margin:5px 5px 5px 5px;
+    &:hover{
+        filter: brightness(80%);
+    }
+}
+.videobutton{
+    background-color: rgb(10, 193, 148); 
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+
+
+.foreground{
+    z-index: 1;
+}
+
+.shortScreen{  
+    // width:360px;  
+    transform: scale(1.2);
+    border: 1px solid white;
+    background-color: rgb(1, 37, 28); 
    
 }
 
-.videoContainer{
-    display: flex;
-    gap:30px;
-    flex-wrap: wrap;
+
+
+.video {
+    width: 300px;
+    height: auto;
+    //transform: scale(1.2);
+   
 }
 
-
-
-.video{
-    width:300px;
-    height:auto;
+.scale{
+    transform: scale(1.2);
 }
-
