@@ -1,6 +1,7 @@
 import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-main-screen',
   templateUrl: './main-screen.component.html',
@@ -13,31 +14,40 @@ export class MainScreenComponent {
   showVideo: boolean = false;
   ignoreImg = false;
   videoNumber: number = -1;
+  detailedNumber: number = -1;
   videos: ElementRef<any>[] = [];
   blendIn: boolean = false;
-  videoList:any[]=[];
+  videoList: any[] = [];
+  mutedShort: boolean = true;
+  detailedView: boolean = false;
 
   // @ViewChild('srcVideo') srcVideo!: ElementRef;
   @ViewChildren('srcVideo') parents!: QueryList<ElementRef>;
 
-  constructor() {
-    // setTimeout(()=>{this.loadVideo()},2000);
+  constructor(public router: Router) {
     this.loadVideo();
-
-    // // this.videos.forEach(e=>{e.nativeElement.load();});
-    // this.videos[num].nativeElement.play();
-
-
   }
 
   async loadVideo() {
     let data = await fetch('http://127.0.0.1:8000/videoclip/');
     let json = await data.json();
-    this.videoList=json;
+    this.videoList = json;
 
     this.videoUrl = 'http://127.0.0.1:8000' + json[0]['short_file'];
     console.log(json);
 
+  }
+
+  getUrlVideo(num: number): string {
+    return 'http://127.0.0.1:8000' + this.videoList[num]['short_file'];
+  }
+
+  getUrlVideoDetail(): string {
+    return 'http://127.0.0.1:8000' + this.videoList[this.detailedNumber]['short_file'];
+  }
+
+  getUrlshort(num: number): string {
+    return 'http://127.0.0.1:8000' + this.videoList[num]['img'];
   }
 
   handleImage(num: number, enter: number) {
@@ -55,6 +65,11 @@ export class MainScreenComponent {
             this.ignoreImg = true;
             this.showVideo = true;
             //this.playVideo(num);
+            let doc0 = document.getElementById('img0');
+            let doc = document.getElementById('video0');
+            console.log(doc);
+
+            // this.getVideos();
 
           }
 
@@ -81,25 +96,62 @@ export class MainScreenComponent {
     // this.videos.forEach(e=>{e.nativeElement.load();});
   }
 
-  playVideo(num: number) {
+  clickMute(num: number) {
+    console.log('call clickMute');
+    let video: any = document.getElementById('video' + num);
+    video.muted = !video.muted;
+    this.mutedShort = !this.mutedShort;
+  }
 
-    let elems: any = document.querySelectorAll('[videos]');
-    console.log(elems);
+  clickMuteDetail() {
+    console.log('call clickMuteDetail');
+    let video: any = document.getElementById('videoDetail');
+    video.muted = !video.muted;
+    this.mutedShort = !this.mutedShort;
+  }
 
+  openVideoDetail(){
+    this.openVideo(this.detailedNumber);
   }
 
   openVideo(num: number) {
-
+    console.log('openVideo',num);
+    this.router.navigate(['/filme'],{queryParams: {file: this.videoList[num]['video_file'],id:this.videoList[num]['id']}});
   }
 
   addToList(num: number) {
 
   }
+
+  showInfos(num: number) {
+    this.detailedNumber = num;
+    this.detailedView = true;
+
+  }
+
+  blendInLikesDetail(){
+    this.blendInLikes(this.detailedNumber);
+  }
+
   blendInLikes(num: number) {
     this.blendIn = true;
   }
+
+  blendOutLikesDetail(){
+    this.blendOutLikes(this.detailedNumber);
+  }
+
   blendOutLikes(num: number) {
     this.blendIn = false;
-   }
+  }
+
+  closeDetails(){
+    this.detailedView=false;
+    this.detailedNumber=-1;
+  }
+
+  getDiscription(){
+    return this.videoList[this.detailedNumber]['description'];
+  }
 
 }

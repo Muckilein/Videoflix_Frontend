@@ -7,6 +7,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
 import { MainScreenComponent } from './main-screen/main-screen.component';
 import { SerienComponent } from './serien/serien.component';
+import { FilmeComponent } from './filme/filme.component';
 
 const routes: Routes = [
   { path: '', component: StartScreenComponent},
@@ -16,7 +17,7 @@ const routes: Routes = [
   { path: 'newPassword', component: NewPasswordComponent},
   { path: 'main', component: MainScreenComponent},
   { path: 'serien', component: SerienComponent},
-  { path: 'filme', component: SerienComponent}
+  { path: 'filme', component: FilmeComponent}
 ];
 
 @NgModule({

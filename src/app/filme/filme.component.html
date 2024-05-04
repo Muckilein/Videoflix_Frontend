@@ -1,3 +1,26 @@
 <div id="containerMainFilme">
     <app-header [number]="1"></app-header>
+    <div style="color:white;">Filme</div>
+
+    <div class="videoOverlay " (mouseleave)="blendOut()" (mouseenter)="blendIn()">
+        <video id="video" class="video" [muted]="mutedVideo"  (click)="play()" >
+            <source src="{{playedFilmFile}}" type="video/mp4">
+        </video>
+
+       <div style="position:relative" [class.toBackgorund]="!blendInPanel" >
+        <div class="controlPanel" >
+            <!-- <button (click)="play()">Play</button> -->
+            <img class="videoButton" (click)="play()" src="../assets/img/playbutton.png">
+            <img class="videoButton" (click)="back10()" src="../assets/img/10back.png"> 
+            <img class="videoButton" (click)="for10()" src="../assets/img/10for.png">              
+            
+            <button (click)="clickMute()"><i [class.fa-volume-xmark]="mutedVideo" [class.fa-volume-off]="!mutedVideo"
+                    class="fa-solid "></i></button>           
+        </div>
+        <div id="controlBar">
+            <div id="bar"></div>
+        </div>
+       </div>
+
+    </div>
 </div>

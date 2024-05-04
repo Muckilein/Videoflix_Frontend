@@ -1,33 +1,68 @@
 <div id="containerMain">
     <app-header [number]="0"></app-header>
+    <div class="overlayShadow" *ngIf="detailedView"></div>
     <div class="videoContainer">
-        <div class="videoDiv" [class.foreground]="enterVideo[i]" *ngFor="let i of [0,1,2]">
-            <img class="shortImg" [class.scale]="enterVideo[i]" src="../assets/img/videoThumpnail.jpg"
+        <div class="videoDiv" [class.foreground]="enterVideo[i]" *ngFor="let v of videoList; index as i">
+            <img id="img{{i}}" class="shortImg" [class.scale]="enterVideo[i]" src="{{getUrlshort(i)}}"
                 (mouseenter)="handleImage(i,0)" (mouseleave)="handleImage(i,1)">
+
             <div *ngIf="enterVideo[i] && showVideo" (mouseleave)="handleVideo(i)" class="shortScreen">
-                <video videos class="video" autoplay>
-                    <source src="{{videoUrl}}" type="video/mp4">
-                </video>
+                <div class="videoOverlay ">
+                    <video id="video{{i}}" class="video" [muted]="mutedShort" autoplay>
+                        <source src="{{getUrlVideo(i)}}" type="video/mp4">
+                    </video>
+                    <button id="button{{i}}" (click)="clickMute(i)"><i [class.fa-volume-xmark]="mutedShort"
+                            [class.fa-volume-off]="!mutedShort" class="fa-solid "></i></button>
+                </div>
                 <div class="videoButtons">
-                    <img class="playbutton" src="../assets/img/playbutton.png" (click)="openVideo(i)">
-                    <img class="playbutton" src="../assets/img/addToList.png" (click)="addToList(i)">
-                    <div [class.translate40]="blendIn" class="likeButtons" (mouseenter)="blendInLikes(i)"
-                        (mouseleave)="blendOutLikes(i)">
-                       <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
+                    <div style="display:flex">
+                        <img class="playbutton" src="../assets/img/playbutton.png" (click)="openVideo(i)">
+                        <img class="playbutton" src="../assets/img/addToList.png" (click)="addToList(i)">
+                        <div [class.translate40]="blendIn" class="likeButtons" (mouseenter)="blendInLikes(i)"
+                            (mouseleave)="blendOutLikes(i)">
+                            <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
                                 src="../assets/img/playbutton.png">
-                       <img class="playbutton" src="../assets/img/playbutton.png">
-                       <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
+                            <img class="playbutton" src="../assets/img/playbutton.png">
+                            <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
                                 src="../assets/img/playbutton.png">
-
+                        </div>
                     </div>
-
-
+                    <img class="playbutton" src="../assets/img/addToList.png" (click)="showInfos(i)">
 
                 </div>
-                <span style="color:white">Discription</span>
+
             </div>
         </div>
 
+        <div class="detailedView" *ngIf="detailedView" [class.animiert]="detailedView">
+            <div class="videoOverlayDetail ">
+                <button id="closeButtonDetail" (click)="closeDetails()"><i
+                        class="fa-regular fa-circle-xmark"></i></button>
+                <video id="videoDetail" [muted]="mutedShort" autoplay>
+                    <source src="{{getUrlVideoDetail()}}" type="video/mp4">
+                </video>
+                <div class="detailVideoControlls">
+                    <div style="display:flex; align-items:center;" >
+                        <button class="playButtonDetail" (click)="openVideoDetail()" >Abspielen</button>
+                        <img class="playbutton" src="../assets/img/addToList.png" >
+                        <div [class.translate40]="blendIn" [class.transparent]="!blendIn" class="likeButtons " (mouseenter)="blendInLikesDetail()"
+                            (mouseleave)="blendOutLikesDetail()">
+                            <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
+                                src="../assets/img/playbutton.png">
+                            <img class="playbutton" src="../assets/img/playbutton.png">
+                            <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
+                                src="../assets/img/playbutton.png">
+                        </div>
+                    </div>
+                    <button (click)="clickMuteDetail()"><i [class.fa-volume-xmark]="mutedShort"
+                            [class.fa-volume-off]="!mutedShort" class="fa-solid "></i></button>
+                </div>
+            </div>
+            <div class="detailsViewBottom">
+                <div class="discription">{{getDiscription()}}</div>
+            </div>
+           
+        </div>
 
     </div>
 </div>
