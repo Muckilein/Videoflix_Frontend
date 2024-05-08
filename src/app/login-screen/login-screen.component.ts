@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,14 +6,22 @@ import { Router } from '@angular/router';
   templateUrl: './login-screen.component.html',
   styleUrl: './login-screen.component.scss'
 })
-export class LoginScreenComponent {
+export class LoginScreenComponent implements OnInit {
   pathBackend:string ="http://127.0.0.1:8000/";
 
-  email:string ="";
+  email:any ="";
   password:string= "";
 
   constructor(public router: Router) {
   }
+
+  ngOnInit(): void {
+   let  data = localStorage.getItem('email');
+   console.log('data',data);
+   this.email = data;
+
+  }
+
 
   async login() {
     const myHeaders = new Headers();
@@ -33,9 +41,7 @@ export class LoginScreenComponent {
     };
     try {
         let resp = await fetch(this.pathBackend + "login/", requestOptions);
-        let json = await resp.json();
-        console.log(json);
-        console.log(json.token);
+        let json = await resp.json();       
         this.setToken(json.token);   
         this.router.navigateByUrl("/main");
 

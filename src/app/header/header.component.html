@@ -3,8 +3,8 @@
         <img class="logo" src="../assets/img/Logo.png">
         <div class="links">
             <a  [class.shine]="number==0"  routerLink="/main" >Startseite</a>
-            <a [class.shine]="number==1"  routerLink="/serien">Serien</a>
-            <a  [class.shine]="number==2" routerLink="/filme">Filme</a>
+            <a [class.shine]="number==1"  routerLink="/series">Serien</a>
+            <a  [class.shine]="number==2" routerLink="/films">Filme</a>
             <a href="">Neu und beliebt</a>
             <a href="">Meine Liste</a>
             <a href="">Nach Sprachen durchsuchen</a>
@@ -14,7 +14,7 @@
         <div  [class.big]="clicked" [class.border]="clicked" class="searchDiv">
             <img class="search" src="../assets/img/lupe.png" (click)="chancheClicked()">
             <input *ngIf="clicked" class="searchInput" placeholder="Title, Person,Genres...">
-        </div>
+      series  </div>
 
         <a style="margin:0;">Kids</a>
         <img class="bell" src="../assets/img/bell.png">

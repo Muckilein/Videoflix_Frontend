@@ -11,12 +11,26 @@
 
 }
 
+.filmCategoryLine {
+    display: flex;
+    gap: 30px;
+}
+
 .videoContainer {
     display: flex;
     gap: 30px;
     flex-wrap: wrap;
     margin-left: 50px;
     position: relative;
+    flex-direction: column
+}
+
+.sections {
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
 }
 
 .videoDiv {
@@ -37,32 +51,34 @@
     }
 }
 
-.detailedView{
-    width:500px;
-    height:700px;
+
+
+.detailedView {
+    width: 500px;
+    height: 700px;
     background-color: rgb(1, 37, 28);
     position: absolute;
-    left:calc(50% - 250px);
+    left: calc(50% - 250px);
     z-index: 2;
     opacity: 0;
     border-radius: 10px;
 
-    #videoDetail{
+    #videoDetail {
         width: 100%;
-        height:auto;
+        height: auto;
         border-radius: 10px;
-      
-    }   
-   
+
+    }
+
 }
 
-.overlayShadow{
+.overlayShadow {
     position: absolute;
-    left:0;
-    right:0;
-    top:0;
+    left: 0;
+    right: 0;
+    top: 0;
     bottom: 0;
-    background-color: rgba(1, 37, 28,0.5);
+    background-color: rgba(1, 37, 28, 0.5);
     z-index: 1;
 
 }
@@ -86,11 +102,11 @@ video::-webkit-media-controls-enclosure {
 
 }
 
-.videoOverlayDetail{
+.videoOverlayDetail {
     position: relative;
     width: 100%;
     height: 280px;
-    background-color: rgba(1, 37, 28, 0.5); 
+    background-color: rgba(1, 37, 28, 0.5);
 }
 
 .videoOverlayDetail button {
@@ -105,36 +121,36 @@ video::-webkit-media-controls-enclosure {
     transform: scale(1.5);
 }
 
-.detailVideoControlls{
+.detailVideoControlls {
     display: flex;
     justify-content: space-between;
-    position: absolute;   
+    position: absolute;
     top: 230px;
     left: 0px;
     width: 100%;
     height: 50px;
     padding: 0 20px 0 40px;
     box-sizing: border-box;
-    
+
 }
 
-.playButtonDetail{
-    margin-right:25px;
+.playButtonDetail {
+    margin-right: 25px;
     background-color: white !important;
     color: rgb(1, 37, 28) !important;
     border-radius: 10px;
-    height:30px;
+    height: 30px;
 }
 
-.detailsViewBottom{
-    height:300px;
+.detailsViewBottom {
+    height: 300px;
     padding: 50px 25px 50px 25px;
 }
 
-#closeButtonDetail{
+#closeButtonDetail {
     position: absolute;
-    top:20px;
-    right: 20px;     
+    top: 20px;
+    right: 20px;
 }
 
 .videoOverlay button {
@@ -178,7 +194,7 @@ video::-webkit-media-controls-enclosure {
 
 }
 
-.transparent{
+.transparent {
     background-color: transparent !important;
 }
 
@@ -252,7 +268,7 @@ video::-webkit-media-controls-enclosure {
     position: absolute;
     left: 0;
     top: 0;
-  
+
 
 }
 

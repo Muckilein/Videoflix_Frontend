@@ -15,6 +15,7 @@ import { SerienComponent } from './serien/serien.component';
 import { FilmeComponent } from './filme/filme.component';
 import { UrlcheckerPipe } from './urlchecker.pipe';
 import { WatchVideoComponent } from './watch-video/watch-video.component';
+import { PlayFilmComponent } from './play-film/play-film.component';
 
 @NgModule({
   declarations: [    
@@ -30,6 +31,7 @@ import { WatchVideoComponent } from './watch-video/watch-video.component';
     FilmeComponent,
     UrlcheckerPipe,
     WatchVideoComponent,
+    PlayFilmComponent,
     
   ],
   imports: [
