@@ -10,7 +10,9 @@ import { Router } from '@angular/router';
 export class MainScreenComponent implements OnInit {
 
   videoUrl: string = "";
-  indexJ: string[] = ['Komödien', 'Von der Kritik gelobten Filme'];//,2,3,4,5];
+  episodenUrl: string = "";
+  seriesUrl: string = "";
+  indexJ: string[] = ['Komödien'];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
   enterVideo: any = [[false, false, false], [false, false, false, false]];
   //enterVideo: boolean[][]=[[]];
   showVideo: boolean = false;
@@ -22,35 +24,36 @@ export class MainScreenComponent implements OnInit {
   blendIn: boolean = false;
   //videoList: any[] = [];
   videoList: any[][] = [[]];
+  episodenList: any[][] = [[]];
   mutedShort: boolean = true;
   detailedView: boolean = false;
 
   // @ViewChild('srcVideo') srcVideo!: ElementRef;
   @ViewChildren('srcVideo') parents!: QueryList<ElementRef>;
 
-  constructor(public router: Router) {   
+  constructor(public router: Router) {
   }
 
   async ngOnInit() {
-    await this.loadVideo();   
+    await this.loadVideo();
+    await this.loadSeries();
     this.makeEnterArray();
   }
 
   makeEnterArray() {
     let index = -1
     let test: any = [];
-    console.log(this.videoList);    
     this.videoList.forEach(list => {
       index++;
       let t: any = [];
-     
+
       list.forEach(elem => {
         t.push(false);
-      })      
+      })
       test.push(t);
     });
     this.enterVideo = test;
-    console.log(this.enterVideo);
+
   }
 
   async loadVideo() {
@@ -58,13 +61,40 @@ export class MainScreenComponent implements OnInit {
     let json = await data.json();
     this.videoList[0] = json;
     // this.videoList[1] = json;
-    this.videoList.push(json);
-   
+    //this.videoList.push(json);
+
     this.videoUrl = 'http://127.0.0.1:8000' + json[0]['short_file'];
 
   }
 
-  getUrlVideo(cat: number, num: number): string {   
+  async loadSeries() {
+    let data = await fetch('http://127.0.0.1:8000/series/');
+    let json = await data.json();
+    this.videoList[0] = this.videoList[0].concat(json);
+    //this.videoList[1]= this.videoList[1].concat(json);
+
+    this.seriesUrl = 'http://127.0.0.1:8000' + json[0]['short_file'];
+
+    console.log(this.videoList);
+
+  }
+
+  isSerie() {
+    return (this.videoList[this.detailedCatNumber][this.detailedNumber]['type'] == "Serie")
+  }
+
+  getEpisodes(){
+    return this.videoList[this.detailedCatNumber][this.detailedNumber]['episodeList']
+  }
+
+  getEpisodeURL(e:any){
+    console.log(e);
+    let url = 'http://127.0.0.1:8000' + e['img'];   
+    return url;
+    
+  }
+
+  getUrlVideo(cat: number, num: number): string {
     return 'http://127.0.0.1:8000' + this.videoList[cat][num]['short_file'];
   }
 
@@ -77,24 +107,16 @@ export class MainScreenComponent implements OnInit {
   }
 
   handleImage(cat: number, num: number, enter: number) {
-    console.log("handleImage");
+
     if (!this.ignoreImg) {
       this.enterVideo[cat][num] = !this.enterVideo[cat][num];
 
       if (enter == 0) {
         this.videoNumber = num;
-        console.log('enterIMG',);
         setTimeout(() => {
-          console.log('videonumber', this.videoNumber);
           if (this.videoNumber != -1) {
-            console.log('timeout');
             this.ignoreImg = true;
-            this.showVideo = true;    
-            // let doc0 = document.getElementById('img'+cat+'num0');
-            // let doc = document.getElementById('video'+cat+'num0');
-          
-
-           
+            this.showVideo = true;
 
           }
 
@@ -106,12 +128,10 @@ export class MainScreenComponent implements OnInit {
     }
   }
 
-  handleVideo(cat: number, num: number) {
-    console.log("handleVideo");
+  handleVideo(cat: number, num: number) {   
     this.videoNumber = -1;
     this.ignoreImg = false;
-    this.enterVideo[cat][num] = !this.enterVideo[cat][num];
-    console.log('leave', this.videoNumber);
+    this.enterVideo[cat][num] = !this.enterVideo[cat][num];  
     this.showVideo = false;
   }
 
@@ -122,14 +142,14 @@ export class MainScreenComponent implements OnInit {
   }
 
   clickMute(cat: number, num: number) {
-    console.log('call clickMute');
+   
     let video: any = document.getElementById('video' + cat + 'num' + num);
     video.muted = !video.muted;
     this.mutedShort = !this.mutedShort;
   }
 
   clickMuteDetail() {
-    console.log('call clickMuteDetail');
+   
     let video: any = document.getElementById('videoDetail');
     video.muted = !video.muted;
     this.mutedShort = !this.mutedShort;
@@ -140,7 +160,7 @@ export class MainScreenComponent implements OnInit {
   }
 
   openVideo(cat: number, num: number) {
-    console.log('openVideo', num);
+   
     this.router.navigate(['/play'], { queryParams: { file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'] } });
   }
 

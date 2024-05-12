@@ -66,6 +66,15 @@
             </div>
             <div class="detailsViewBottom">
                 <div class="discription">{{getDiscription()}}</div>
+                <div *ngIf="isSerie()">
+                    <div class="episodeContainer">
+                        <div *ngFor="let a of getEpisodes()">
+                            {{a.title}}
+                            {{a.description}}
+                            <img style="width:30px;height:30px;" src="{{getEpisodeURL(a)}}">
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

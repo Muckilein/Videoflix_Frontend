@@ -81,7 +81,9 @@ export class PlayFilmComponent implements OnInit {
 
   clickBar(event: any): void {
     let clickPosition = event.offsetX;
+    console.log('Position '+clickPosition);
     let width = this.controlBar.getBoundingClientRect().width;
+    console.log('width '+width);
     this.video.currentTime = (clickPosition / width) * this.video.duration;
     let position = this.video.currentTime / this.video.duration;
     console.log('this.video.currentTime', this.video.currentTime);
