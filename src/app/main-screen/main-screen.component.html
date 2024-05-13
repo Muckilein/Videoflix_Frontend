@@ -31,7 +31,7 @@
                                         src="../assets/img/playbutton.png">
                                 </div>
                             </div>
-                            <img class="playbutton" src="../assets/img/addToList.png" (click)="showInfos(i)">
+                            <img class="playbutton" src="../assets/img/addToList.png" (click)="showInfos(j,i)">
 
                         </div>
 
@@ -65,13 +65,27 @@
                 </div>
             </div>
             <div class="detailsViewBottom">
-                <div class="discription">{{getDiscription()}}</div>
+                <div style="position:relative;">
+                    <div>{{getTitle()}}</div>
+                    <div class="discription">{{getDiscription()}}</div>
+                    <div class="seasonSelection">{{seasonName}} <button (click)="showSeasons()"></button>
+                    <div class="seasonSelectionBox">
+                        <div  *ngFor="let seas of episodenList; index as seasonIndex">
+                            Staffel {{seasonIndex+1}}
+                        </div>
+                    </div>
+                </div>
                 <div *ngIf="isSerie()">
+                    <span> Folgen </span>
                     <div class="episodeContainer">
-                        <div *ngFor="let a of getEpisodes()">
-                            {{a.title}}
-                            {{a.description}}
-                            <img style="width:30px;height:30px;" src="{{getEpisodeURL(a)}}">
+                        <div *ngFor="let a of getEpisodes()" class="episodeDetail">
+                            {{a.episode}}
+                            <img src="{{getEpisodeURL(a)}}">
+                            <div style="font-size:14px;display:flex;flex-direction:column;">
+                                <div style="font-weight: 800;"> {{a.title}}</div>
+                                <div>{{a.description}}</div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

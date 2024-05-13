@@ -27,6 +27,7 @@ export class MainScreenComponent implements OnInit {
   episodenList: any[][] = [[]];
   mutedShort: boolean = true;
   detailedView: boolean = false;
+  seasonName:string = "Staffel 1";
 
   // @ViewChild('srcVideo') srcVideo!: ElementRef;
   @ViewChildren('srcVideo') parents!: QueryList<ElementRef>;
@@ -88,7 +89,7 @@ export class MainScreenComponent implements OnInit {
   }
 
   getEpisodeURL(e:any){
-    console.log(e);
+    
     let url = 'http://127.0.0.1:8000' + e['img'];   
     return url;
     
@@ -168,10 +169,40 @@ export class MainScreenComponent implements OnInit {
 
   }
 
-  showInfos(num: number) {
+  showInfos(cat:number,num: number) {
     this.detailedNumber = num;
+    this.detailedCatNumber = cat;
     this.detailedView = true;
+    console.log("detailedCatNumber",this.detailedCatNumber);
+    console.log("detailedNumber",this.detailedNumber);
+    this.makeSeasons();
 
+  }
+  showSeasons(){
+    
+  }
+
+  makeSeasons(){
+    let seasonNum = this.videoList[this.detailedCatNumber][this.detailedNumber]['numSeasons'];
+    let ep:any[][] = [];
+    for (let i = 0; i < seasonNum-1; i++) {
+      ep.push([]);
+    }
+
+    for (let j = 1; j <= seasonNum; j++) {
+      ep[j-1]= this.getSeason(j);
+    }
+    console.log(ep);
+    this.episodenList= ep;
+  }
+
+  getSeason(season:number):any{
+    let e:any=[];
+    this.videoList[this.detailedCatNumber][this.detailedNumber]['episodeList'].forEach((elem:any) => {
+      if(elem['season']==season)
+        {e.push(elem);}
+    });
+    return e;
   }
 
   blendInLikesDetail() {
@@ -197,6 +228,10 @@ export class MainScreenComponent implements OnInit {
 
   getDiscription() {
     return this.videoList[this.detailedCatNumber][this.detailedNumber]['description'];
+  }  
+
+  getTitle() {
+    return this.videoList[this.detailedCatNumber][this.detailedNumber]['title'];
   }
 
 }
