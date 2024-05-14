@@ -18,6 +18,9 @@ export class PlayFilmComponent implements OnInit {
   blendInPanel: boolean = true;
   time: string = "00:00";
   showSlider:boolean = false;
+  type:any ="";
+  cat:any=0;  // important when going back to  main  page
+  num:any=0;
 
 
 
@@ -114,7 +117,8 @@ export class PlayFilmComponent implements OnInit {
 
 
   pageBack() {
-    this.router.navigateByUrl('/main');
+    //this.router.navigateByUrl('/main');
+    this.router.navigate(['/main'], { queryParams: {type: this.type,cat: this.cat, num:this.num} });
   }
 
 
@@ -136,6 +140,12 @@ export class PlayFilmComponent implements OnInit {
     const urlParams = new URLSearchParams(window.location.search);
     this.playedFilmFile = 'http://127.0.0.1:8000' + urlParams.get('file');
     this.filmId = urlParams.get('id');
+    this.type = urlParams.get('type'); 
+    if(this.type=='serie')
+      {
+        this.cat= urlParams.get('cat'); 
+        this.num= urlParams.get('num'); 
+      }
     console.log(this.playedFilmFile);
     console.log(this.filmId);
 

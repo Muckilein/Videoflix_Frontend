@@ -27,7 +27,11 @@ export class MainScreenComponent implements OnInit {
   episodenList: any[][] = [[]];
   mutedShort: boolean = true;
   detailedView: boolean = false;
-  seasonName:string = "Staffel 1";
+  seasonName: string = "Staffel 1";
+  isSeries: boolean = false;
+  season: number = 0;
+  episode:number=0;
+  selectioOpen: boolean = false;
 
   // @ViewChild('srcVideo') srcVideo!: ElementRef;
   @ViewChildren('srcVideo') parents!: QueryList<ElementRef>;
@@ -39,8 +43,19 @@ export class MainScreenComponent implements OnInit {
     await this.loadVideo();
     await this.loadSeries();
     this.makeEnterArray();
+    this.readParams();
   }
 
+  readParams(){
+    const urlParams = new URLSearchParams(window.location.search);
+    let type = urlParams.get('type'); 
+    if (type=='serie')
+      {
+      let cat:any= urlParams.get('cat'); 
+      let num:any= urlParams.get('num'); 
+      this.showInfos(cat,num);
+      }
+  }
   makeEnterArray() {
     let index = -1
     let test: any = [];
@@ -84,15 +99,19 @@ export class MainScreenComponent implements OnInit {
     return (this.videoList[this.detailedCatNumber][this.detailedNumber]['type'] == "Serie")
   }
 
-  getEpisodes(){
-    return this.videoList[this.detailedCatNumber][this.detailedNumber]['episodeList']
+  getLengthSeason(season: any[]) {
+    return season.length;
   }
 
-  getEpisodeURL(e:any){
-    
-    let url = 'http://127.0.0.1:8000' + e['img'];   
+  getEpisodes() {
+    return this.episodenList[this.season];
+  }
+
+  getEpisodeURL(e: any) {
+
+    let url = 'http://127.0.0.1:8000' + e['img'];
     return url;
-    
+
   }
 
   getUrlVideo(cat: number, num: number): string {
@@ -129,10 +148,14 @@ export class MainScreenComponent implements OnInit {
     }
   }
 
-  handleVideo(cat: number, num: number) {   
+  chooseSeason(index: number) {
+    this.season = index;
+  }
+
+  handleVideo(cat: number, num: number) {
     this.videoNumber = -1;
     this.ignoreImg = false;
-    this.enterVideo[cat][num] = !this.enterVideo[cat][num];  
+    this.enterVideo[cat][num] = !this.enterVideo[cat][num];
     this.showVideo = false;
   }
 
@@ -143,64 +166,73 @@ export class MainScreenComponent implements OnInit {
   }
 
   clickMute(cat: number, num: number) {
-   
+
     let video: any = document.getElementById('video' + cat + 'num' + num);
     video.muted = !video.muted;
     this.mutedShort = !this.mutedShort;
   }
 
   clickMuteDetail() {
-   
+
     let video: any = document.getElementById('videoDetail');
     video.muted = !video.muted;
     this.mutedShort = !this.mutedShort;
   }
 
   openVideoDetail() {
-    this.openVideo(this.detailedCatNumber, this.detailedNumber);
+    if (this.isSeries) {      
+      this.openEpisode(this.episode); 
+    } else {
+      this.openVideo(this.detailedCatNumber, this.detailedNumber);
+    }
   }
 
   openVideo(cat: number, num: number) {
-   
-    this.router.navigate(['/play'], { queryParams: { file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'] } });
+
+    this.router.navigate(['/play'], { queryParams: { file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'],type:'film' } });
+  }
+
+  openEpisode(index:number) {
+    let fileEpisode:any = this.episodenList[this.season][index]['video_file'];
+    this.router.navigate(['/play'], { queryParams: { file: fileEpisode, id: this.episodenList[this.season][index]['id'],type:'serie', cat: this.detailedCatNumber, num:this.detailedNumber } });
   }
 
   addToList(num: number) {
 
   }
 
-  showInfos(cat:number,num: number) {
+  showInfos(cat: number, num: number) {
     this.detailedNumber = num;
     this.detailedCatNumber = cat;
     this.detailedView = true;
-    console.log("detailedCatNumber",this.detailedCatNumber);
-    console.log("detailedNumber",this.detailedNumber);
+    console.log("detailedCatNumber", this.detailedCatNumber);
+    console.log("detailedNumber", this.detailedNumber);
     this.makeSeasons();
+    this.isSeries = this.isSerie();
 
   }
-  showSeasons(){
-    
+  showSeasons() {
+    this.selectioOpen = !this.selectioOpen;
   }
 
-  makeSeasons(){
+  makeSeasons() {
     let seasonNum = this.videoList[this.detailedCatNumber][this.detailedNumber]['numSeasons'];
-    let ep:any[][] = [];
-    for (let i = 0; i < seasonNum-1; i++) {
+    let ep: any[][] = [];
+    for (let i = 0; i < seasonNum - 1; i++) {
       ep.push([]);
     }
 
     for (let j = 1; j <= seasonNum; j++) {
-      ep[j-1]= this.getSeason(j);
+      ep[j - 1] = this.getSeason(j);
     }
     console.log(ep);
-    this.episodenList= ep;
+    this.episodenList = ep;
   }
 
-  getSeason(season:number):any{
-    let e:any=[];
-    this.videoList[this.detailedCatNumber][this.detailedNumber]['episodeList'].forEach((elem:any) => {
-      if(elem['season']==season)
-        {e.push(elem);}
+  getSeason(season: number): any {
+    let e: any = [];
+    this.videoList[this.detailedCatNumber][this.detailedNumber]['episodeList'].forEach((elem: any) => {
+      if (elem['season'] == season) { e.push(elem); }
     });
     return e;
   }
@@ -224,11 +256,12 @@ export class MainScreenComponent implements OnInit {
   closeDetails() {
     this.detailedView = false;
     this.detailedNumber = -1;
+    this.isSeries = false;
   }
 
   getDiscription() {
     return this.videoList[this.detailedCatNumber][this.detailedNumber]['description'];
-  }  
+  }
 
   getTitle() {
     return this.videoList[this.detailedCatNumber][this.detailedNumber]['title'];

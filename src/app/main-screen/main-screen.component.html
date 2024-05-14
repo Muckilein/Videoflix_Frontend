@@ -3,7 +3,7 @@
     <div class="overlayShadow" *ngIf="detailedView"></div>
     <div class="videoContainer">
         <div class="sections" *ngFor="let name of indexJ,index as j">
-            <div style="color:white;">{{name}}</div>
+            <div style="color:white;font-weight:bold;">{{name}}</div>
             <div class="filmCategoryLine">
                 <div class="videoDiv" [class.foreground]="enterVideo[j][i]" *ngFor="let v of videoList[j]; index as i">
                     <img id="img{{j}}num{{i}}" class="shortImg" [class.scale]="enterVideo[j][i]"
@@ -66,34 +66,34 @@
             </div>
             <div class="detailsViewBottom">
                 <div style="position:relative;">
-                    <div>{{getTitle()}}</div>
+                    <div style="font-weight: bold;">{{getTitle()}}</div>
                     <div class="discription">{{getDiscription()}}</div>
-                    <div class="seasonSelection">{{seasonName}} <button (click)="showSeasons()"></button>
-                    <div class="seasonSelectionBox">
-                        <div  *ngFor="let seas of episodenList; index as seasonIndex">
-                            Staffel {{seasonIndex+1}}
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="isSerie()">
-                    <span> Folgen </span>
-                    <div class="episodeContainer">
-                        <div *ngFor="let a of getEpisodes()" class="episodeDetail">
-                            {{a.episode}}
-                            <img src="{{getEpisodeURL(a)}}">
-                            <div style="font-size:14px;display:flex;flex-direction:column;">
-                                <div style="font-weight: 800;"> {{a.title}}</div>
-                                <div>{{a.description}}</div>
+                    <div class="seasonSelection"  *ngIf="isSeries">Staffel {{season+1}} <button style="cursor:pointer;" (click)="showSeasons()"></button>
+                        <div class="seasonSelectionBox" *ngIf="selectioOpen">
+                            <div *ngFor="let seas of episodenList; index as seasonIndex" class="seasonSelect" (click)="chooseSeason(seasonIndex)">
+                                Staffel {{seasonIndex+1}} ({{getLengthSeason(seas)}} Folgen)
                             </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isSeries">
+                        <span> Folgen </span>
+                        <div class="episodeContainer">
+                            <div *ngFor="let a of getEpisodes();index as indexEpisode " class="episodeDetail"  (click)="openEpisode(indexEpisode)">
+                                {{a.episode}}
+                                <img src="{{getEpisodeURL(a)}}">
+                                <div style="font-size:14px;display:flex;flex-direction:column;">
+                                    <div style="font-weight: 800;"> {{a.title}}</div>
+                                    <div>{{a.description}}</div>
+                                </div>
 
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
         </div>
-
     </div>
-</div>
-<!-- 
+    <!-- 
 [class.background]="enterVideo[i]"  -->
