@@ -25,10 +25,10 @@
                                 <div [class.translate40]="blendIn" class="likeButtons" (mouseenter)="blendInLikes(i)"
                                     (mouseleave)="blendOutLikes(i)">
                                     <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
-                                        src="../assets/img/playbutton.png">
-                                    <img class="playbutton" src="../assets/img/playbutton.png">
+                                        src="../assets/img/playbutton.png" (click)="setEvaluation(0,j,i)">
+                                    <img class="playbutton" src="../assets/img/playbutton.png"  (click)="setEvaluation(1,j,i)">
                                     <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
-                                        src="../assets/img/playbutton.png">
+                                        src="../assets/img/playbutton.png"  (click)="setEvaluation(2,j,i)">
                                 </div>
                             </div>
                             <img class="playbutton" src="../assets/img/addToList.png" (click)="showInfos(j,i)">

@@ -21,6 +21,7 @@ export class PlayFilmComponent implements OnInit {
   type:any ="";
   cat:any=0;  // important when going back to  main  page
   num:any=0;
+  season :any=1;
 
 
 
@@ -118,7 +119,7 @@ export class PlayFilmComponent implements OnInit {
 
   pageBack() {
     //this.router.navigateByUrl('/main');
-    this.router.navigate(['/main'], { queryParams: {type: this.type,cat: this.cat, num:this.num} });
+    this.router.navigate(['/main'], { queryParams: {type: this.type,cat: this.cat, num:this.num , season:this.season} });
   }
 
 
@@ -145,6 +146,7 @@ export class PlayFilmComponent implements OnInit {
       {
         this.cat= urlParams.get('cat'); 
         this.num= urlParams.get('num'); 
+        this.season= urlParams.get('season');
       }
     console.log(this.playedFilmFile);
     console.log(this.filmId);

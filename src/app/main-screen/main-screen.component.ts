@@ -30,7 +30,7 @@ export class MainScreenComponent implements OnInit {
   seasonName: string = "Staffel 1";
   isSeries: boolean = false;
   season: number = 0;
-  episode:number=0;
+  episode: number = 0;
   selectioOpen: boolean = false;
 
   // @ViewChild('srcVideo') srcVideo!: ElementRef;
@@ -46,15 +46,18 @@ export class MainScreenComponent implements OnInit {
     this.readParams();
   }
 
-  readParams(){
+  readParams() {
     const urlParams = new URLSearchParams(window.location.search);
-    let type = urlParams.get('type'); 
-    if (type=='serie')
-      {
-      let cat:any= urlParams.get('cat'); 
-      let num:any= urlParams.get('num'); 
-      this.showInfos(cat,num);
-      }
+    let type = urlParams.get('type');
+    if (type == 'serie') {
+      let cat: any = urlParams.get('cat');
+      let num: any = urlParams.get('num');
+      let seas: any = urlParams.get('season');
+      this.season = seas;
+      this.showInfos(cat, num);
+      this.isSeries = true;
+      console.log("season", this.season);
+    }
   }
   makeEnterArray() {
     let index = -1
@@ -72,28 +75,95 @@ export class MainScreenComponent implements OnInit {
 
   }
 
+  async setEvaluation(evaluation: number, cat: number, num: number) {
+    let type = 'POST'
+    if (this.videoList[cat][num]['evaluation'] != -1) {
+       type = 'PUT'; 
+       console.log("type is PUT");
+      }
+    console.log(evaluation);
+    let path = "videoEvaluation";
+    if (this.videoList[cat][num]['type'] = 'Serie') { path = "serieEvaluation"; }
+    let url = 'http://127.0.0.1:8000/' + path + '/';
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", 'Token ' + localStorage.getItem('token'));
+    let data = {
+      "eval": evaluation,
+      "filmId": this.videoList[cat][num]['id']
+    };
+    const requestOptions: any = {
+      method: type,
+      headers: myHeaders,
+      redirect: 'follow',
+      body: JSON.stringify(data)
+    };
+    try {
+      let resp = await fetch(url, requestOptions);
+      data = await resp.json();
+      this.videoList[cat][num]['evaluation'] = evaluation;
+    } catch (e) {
+      console.error(e);
+    }
+    return data;
+  }
+
   async loadVideo() {
-    let data = await fetch('http://127.0.0.1:8000/videoclip/');
-    let json = await data.json();
-    this.videoList[0] = json;
-    // this.videoList[1] = json;
-    //this.videoList.push(json);
-
-    this.videoUrl = 'http://127.0.0.1:8000' + json[0]['short_file'];
-
+    let data = await this.loadData('videoclip');
+    this.videoList[0] = data;
+    this.videoUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
   }
 
   async loadSeries() {
-    let data = await fetch('http://127.0.0.1:8000/series/');
-    let json = await data.json();
-    this.videoList[0] = this.videoList[0].concat(json);
-    //this.videoList[1]= this.videoList[1].concat(json);
 
-    this.seriesUrl = 'http://127.0.0.1:8000' + json[0]['short_file'];
-
+    let data = await this.loadData('series');
+    this.videoList[0] = this.videoList[0].concat(data);
+    this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
     console.log(this.videoList);
+  }
+
+
+  async loadData(path: string) {
+
+    let json;
+    let url = 'http://127.0.0.1:8000/' + path + '/';
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", 'Token ' + localStorage.getItem('token'));
+    const requestOptions: any = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+
+    };
+    try {
+      let resp = await fetch(url, requestOptions);
+      json = await resp.json();
+
+    } catch (e) {
+      console.error(e);
+    }
+    return json;
 
   }
+
+
+
+
+
+  // async loadSeries() {
+  //   let data = await fetch('http://127.0.0.1:8000/series/');
+  //   let json = await data.json();
+  //   this.videoList[0] = this.videoList[0].concat(json);
+  //   //this.videoList[1]= this.videoList[1].concat(json);
+
+  //   this.seriesUrl = 'http://127.0.0.1:8000' + json[0]['short_file'];
+
+  //   console.log(this.videoList);
+
+  // }
 
   isSerie() {
     return (this.videoList[this.detailedCatNumber][this.detailedNumber]['type'] == "Serie")
@@ -180,8 +250,8 @@ export class MainScreenComponent implements OnInit {
   }
 
   openVideoDetail() {
-    if (this.isSeries) {      
-      this.openEpisode(this.episode); 
+    if (this.isSeries) {
+      this.openEpisode(this.episode);
     } else {
       this.openVideo(this.detailedCatNumber, this.detailedNumber);
     }
@@ -189,12 +259,15 @@ export class MainScreenComponent implements OnInit {
 
   openVideo(cat: number, num: number) {
 
-    this.router.navigate(['/play'], { queryParams: { file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'],type:'film' } });
+    this.router.navigate(['/play'], { queryParams: { file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'], type: 'film' } });
   }
 
-  openEpisode(index:number) {
-    let fileEpisode:any = this.episodenList[this.season][index]['video_file'];
-    this.router.navigate(['/play'], { queryParams: { file: fileEpisode, id: this.episodenList[this.season][index]['id'],type:'serie', cat: this.detailedCatNumber, num:this.detailedNumber } });
+  openEpisode(index: number) {
+    let fileEpisode: any = this.episodenList[this.season][index]['video_file'];
+    this.router.navigate(['/play'], {
+      queryParams:
+        { file: fileEpisode, id: this.episodenList[this.season][index]['id'], type: 'serie', cat: this.detailedCatNumber, num: this.detailedNumber, season: this.season }
+    });
   }
 
   addToList(num: number) {
@@ -257,6 +330,12 @@ export class MainScreenComponent implements OnInit {
     this.detailedView = false;
     this.detailedNumber = -1;
     this.isSeries = false;
+    let url = new URL(window.location.href);
+    url.searchParams.delete('season');
+    url.searchParams.delete('cat');
+    url.searchParams.delete('num');
+    url.searchParams.delete('type');
+    window.history.replaceState({}, '', url.toString());
   }
 
   getDiscription() {
