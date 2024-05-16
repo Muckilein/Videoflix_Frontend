@@ -76,14 +76,15 @@ export class MainScreenComponent implements OnInit {
   }
 
   async setEvaluation(evaluation: number, cat: number, num: number) {
+    console.log('type is', this.videoList[cat][num]['type']);
     let type = 'POST'
     if (this.videoList[cat][num]['evaluation'] != -1) {
-       type = 'PUT'; 
-       console.log("type is PUT");
-      }
+      type = 'PUT';
+      console.log("type is PUT");
+    }
     console.log(evaluation);
     let path = "videoEvaluation";
-    if (this.videoList[cat][num]['type'] = 'Serie') { path = "serieEvaluation"; }
+    if (this.videoList[cat][num]['type'] == 'Serie') { path = "serieEvaluation"; }
     let url = 'http://127.0.0.1:8000/' + path + '/';
 
     const myHeaders = new Headers();
@@ -106,6 +107,8 @@ export class MainScreenComponent implements OnInit {
     } catch (e) {
       console.error(e);
     }
+
+    console.log(this.videoList);
     return data;
   }
 
@@ -149,22 +152,25 @@ export class MainScreenComponent implements OnInit {
 
   }
 
+  getEvaluationImage(cat: number, num: number, ev: number) {
+    let evaluation = this.videoList[cat][num]['evaluation'];
+    let path = "";
+    if (evaluation == -1) { path = "../assets/img/bewerten" + ev + ".png"; }
+    else {
+      if (!this.blendIn) {
+        path = "../assets/img/bewerten" + evaluation + "Choosen.png";
+      } else {
+        if (evaluation == ev) {
+          path = "../assets/img/bewerten" + ev + "Choosen.png";
+        } else {
+          path = "../assets/img/bewerten" + ev + ".png";
+        }
+      }
+    }
 
 
-
-
-  // async loadSeries() {
-  //   let data = await fetch('http://127.0.0.1:8000/series/');
-  //   let json = await data.json();
-  //   this.videoList[0] = this.videoList[0].concat(json);
-  //   //this.videoList[1]= this.videoList[1].concat(json);
-
-  //   this.seriesUrl = 'http://127.0.0.1:8000' + json[0]['short_file'];
-
-  //   console.log(this.videoList);
-
-  // }
-
+    return path;
+  }
   isSerie() {
     return (this.videoList[this.detailedCatNumber][this.detailedNumber]['type'] == "Serie")
   }
