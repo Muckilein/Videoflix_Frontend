@@ -2,9 +2,10 @@
     <div class="left">
         <img class="logo" src="../assets/img/Logo.png">
         <div class="links">
-            <a  [class.shine]="number==0"  routerLink="/main" >Startseite</a>
-            <a [class.shine]="number==1"  routerLink="/series">Serien</a>
-            <a  [class.shine]="number==2" routerLink="/films">Filme</a>
+            <a  [class.shine]="number==0"  routerLink="/main"(click)="setSection('All',0)" >Startseite</a>
+            <a [class.shine]="number==1"  routerLink="/main" (click)="setSection('Serie',1)">Serien</a>
+            <!-- [routerLink]="['/main']" [queryParams]="{ section: 'Serie' }" -->
+            <a  [class.shine]="number==2" routerLink="/main" (click)="setSection('Film',2)">Filme</a>
             <a href="">Neu und beliebt</a>
             <a href="">Meine Liste</a>
             <a href="">Nach Sprachen durchsuchen</a>

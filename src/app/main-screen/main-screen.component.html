@@ -1,5 +1,5 @@
 <div id="containerMain">
-    <app-header [number]="0"></app-header>
+    <app-header (newItemEvent)="setSection($event)" ></app-header>
     <div class="overlayShadow" *ngIf="detailedView"></div>
     <div class="videoContainer">
         <div class="sections" *ngFor="let name of indexJ,index as j">

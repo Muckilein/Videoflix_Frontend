@@ -11,14 +11,13 @@ import { NewPasswordComponent } from './new-password/new-password.component';
 import { FormsModule } from '@angular/forms';
 import { MainScreenComponent } from './main-screen/main-screen.component';
 import { HeaderComponent } from './header/header.component';
-import { SerienComponent } from './serien/serien.component';
-import { FilmeComponent } from './filme/filme.component';
+
 import { UrlcheckerPipe } from './urlchecker.pipe';
 import { WatchVideoComponent } from './watch-video/watch-video.component';
 import { PlayFilmComponent } from './play-film/play-film.component';
 
 @NgModule({
-  declarations: [    
+  declarations: [
     AppComponent,
     StartScreenComponent,
     LoginScreenComponent,
@@ -27,12 +26,10 @@ import { PlayFilmComponent } from './play-film/play-film.component';
     NewPasswordComponent,
     MainScreenComponent,
     HeaderComponent,
-    SerienComponent,
-    FilmeComponent,
     UrlcheckerPipe,
     WatchVideoComponent,
     PlayFilmComponent,
-    
+
   ],
   imports: [
     BrowserModule,

@@ -2,13 +2,15 @@ import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } fro
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { MainHelper } from '../../moduls/mainHelper.class';
+
 @Component({
   selector: 'app-main-screen',
   templateUrl: './main-screen.component.html',
   styleUrl: './main-screen.component.scss'
 })
 export class MainScreenComponent implements OnInit {
-
+  mainHelper = new MainHelper()
   videoUrl: string = "";
   episodenUrl: string = "";
   seriesUrl: string = "";
@@ -32,33 +34,87 @@ export class MainScreenComponent implements OnInit {
   season: number = 0;
   episode: number = 0;
   selectioOpen: boolean = false;
+  section: any = "All";
 
   // @ViewChild('srcVideo') srcVideo!: ElementRef;
   @ViewChildren('srcVideo') parents!: QueryList<ElementRef>;
 
   constructor(public router: Router) {
+
   }
 
   async ngOnInit() {
-    await this.loadVideo();
-    await this.loadSeries();
+    console.log("call Init");
+    this.getSectionValue()
+    await this.loadDataforSection(this.section);
+    this.readParams();     
+    console.log(this.videoList);
     this.makeEnterArray();
-    this.readParams();
+    
   }
 
-  readParams() {
+  async loadDataforSection(sec:any){
+    console.log('call Data',sec);
+    if (sec) {      
+     await  this.setSection(sec);
+    }
+    else { 
+      console.log('AAAAAALLLLLLLLL');
+      await this.setSection('All'); 
+    }
+  }
+
+ getSectionValue(){
+  const urlParams = new URLSearchParams(window.location.search);
+  this.section = urlParams.get('section'); 
+  }
+
+  async readParams() {
     const urlParams = new URLSearchParams(window.location.search);
-    let type = urlParams.get('type');
+    let type = urlParams.get('type');      
+    let url = new URL(window.location.href);  
+   
     if (type == 'serie') {
       let cat: any = urlParams.get('cat');
       let num: any = urlParams.get('num');
       let seas: any = urlParams.get('season');
-      this.season = seas;
+      this.season = seas;      
       this.showInfos(cat, num);
       this.isSeries = true;
       console.log("season", this.season);
+    } else {
+      url = new URL(window.location.href);
+      this.mainHelper.removeQueryParams(url);
     }
   }
+
+  // removeQueryParams(url:any){
+  //   url.searchParams.delete('cat');
+  //   url.searchParams.delete('num');
+  //   url.searchParams.delete('type');
+  //   url.searchParams.delete('season');
+  //   url.searchParams.delete('section');
+  //   window.history.replaceState({}, '', url.toString());
+  // }
+
+  async setSection(event: any) {
+    this.section = event;
+    console.log(this.section)
+    if (this.section == 'All') {
+      await this.loadVideo();
+      await this.loadSeries();
+    }
+    if (this.section == 'Serie') {
+      let data = await this.loadData('series');
+      this.videoList[0] = data;
+      this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
+    }
+    if (this.section == 'Film') {
+      await this.loadVideo();
+    }
+    
+  }
+
   makeEnterArray() {
     let index = -1
     let test: any = [];
@@ -76,13 +132,13 @@ export class MainScreenComponent implements OnInit {
   }
 
   async setEvaluation(evaluation: number, cat: number, num: number) {
-    console.log('type is', this.videoList[cat][num]['type']);
+    
     let type = 'POST'
     if (this.videoList[cat][num]['evaluation'] != -1) {
       type = 'PUT';
       console.log("type is PUT");
     }
-    console.log(evaluation);
+   
     let path = "videoEvaluation";
     if (this.videoList[cat][num]['type'] == 'Serie') { path = "serieEvaluation"; }
     let url = 'http://127.0.0.1:8000/' + path + '/';
@@ -123,7 +179,6 @@ export class MainScreenComponent implements OnInit {
     let data = await this.loadData('series');
     this.videoList[0] = this.videoList[0].concat(data);
     this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
-    console.log(this.videoList);
   }
 
 
@@ -265,14 +320,14 @@ export class MainScreenComponent implements OnInit {
 
   openVideo(cat: number, num: number) {
 
-    this.router.navigate(['/play'], { queryParams: { file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'], type: 'film' } });
+    this.router.navigate(['/play'], { queryParams: { file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'], type: 'film', section: this.section } });
   }
 
   openEpisode(index: number) {
     let fileEpisode: any = this.episodenList[this.season][index]['video_file'];
     this.router.navigate(['/play'], {
       queryParams:
-        { file: fileEpisode, id: this.episodenList[this.season][index]['id'], type: 'serie', cat: this.detailedCatNumber, num: this.detailedNumber, season: this.season }
+        { file: fileEpisode, id: this.episodenList[this.season][index]['id'], type: 'serie', cat: this.detailedCatNumber, num: this.detailedNumber, season: this.season,section: this.section }
     });
   }
 
@@ -281,13 +336,13 @@ export class MainScreenComponent implements OnInit {
   }
 
   showInfos(cat: number, num: number) {
+ 
     this.detailedNumber = num;
     this.detailedCatNumber = cat;
-    this.detailedView = true;
-    console.log("detailedCatNumber", this.detailedCatNumber);
-    console.log("detailedNumber", this.detailedNumber);
-    this.makeSeasons();
+    this.detailedView = true;   
     this.isSeries = this.isSerie();
+    console.log(this.videoList);
+    this.makeSeasons();
 
   }
   showSeasons() {
@@ -337,10 +392,7 @@ export class MainScreenComponent implements OnInit {
     this.detailedNumber = -1;
     this.isSeries = false;
     let url = new URL(window.location.href);
-    url.searchParams.delete('season');
-    url.searchParams.delete('cat');
-    url.searchParams.delete('num');
-    url.searchParams.delete('type');
+    this.mainHelper.removeQueryParams(url);
     window.history.replaceState({}, '', url.toString());
   }
 

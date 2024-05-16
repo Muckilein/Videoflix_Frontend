@@ -6,8 +6,7 @@ import { ForgotPasswortComponent } from './forgot-passwort/forgot-passwort.compo
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
 import { MainScreenComponent } from './main-screen/main-screen.component';
-import { SerienComponent } from './serien/serien.component';
-import { FilmeComponent } from './filme/filme.component';
+
 import { PlayFilmComponent } from './play-film/play-film.component';
 
 const routes: Routes = [
@@ -16,9 +15,7 @@ const routes: Routes = [
   { path: 'forgotpassword', component: ForgotPasswortComponent},
   { path: 'signup', component: SignUpComponent},
   { path: 'newPassword', component: NewPasswordComponent},
-  { path: 'main', component: MainScreenComponent},
-  { path: 'series', component: SerienComponent},
-  { path: 'films', component: FilmeComponent},
+  { path: 'main', component: MainScreenComponent}, 
   { path: 'play', component: PlayFilmComponent}
   
 ];
