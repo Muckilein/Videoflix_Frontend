@@ -18,14 +18,15 @@ export class MainScreenComponent implements OnInit {
   enterVideo: any = [[false, false, false], [false, false, false, false]];
   //enterVideo: boolean[][]=[[]];
   showVideo: boolean = false;
-  ignoreImg = false;
-  videoNumber: number = -1;
-  detailedNumber: number = -1;
-  detailedCatNumber: number = 0;
+  ignoreImg = false; //del
+  videoNumber: number = -1; 
+  detailedNumber: number = -1; 
+  detailedCatNumber: number = 0; 
   videos: ElementRef<any>[] = [];
   blendIn: boolean = false;
   //videoList: any[] = [];
   videoList: any[][] = [[]];
+  myList: any[] = [];
   episodenList: any[][] = [[]];
   mutedShort: boolean = true;
   detailedView: boolean = false;
@@ -44,22 +45,24 @@ export class MainScreenComponent implements OnInit {
   }
 
   async ngOnInit() {
+
     console.log("call Init");
     this.getSectionValue()
     await this.loadDataforSection(this.section);
     this.readParams();     
     console.log(this.videoList);
     this.makeEnterArray();
+
+    this.myList = await this.loadData("getMyList");
+    console.log(this.myList)
     
   }
 
-  async loadDataforSection(sec:any){
-    console.log('call Data',sec);
+  async loadDataforSection(sec:any){   
     if (sec) {      
      await  this.setSection(sec);
     }
-    else { 
-      console.log('AAAAAALLLLLLLLL');
+    else {     
       await this.setSection('All'); 
     }
   }
@@ -80,8 +83,7 @@ export class MainScreenComponent implements OnInit {
       let seas: any = urlParams.get('season');
       this.season = seas;      
       this.showInfos(cat, num);
-      this.isSeries = true;
-      console.log("season", this.season);
+      this.isSeries = true;      
     } else {
       url = new URL(window.location.href);
       this.mainHelper.removeQueryParams(url);
@@ -98,8 +100,7 @@ export class MainScreenComponent implements OnInit {
   // }
 
   async setSection(event: any) {
-    this.section = event;
-    console.log(this.section)
+    this.section = event;  
     if (this.section == 'All') {
       await this.loadVideo();
       await this.loadSeries();
@@ -129,44 +130,7 @@ export class MainScreenComponent implements OnInit {
     });
     this.enterVideo = test;
 
-  }
-
-  async setEvaluation(evaluation: number, cat: number, num: number) {
-    
-    let type = 'POST'
-    if (this.videoList[cat][num]['evaluation'] != -1) {
-      type = 'PUT';
-      console.log("type is PUT");
-    }
-   
-    let path = "videoEvaluation";
-    if (this.videoList[cat][num]['type'] == 'Serie') { path = "serieEvaluation"; }
-    let url = 'http://127.0.0.1:8000/' + path + '/';
-
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", 'Token ' + localStorage.getItem('token'));
-    let data = {
-      "eval": evaluation,
-      "filmId": this.videoList[cat][num]['id']
-    };
-    const requestOptions: any = {
-      method: type,
-      headers: myHeaders,
-      redirect: 'follow',
-      body: JSON.stringify(data)
-    };
-    try {
-      let resp = await fetch(url, requestOptions);
-      data = await resp.json();
-      this.videoList[cat][num]['evaluation'] = evaluation;
-    } catch (e) {
-      console.error(e);
-    }
-
-    console.log(this.videoList);
-    return data;
-  }
+  }  
 
   async loadVideo() {
     let data = await this.loadData('videoclip');
@@ -207,23 +171,32 @@ export class MainScreenComponent implements OnInit {
 
   }
 
-  getEvaluationImage(cat: number, num: number, ev: number) {
-    let evaluation = this.videoList[cat][num]['evaluation'];
-    let path = "";
-    if (evaluation == -1) { path = "../assets/img/bewerten" + ev + ".png"; }
-    else {
-      if (!this.blendIn) {
-        path = "../assets/img/bewerten" + evaluation + "Choosen.png";
-      } else {
-        if (evaluation == ev) {
-          path = "../assets/img/bewerten" + ev + "Choosen.png";
-        } else {
-          path = "../assets/img/bewerten" + ev + ".png";
-        }
-      }
+  async setEvaluationDetail(evaluation: number) {
+    let data: any;
+    let type = 'POST';
+    let cat = this.detailedCatNumber;
+    let num = this.detailedNumber;
+    if (this.videoList[cat][num]['evaluation'] != -1) {
+      type = 'PUT';
+      console.log("type is PUT");
     }
 
+    let dataSend = {
+      "eval": evaluation,
+      "filmId": this.videoList[cat][num]['id']
+    };
 
+    let path = "videoEvaluation";
+    if (this.videoList[cat][num]['type'] == 'Serie') { path = "serieEvaluation"; }
+    data = await this.mainHelper.uploadData(evaluation, path, dataSend, type);
+    this.videoList[cat][num]['evaluation']= evaluation  ; 
+    return data;
+  }
+
+  getEvaluationImageDetail(ev: number) {
+    let evaluation = this.videoList[this.detailedCatNumber][this.detailedNumber]['evaluation'];
+    let path = this.mainHelper.getIconEvaluation(evaluation,this.blendIn,ev);
+   
     return path;
   }
   isSerie() {
@@ -257,6 +230,11 @@ export class MainScreenComponent implements OnInit {
     return 'http://127.0.0.1:8000' + this.videoList[cat][num]['img'];
   }
 
+  updateVideoList(data:any){
+    console.log('data is', data);
+    this.videoList[data['cat']][data['num']][data['field']]= data['value'];
+  }
+
   handleImage(cat: number, num: number, enter: number) {
 
     if (!this.ignoreImg) {
@@ -279,8 +257,14 @@ export class MainScreenComponent implements OnInit {
     }
   }
 
+  getSeasonforSelction(){
+    let s = this.season;
+    s++;
+    return "Staffel "+s; 
+  }
+
   chooseSeason(index: number) {
-    this.season = index;
+    this.season = index; 
   }
 
   handleVideo(cat: number, num: number) {
@@ -335,13 +319,17 @@ export class MainScreenComponent implements OnInit {
 
   }
 
+  openTheDetails(indices :any)
+  {
+    this.showInfos(indices['cat'],indices['num']);
+  }
+
   showInfos(cat: number, num: number) {
  
     this.detailedNumber = num;
     this.detailedCatNumber = cat;
     this.detailedView = true;   
-    this.isSeries = this.isSerie();
-    console.log(this.videoList);
+    this.isSeries = this.isSerie();   
     this.makeSeasons();
 
   }
@@ -358,8 +346,7 @@ export class MainScreenComponent implements OnInit {
 
     for (let j = 1; j <= seasonNum; j++) {
       ep[j - 1] = this.getSeason(j);
-    }
-    console.log(ep);
+    }  
     this.episodenList = ep;
   }
 

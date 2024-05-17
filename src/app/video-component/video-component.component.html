@@ -1,0 +1,32 @@
+ <div class="videoDiv" [class.foreground]="enterVideo[j][i]" > 
+    <img id="img{{j}}num{{i}}" class="shortImg" [class.scale]="enterVideo[j][i]"
+        src="{{getUrlshort(j,i)}}" (mouseenter)="handleImage(j,i,0)" (mouseleave)="handleImage(j,i,1)">
+
+    <div *ngIf="enterVideo[j][i] && showVideo" (mouseleave)="handleVideo(j,i)" class="shortScreen">
+        <div class="videoOverlay ">
+            <video id="video{{j}}num{{i}}" class="video" [muted]="mutedShort" autoplay>
+                <source src="{{getUrlVideo(j,i)}}" type="video/mp4">
+            </video>
+            <button id="button{{j}}num{{i}}" (click)="clickMute(j,i)"><i
+                    [class.fa-volume-xmark]="mutedShort" [class.fa-volume-off]="!mutedShort"
+                    class="fa-solid "></i></button>
+        </div>
+        <div class="videoButtons">
+            <div style="display:flex">
+                <img class="playbutton" src="../assets/img/playbutton.png" (click)="openVideo(j,i)">
+                <img class="playbutton" src="../assets/img/addToList.png" (click)="addToList(i)">
+                <div [class.translate40]="blendIn" class="likeButtons" (mouseenter)="blendInLikes(i)"
+                    (mouseleave)="blendOutLikes(i)">
+                    <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
+                    src="{{getEvaluationImage(j,i,0)}}"  (click)="setEvaluation(0,j,i)">
+                    <img class="playbutton" src="{{getEvaluationImage(j,i,1)}}"  (click)="setEvaluation(1,j,i)">
+                    <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
+                    src="{{getEvaluationImage(j,i,2)}}"   (click)="setEvaluation(2,j,i)">
+                </div>
+            </div>
+            <img class="playbutton" src="../assets/img/addToList.png" (click)="showInfos(j,i)">
+
+        </div>
+
+    </div>
+</div>

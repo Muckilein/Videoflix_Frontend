@@ -1,42 +1,12 @@
 <div id="containerMain">
-    <app-header (newItemEvent)="setSection($event)" ></app-header>
+    <app-header (newItemEvent)="setSection($event)"></app-header>
     <div class="overlayShadow" *ngIf="detailedView"></div>
     <div class="videoContainer">
         <div class="sections" *ngFor="let name of indexJ,index as j">
             <div style="color:white;font-weight:bold;">{{name}}</div>
-            <div class="filmCategoryLine">
-                <div class="videoDiv" [class.foreground]="enterVideo[j][i]" *ngFor="let v of videoList[j]; index as i">
-                    <img id="img{{j}}num{{i}}" class="shortImg" [class.scale]="enterVideo[j][i]"
-                        src="{{getUrlshort(j,i)}}" (mouseenter)="handleImage(j,i,0)" (mouseleave)="handleImage(j,i,1)">
-
-                    <div *ngIf="enterVideo[j][i] && showVideo" (mouseleave)="handleVideo(j,i)" class="shortScreen">
-                        <div class="videoOverlay ">
-                            <video id="video{{j}}num{{i}}" class="video" [muted]="mutedShort" autoplay>
-                                <source src="{{getUrlVideo(j,i)}}" type="video/mp4">
-                            </video>
-                            <button id="button{{j}}num{{i}}" (click)="clickMute(j,i)"><i
-                                    [class.fa-volume-xmark]="mutedShort" [class.fa-volume-off]="!mutedShort"
-                                    class="fa-solid "></i></button>
-                        </div>
-                        <div class="videoButtons">
-                            <div style="display:flex">
-                                <img class="playbutton" src="../assets/img/playbutton.png" (click)="openVideo(j,i)">
-                                <img class="playbutton" src="../assets/img/addToList.png" (click)="addToList(i)">
-                                <div [class.translate40]="blendIn" class="likeButtons" (mouseenter)="blendInLikes(i)"
-                                    (mouseleave)="blendOutLikes(i)">
-                                    <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
-                                    src="{{getEvaluationImage(j,i,0)}}"  (click)="setEvaluation(0,j,i)">
-                                    <img class="playbutton" src="{{getEvaluationImage(j,i,1)}}"  (click)="setEvaluation(1,j,i)">
-                                    <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
-                                    src="{{getEvaluationImage(j,i,2)}}"   (click)="setEvaluation(2,j,i)">
-                                </div>
-                            </div>
-                            <img class="playbutton" src="../assets/img/addToList.png" (click)="showInfos(j,i)">
-
-                        </div>
-
-                    </div>
-                </div>
+            <div class="filmCategoryLine">              
+                <app-video-component (videoUpdater)="updateVideoList($event)" (callOpenDetails)="openTheDetails($event)"
+                  [j]="j" [i]="i"  [videoList]="videoList" *ngFor="let v of videoList[j]; index as i"  [enterVideo]="enterVideo"></app-video-component>
             </div>
         </div>
 
@@ -54,10 +24,10 @@
                         <div [class.translate40]="blendIn" [class.transparent]="!blendIn" class="likeButtons "
                             (mouseenter)="blendInLikesDetail()" (mouseleave)="blendOutLikesDetail()">
                             <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
-                                src="../assets/img/playbutton.png">
-                            <img class="playbutton" src="../assets/img/playbutton.png">
+                                src="{{getEvaluationImageDetail(0)}}" (click)="setEvaluationDetail(0)">
+                            <img class="playbutton" src="{{getEvaluationImageDetail(1)}}" (click)="setEvaluationDetail(1)">
                             <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
-                                src="../assets/img/playbutton.png">
+                                src="{{getEvaluationImageDetail(2)}}" (click)="setEvaluationDetail(2)">
                         </div>
                     </div>
                     <button (click)="clickMuteDetail()"><i [class.fa-volume-xmark]="mutedShort"
@@ -68,9 +38,11 @@
                 <div style="position:relative;">
                     <div style="font-weight: bold;">{{getTitle()}}</div>
                     <div class="discription">{{getDiscription()}}</div>
-                    <div class="seasonSelection"  *ngIf="isSeries">Staffel {{season+1}} <button style="cursor:pointer;" (click)="showSeasons()"></button>
+                    <div class="seasonSelection" *ngIf="isSeries">{{getSeasonforSelction()}} <button
+                            style="cursor:pointer;" (click)="showSeasons()"></button>
                         <div class="seasonSelectionBox" *ngIf="selectioOpen">
-                            <div *ngFor="let seas of episodenList; index as seasonIndex" class="seasonSelect" (click)="chooseSeason(seasonIndex)">
+                            <div *ngFor="let seas of episodenList; index as seasonIndex" class="seasonSelect"
+                                (click)="chooseSeason(seasonIndex)">
                                 Staffel {{seasonIndex+1}} ({{getLengthSeason(seas)}} Folgen)
                             </div>
                         </div>
@@ -78,7 +50,8 @@
                     <div *ngIf="isSeries">
                         <span> Folgen </span>
                         <div class="episodeContainer">
-                            <div *ngFor="let a of getEpisodes();index as indexEpisode " class="episodeDetail"  (click)="openEpisode(indexEpisode)">
+                            <div *ngFor="let a of getEpisodes();index as indexEpisode " class="episodeDetail"
+                                (click)="openEpisode(indexEpisode)">
                                 {{a.episode}}
                                 <img src="{{getEpisodeURL(a)}}">
                                 <div style="font-size:14px;display:flex;flex-direction:column;">
