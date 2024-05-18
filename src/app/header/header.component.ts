@@ -1,4 +1,4 @@
-import { Component,Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,18 +7,19 @@ import { Component,Output, EventEmitter } from '@angular/core';
 })
 export class HeaderComponent {
   clicked: boolean = false;
-  //@Input() number: number = 0;
- section :string="";
- number:number=0;
-  @Output() newItemEvent = new EventEmitter<string>();
+  @Input() number: number = 0;
+  //number: number = 0;
+  @Output() newItemEvent = new EventEmitter<any>();
 
   chancheClicked() {
-    this.clicked = !this.clicked;   
+    this.clicked = !this.clicked;
   }
 
-  setSection(sec:string,num:number) {
-    this.section=sec; 
+  setSection(num: number) {
+    this.newItemEvent.emit(num);
+  }
+
+  updateSection( num: number) {    
     this.number = num;
-    this.newItemEvent.emit(sec);
   }
 }

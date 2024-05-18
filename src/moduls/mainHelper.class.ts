@@ -15,7 +15,7 @@ export class MainHelper {
       }
 
 
-      async uploadData(evaluation:number,path:string,data:any,type:string){
+      async uploadData(path:string,data:any,type:string){
         let url = 'http://127.0.0.1:8000/' + path + '/';
 
         const myHeaders = new Headers();
@@ -38,6 +38,31 @@ export class MainHelper {
         return data;
       }
 
+      async loadData(path: string) {
+
+        let json;
+        let url = 'http://127.0.0.1:8000/' + path + '/';
+    
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", 'Token ' + localStorage.getItem('token'));
+        const requestOptions: any = {
+          method: 'GET',
+          headers: myHeaders,
+          redirect: 'follow',
+    
+        };
+        try {
+          let resp = await fetch(url, requestOptions);
+          json = await resp.json();
+    
+        } catch (e) {
+          console.error(e);
+        }
+        return json;
+    
+      }
+
       getIconEvaluation(evaluation:number,blendIn:boolean,ev:number){
         let path="";
         if (evaluation == -1) { path = "../assets/img/bewerten" + ev + ".png"; }
@@ -55,6 +80,8 @@ export class MainHelper {
       return path;
 
     }
+
+    
 
      
     

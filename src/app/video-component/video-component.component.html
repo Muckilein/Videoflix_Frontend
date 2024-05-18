@@ -15,7 +15,7 @@
             <div style="display:flex">
                 <img class="playbutton" src="../assets/img/playbutton.png" (click)="openVideo(j,i)">
                 <img class="playbutton" src="../assets/img/addToList.png" (click)="addToList(i)">
-                <div [class.translate40]="blendIn" class="likeButtons" (mouseenter)="blendInLikes(i)"
+                <div [class.translate40]="blendIn" class="likeButtons" (mouseenter)="blendInLikes()"
                     (mouseleave)="blendOutLikes(i)">
                     <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
                     src="{{getEvaluationImage(j,i,0)}}"  (click)="setEvaluation(0,j,i)">

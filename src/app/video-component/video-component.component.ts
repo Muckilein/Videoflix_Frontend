@@ -37,7 +37,8 @@ export class VideoComponentComponent {
   season: number = 0;
   episode: number = 0;
   selectioOpen: boolean = false;
-  section: any = "All";
+  @Input()section: any = 0;
+  //section: any = "All";
 
 
   constructor(public router: Router) {
@@ -86,31 +87,19 @@ export class VideoComponentComponent {
     this.callOpenDetails.emit(indces);
 
   }
-
-  // openVideoDetail() {
-  //   if (this.isSeries) {
-  //     this.openEpisode(this.episode);
-  //   } else {
-  //     this.openVideo(this.detailedCatNumber, this.detailedNumber);
-  //   }
-  // }
-
+  
   addToList(num: number) {
 
   }
 
-  // blendInLikesDetail() {
-  //   this.blendInLikes(this.detailedNumber);
-  // }
 
 
-  blendInLikes(num: number) {
+
+  blendInLikes() {
     this.blendIn = true;
   }
 
-  // blendOutLikesDetail() {
-  //   this.blendOutLikes(this.detailedNumber);
-  // }
+  
 
   blendOutLikes(num: number) {
     this.blendIn = false;
@@ -138,7 +127,7 @@ export class VideoComponentComponent {
 
     let path = "videoEvaluation";
     if (this.videoList[cat][num]['type'] == 'Serie') { path = "serieEvaluation"; }
-    data = await this.mainHelper.uploadData(evaluation, path, dataSend, type);
+    data = await this.mainHelper.uploadData( path, dataSend, type);
     this.updateVideo(evaluation,'evaluation', cat, num);    
     return data;
   }
@@ -162,16 +151,24 @@ export class VideoComponentComponent {
     return path;
   }
 
-  openEpisode(index: number) {
-    let fileEpisode: any = this.episodenList[this.season][index]['video_file'];
-    this.router.navigate(['/play'], {
-      queryParams:
-        { file: fileEpisode, id: this.episodenList[this.season][index]['id'], type: 'serie', cat: this.detailedCatNumber, num: this.detailedNumber, season: this.season, section: this.section }
-    });
-  }
+  // openEpisode(index: number) {
+  //   let fileEpisode: any = this.episodenList[this.season][index]['video_file'];
+  //   this.router.navigate(['/play'], {
+  //     queryParams:
+  //       { file: fileEpisode, id: this.episodenList[this.season][index]['id'], type: 'serie', cat: this.detailedCatNumber, num: this.detailedNumber, season: this.season, section: this.section }
+  //   });
+  // }
 
   openVideo(cat: number, num: number) {
+    let elem = this.videoList[cat][num];
+    if(elem['type']=='Film')
+      {
+        this.router.navigate(['/play'], { queryParams: { file: elem['video_file'], id: elem['id'], type: 'film', section: this.section } });  
+      }else{
+        
+        this.router.navigate(['/play'], { queryParams: { file: elem['episodeList'][0]['video_file'], id: elem['episodeList'][0]['id'], type: 'film', section: this.section } });
+      }
 
-    this.router.navigate(['/play'], { queryParams: { file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'], type: 'film', section: this.section } });
+   
   }
 }
