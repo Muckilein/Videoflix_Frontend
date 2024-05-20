@@ -133,9 +133,7 @@
         height: auto;
         border-radius: 10px;
 
-    }
-
-   
+    }   
 
 }
 
@@ -180,10 +178,7 @@ video::-webkit-media-controls-enclosure {
     background-color: rgba(1, 37, 28, 0.5);
 }
 
-.videoOverlayDetail button {
-    //position: absolute;
-    // top: 0px;
-    // right:20px;
+.videoOverlayDetail button {   
     background: transparent;
     border: none;
     color: #fff;
@@ -226,25 +221,6 @@ video::-webkit-media-controls-enclosure {
     right: 20px;
 }
 
-.videoOverlay button {
-    position: absolute;
-    bottom: 25px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.videoButtons {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px;
-
-
-}
-
 .discription {
     color: white;
     margin: 5px;
@@ -274,9 +250,6 @@ video::-webkit-media-controls-enclosure {
 
 .opaqu {
     opacity: 0;
-    /* Startet mit unsichtbarem Inhalt */
-    // transition: opacity 2s ease-in-out;
-
 }
 
 .animiert {
@@ -306,42 +279,3 @@ video::-webkit-media-controls-enclosure {
     }
 }
 
-.videobutton {
-    background-color: rgb(10, 193, 148);
-    width: 30px;
-    height: 30px;
-    border-radius: 10px;
-    // display: flex;
-    // justify-content: space-between;
-
-}
-
-
-
-.foreground {
-    z-index: 1;
-}
-
-.shortScreen {
-    // width:360px;  
-    transform: scale(1.2);
-    //border: 1px solid white;
-    background-color: rgb(1, 37, 28);
-
-}
-
-
-
-.video {
-    width: 300px;
-    height: auto;
-    position: absolute;
-    left: 0;
-    top: 0;
-
-
-}
-
-.scale {
-    transform: scale(1.2);
-}

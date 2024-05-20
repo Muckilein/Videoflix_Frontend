@@ -2,20 +2,21 @@
     <div class="left">
         <img class="logo" src="../assets/img/Logo.png">
         <div class="links">
-            <a  [class.shine]="number==0"  routerLink="/main"(click)="setSection(0)" >Startseite</a>
-            <a [class.shine]="number==1"  routerLink="/main" (click)="setSection(1)">Serien</a>
+            <a [class.shine]="number==0" routerLink="/main" (click)="setSection(0)">Startseite</a>
+            <a [class.shine]="number==1" routerLink="/main" (click)="setSection(1)">Serien</a>
             <!-- [routerLink]="['/main']" [queryParams]="{ section: 'Serie' }" -->
-            <a  [class.shine]="number==2" routerLink="/main" (click)="setSection(2)">Filme</a>
+            <a [class.shine]="number==2" routerLink="/main" (click)="setSection(2)">Filme</a>
             <a href="">Neu und beliebt</a>
-            <a  [class.shine]="number==4" routerLink="/main" (click)="setSection(4)">Meine Liste</a>
+            <a [class.shine]="number==4" routerLink="/main" (click)="setSection(4)">Meine Liste</a>
             <a href="">Nach Sprachen durchsuchen</a>
         </div>
     </div>
-    <div class="right" >
-        <div  [class.big]="clicked" [class.border]="clicked" class="searchDiv">
+    <div class="right">
+        <div [class.big]="clicked" [class.border]="clicked" class="searchDiv">
             <img class="search" src="../assets/img/lupe.png" (click)="chancheClicked()">
-            <input *ngIf="clicked" class="searchInput" placeholder="Title, Person,Genres...">
-      series  </div>
+            <input *ngIf="clicked" class="searchInput" placeholder="Title, Person,Genres..." [(ngModel)]="search"
+                name="search" (ngModelChange)="searchFor($event)">
+        </div>
 
         <a style="margin:0;">Kids</a>
         <img class="bell" src="../assets/img/bell.png">

@@ -142,22 +142,12 @@ export class VideoComponentComponent {
     this.videoUpdater.emit(updateData);  
   }
 
-
-
   getEvaluationImage(cat: number, num: number, ev: number) {
     let evaluation = this.videoList[cat][num]['evaluation'];
     let path = this.mainHelper.getIconEvaluation(evaluation,this.blendIn,ev);
    
     return path;
   }
-
-  // openEpisode(index: number) {
-  //   let fileEpisode: any = this.episodenList[this.season][index]['video_file'];
-  //   this.router.navigate(['/play'], {
-  //     queryParams:
-  //       { file: fileEpisode, id: this.episodenList[this.season][index]['id'], type: 'serie', cat: this.detailedCatNumber, num: this.detailedNumber, season: this.season, section: this.section }
-  //   });
-  // }
 
   openVideo(cat: number, num: number) {
     let elem = this.videoList[cat][num];

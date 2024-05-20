@@ -28,6 +28,7 @@ export class MainScreenComponent implements OnInit {
   blendIn: boolean = false;
   //videoList: any[] = [];
   videoList: any[][] = [[]];
+  videoListSave: any[][] = [[]];
   myList: any[] = [];
   episodenList: any[][] = [[]];
   mutedShort: boolean = true;
@@ -36,8 +37,10 @@ export class MainScreenComponent implements OnInit {
   isSeries: boolean = false;
   season: number = 0;
   episode: number = 0;
-  selectioOpen: boolean = false; 
+  selectioOpen: boolean = false;
   sectionNum: any = 0;
+  search: string = "";
+  enterSearch:boolean=false;
 
   // @ViewChild('srcVideo') srcVideo!: ElementRef;
   //@ViewChildren('srcVideo') parents!: QueryList<ElementRef>;
@@ -64,7 +67,7 @@ export class MainScreenComponent implements OnInit {
 
   }
 
-  async loadDataforSection(sec: number) {   
+  async loadDataforSection(sec: number) {
     this.sectionNum = sec;
     if (sec) {
       await this.setSection(sec);
@@ -99,25 +102,25 @@ export class MainScreenComponent implements OnInit {
 
 
   async setSection(event: any) {
-    this.sectionNum = event; 
-    console.log("section",this.sectionNum); 
+    this.sectionNum = event;
+    console.log("section", this.sectionNum);
     if (this.sectionNum == 0) {
-     
+
       await this.loadVideo();
       await this.loadSeries();
     }
     if (this.sectionNum == 1) {
-     
+
       let data = await this.mainHelper.loadData('series');
       this.videoList[0] = data;
       this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
     }
     if (this.sectionNum == 2) {
-    
+
       await this.loadVideo();
     }
     if (this.sectionNum == 4) {
-      
+
       let data = await this.mainHelper.loadData('getMyList');
       this.videoList[0] = data;
       this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
@@ -201,13 +204,13 @@ export class MainScreenComponent implements OnInit {
 
   }
 
-  
+
 
   getUrlVideoDetail(): string {
     return 'http://127.0.0.1:8000' + this.videoList[this.detailedCatNumber][this.detailedNumber]['short_file'];
   }
 
-  
+
 
   updateVideoList(data: any) {
     console.log('data is', data);
@@ -256,7 +259,7 @@ export class MainScreenComponent implements OnInit {
   }
 
   openEpisode(index: number) {
-    
+
     let fileEpisode: any = this.episodenList[this.season][index]['video_file'];
     this.router.navigate(['/play'], {
       queryParams:
@@ -270,6 +273,58 @@ export class MainScreenComponent implements OnInit {
 
   openTheDetails(indices: any) {
     this.showInfos(indices['cat'], indices['num']);
+  }
+
+
+
+  makeSearchList(vList: any) {
+    let searchList: any = [[]];
+    let s = this.search.toLowerCase();
+    console.log("s ist", s);
+    console.log(searchList);
+    let title = ";"
+    vList.forEach((cat: any) => {
+      cat.forEach((c: any) => {
+        title = c['title'].toLowerCase();
+        console.log(title);
+        console.log(title.includes(s));
+        if (title.includes(s)) {
+          searchList[0].push(c);
+        }
+
+      });
+    });
+
+    console.log(searchList);
+    return searchList;
+  }
+
+  searchFor(event: any) {
+    this.search = event;       
+    if (!this.enterSearch) {
+      this.videoListSave = this.videoList;
+      this.indexJOld = this.indexJ;  
+      this.enterSearch = true;   
+    }
+    if(this.search==""){
+      this.enterSearch = false;
+      this.videoList = this.videoListSave;
+      this.indexJ= this.indexJOld;     
+    }else{
+      this.videoList = this.makeSearchList(this.videoList);      
+      this.indexJ = ["Sie suchen nach '" + this.search + "'"];
+    }
+   
+   
+ 
+   
+    //  this.videoListSave = this.videoList;
+    //  this.videoList = [];
+    //  console.log("lists");
+    //  console.log(this.videoListSave);
+    //  console.log(this.videoList);
+    //  this.videoList=this.videoListSave ;
+    //  console.log(this.videoList);
   }
 
   showInfos(cat: number, num: number) {

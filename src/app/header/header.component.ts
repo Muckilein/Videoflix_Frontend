@@ -8,8 +8,10 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 export class HeaderComponent {
   clicked: boolean = false;
   @Input() number: number = 0;
+  search:string="";
   //number: number = 0;
   @Output() newItemEvent = new EventEmitter<any>();
+  @Output() searchItem = new EventEmitter<string>();
 
   chancheClicked() {
     this.clicked = !this.clicked;
@@ -17,6 +19,12 @@ export class HeaderComponent {
 
   setSection(num: number) {
     this.newItemEvent.emit(num);
+  }
+
+  searchFor(event: Event): void {
+   console.log(this.search);
+   console.log(event);
+   this.searchItem.emit(this.search);
   }
 
   updateSection( num: number) {    

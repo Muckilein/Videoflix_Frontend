@@ -1,5 +1,5 @@
 <div id="containerMain">
-    <app-header #headerComponent (newItemEvent)="setSection($event)"  [number]="sectionNum" ></app-header>
+    <app-header #headerComponent (newItemEvent)="setSection($event)" (searchItem)="searchFor($event)" [number]="sectionNum" ></app-header>
     <div class="overlayShadow" *ngIf="detailedView"></div>
     <div class="videoContainer">
         <div class="sections" *ngFor="let name of indexJ,index as j">
