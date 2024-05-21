@@ -62,6 +62,21 @@ export class MainHelper {
         return json;
     
       }
+      async addToList(cat: number, num: number,videoList:any){
+        let inList = videoList[cat][num]['inList'];
+        let onjectdata = {
+          "type": videoList[cat][num]['type'],
+          "idObject": videoList[cat][num]['id']
+        }
+        if (!inList) {
+       
+          await this.uploadData("getMyList", onjectdata, 'POST');
+          videoList[cat][num]['inList'] = true;
+        }else{
+          await this.uploadData("getMyList", onjectdata, 'DELETE');
+          videoList[cat][num]['inList'] = false;
+        }
+      }
 
       getIconEvaluation(evaluation:number,blendIn:boolean,ev:number){
         let path="";

@@ -20,7 +20,7 @@
                 <div class="detailVideoControlls">
                     <div style="display:flex; align-items:center;">
                         <button class="playButtonDetail" (click)="openVideoDetail()">Abspielen</button>
-                        <img class="playbutton" src="../assets/img/addToList.png">
+                        <img class="playbutton" src="{{getListIcon()}}" (click)="addToList()" >
                         <div [class.translate40]="blendIn" [class.transparent]="!blendIn" class="likeButtons "
                             (mouseenter)="blendInLikesDetail()" (mouseleave)="blendOutLikesDetail()">
                             <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"

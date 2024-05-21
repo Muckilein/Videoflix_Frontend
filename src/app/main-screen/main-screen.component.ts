@@ -16,8 +16,8 @@ export class MainScreenComponent implements OnInit {
   episodenUrl: string = "";
   seriesUrl: string = "";
   indexJ: string[] = ['Komödien'];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
-  indexJOld: string[] = [];
-  enterVideo: any = [[false, false, false], [false, false, false, false]];
+  indexJOld: string[] = ['Komödien'];
+  enterVideo: any = [[false, false, false]];
   //enterVideo: boolean[][]=[[]];
   showVideo: boolean = false;
   ignoreImg = false; //del
@@ -26,10 +26,9 @@ export class MainScreenComponent implements OnInit {
   detailedCatNumber: number = 0;
   videos: ElementRef<any>[] = [];
   blendIn: boolean = false;
-  //videoList: any[] = [];
   videoList: any[][] = [[]];
   videoListSave: any[][] = [[]];
-  myList: any[] = [];
+  // myList: any[] = [];
   episodenList: any[][] = [[]];
   mutedShort: boolean = true;
   detailedView: boolean = false;
@@ -40,7 +39,8 @@ export class MainScreenComponent implements OnInit {
   selectioOpen: boolean = false;
   sectionNum: any = 0;
   search: string = "";
-  enterSearch:boolean=false;
+  enterSearch: boolean = false;
+  loaded:boolean=false;
 
   // @ViewChild('srcVideo') srcVideo!: ElementRef;
   //@ViewChildren('srcVideo') parents!: QueryList<ElementRef>;
@@ -61,9 +61,10 @@ export class MainScreenComponent implements OnInit {
     this.readParams();
     console.log(this.videoList);
     this.makeEnterArray();
+    this.loaded=true;
 
-    this.myList = await this.mainHelper.loadData("getMyList");
-    console.log(this.myList)
+    // this.myList = await this.mainHelper.loadData("getMyList");
+    // console.log(this.myList)
 
   }
 
@@ -102,28 +103,45 @@ export class MainScreenComponent implements OnInit {
 
 
   async setSection(event: any) {
-    this.sectionNum = event;
-    console.log("section", this.sectionNum);
-    if (this.sectionNum == 0) {
+    if (this.sectionNum != event || !this.loaded) {
+      this.sectionNum = event;
+      console.log("section", this.sectionNum);
+      if (this.sectionNum == 0) {
+        this.reloadTitles();
+        await this.loadVideo();
+        await this.loadSeries();
+      }
+      if (this.sectionNum == 1) {
+        this.reloadTitles();
+        let data = await this.mainHelper.loadData('series');
+        this.videoList[0] = data;
+        this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
+      }
+      if (this.sectionNum == 2) {
+        this.reloadTitles();
+        await this.loadVideo();
+      }
+      if (this.sectionNum == 4) {
+        this.indexJOld = this.indexJ
+        this.indexJ = ['Meine Liste'];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
 
-      await this.loadVideo();
-      await this.loadSeries();
+        let data = await this.mainHelper.loadData('getMyList');
+        this.videoList[0] = data;
+        this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
+      }
     }
-    if (this.sectionNum == 1) {
+    else { console.log("alllreade choosen"); }
+  }
 
-      let data = await this.mainHelper.loadData('series');
-      this.videoList[0] = data;
-      this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
-    }
-    if (this.sectionNum == 2) {
+  reloadTitles() {
+    this.indexJ = this.indexJOld;
+  }
 
-      await this.loadVideo();
-    }
-    if (this.sectionNum == 4) {
-
-      let data = await this.mainHelper.loadData('getMyList');
-      this.videoList[0] = data;
-      this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
+  getListIcon() {
+    let added = this.videoList[this.detailedCatNumber][this.detailedNumber]['inList'];
+    if (added) { return "../assets/img/inList.png"; }
+    else {
+      return "../assets/img/addToList.png";
     }
   }
 
@@ -267,8 +285,8 @@ export class MainScreenComponent implements OnInit {
     });
   }
 
-  addToList(num: number) {
-
+  addToList() {
+  this.mainHelper.addToList(this.detailedCatNumber,this.detailedNumber,this.videoList);
   }
 
   openTheDetails(indices: any) {
@@ -300,31 +318,22 @@ export class MainScreenComponent implements OnInit {
   }
 
   searchFor(event: any) {
-    this.search = event;       
+    this.search = event;
     if (!this.enterSearch) {
       this.videoListSave = this.videoList;
-      this.indexJOld = this.indexJ;  
-      this.enterSearch = true;   
+      this.indexJOld = this.indexJ;
+      this.enterSearch = true;
     }
-    if(this.search==""){
+    if (this.search == "") {
       this.enterSearch = false;
       this.videoList = this.videoListSave;
-      this.indexJ= this.indexJOld;     
-    }else{
-      this.videoList = this.makeSearchList(this.videoList);      
+      this.indexJ = this.indexJOld;
+    } else {
+      this.videoList = this.makeSearchList(this.videoList);
       this.indexJ = ["Sie suchen nach '" + this.search + "'"];
     }
-   
-   
- 
-   
-    //  this.videoListSave = this.videoList;
-    //  this.videoList = [];
-    //  console.log("lists");
-    //  console.log(this.videoListSave);
-    //  console.log(this.videoList);
-    //  this.videoList=this.videoListSave ;
-    //  console.log(this.videoList);
+
+
   }
 
   showInfos(cat: number, num: number) {

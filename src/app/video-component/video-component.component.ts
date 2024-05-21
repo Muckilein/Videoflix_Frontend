@@ -37,7 +37,7 @@ export class VideoComponentComponent {
   season: number = 0;
   episode: number = 0;
   selectioOpen: boolean = false;
-  @Input()section: any = 0;
+  @Input() section: any = 0;
   //section: any = "All";
 
 
@@ -87,19 +87,30 @@ export class VideoComponentComponent {
     this.callOpenDetails.emit(indces);
 
   }
-  
-  addToList(num: number) {
 
+  async addToList(cat: number, num: number) {
+    this.mainHelper.addToList(cat,num,this.videoList);
+    console.log(this.videoList);
+    // let inList = this.videoList[cat][num]['inList'];
+    // let onjectdata = {
+    //   "type": this.videoList[cat][num]['type'],
+    //   "idObject": this.videoList[cat][num]['id']
+    // }
+    // if (!inList) {
+   
+    //   await this.mainHelper.uploadData("getMyList", onjectdata, 'POST');
+    //   this.videoList[cat][num]['inList'] = true;
+    // }else{
+    //   await this.mainHelper.uploadData("getMyList", onjectdata, 'DELETE');
+    //   this.videoList[cat][num]['inList'] = false;
+    // }
   }
-
-
-
 
   blendInLikes() {
     this.blendIn = true;
   }
 
-  
+
 
   blendOutLikes(num: number) {
     this.blendIn = false;
@@ -127,38 +138,45 @@ export class VideoComponentComponent {
 
     let path = "videoEvaluation";
     if (this.videoList[cat][num]['type'] == 'Serie') { path = "serieEvaluation"; }
-    data = await this.mainHelper.uploadData( path, dataSend, type);
-    this.updateVideo(evaluation,'evaluation', cat, num);    
+    data = await this.mainHelper.uploadData(path, dataSend, type);
+    this.updateVideo(evaluation, 'evaluation', cat, num);
     return data;
   }
 
-  updateVideo(value:any,field:string, cat: number, num: number){
-    let updateData ={
-      "cat":cat,
-      "num":num,
-      "field":field,
-      "value":value
+  updateVideo(value: any, field: string, cat: number, num: number) {
+    let updateData = {
+      "cat": cat,
+      "num": num,
+      "field": field,
+      "value": value
     }
-    this.videoUpdater.emit(updateData);  
+    this.videoUpdater.emit(updateData);
   }
 
   getEvaluationImage(cat: number, num: number, ev: number) {
     let evaluation = this.videoList[cat][num]['evaluation'];
-    let path = this.mainHelper.getIconEvaluation(evaluation,this.blendIn,ev);
-   
+    let path = this.mainHelper.getIconEvaluation(evaluation, this.blendIn, ev);
+
     return path;
+  }
+
+  getListIcon(cat: number, num: number) {
+    let added = this.videoList[cat][num]['inList'];
+    if (added) { return "../assets/img/inList.png"; }
+    else {
+      return "../assets/img/addToList.png";
+    }
   }
 
   openVideo(cat: number, num: number) {
     let elem = this.videoList[cat][num];
-    if(elem['type']=='Film')
-      {
-        this.router.navigate(['/play'], { queryParams: { file: elem['video_file'], id: elem['id'], type: 'film', section: this.section } });  
-      }else{
-        
-        this.router.navigate(['/play'], { queryParams: { file: elem['episodeList'][0]['video_file'], id: elem['episodeList'][0]['id'], type: 'film', section: this.section } });
-      }
+    if (elem['type'] == 'Film') {
+      this.router.navigate(['/play'], { queryParams: { file: elem['video_file'], id: elem['id'], type: 'film', section: this.section } });
+    } else {
 
-   
+      this.router.navigate(['/play'], { queryParams: { file: elem['episodeList'][0]['video_file'], id: elem['episodeList'][0]['id'], type: 'film', section: this.section } });
+    }
+
+
   }
 }
