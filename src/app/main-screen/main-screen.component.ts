@@ -14,9 +14,9 @@ export class MainScreenComponent implements OnInit {
   mainHelper = new MainHelper()
   videoUrl: string = "";
   episodenUrl: string = "";
-  seriesUrl: string = "";
-  indexJ: string[] = ['Komödien'];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
-  indexJOld: string[] = ['Komödien'];
+  //seriesUrl: string = "";
+  indexJ: any[] = ['Komödien'];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5]; 
+  indexJOld: any[] = ['Komödien'];
   enterVideo: any = [[false, false, false]];
   //enterVideo: boolean[][]=[[]];
   showVideo: boolean = false;
@@ -28,6 +28,7 @@ export class MainScreenComponent implements OnInit {
   blendIn: boolean = false;
   videoList: any[][] = [[]];
   videoListSave: any[][] = [[]];
+  videoListAll: any[] = [];
   // myList: any[] = [];
   episodenList: any[][] = [[]];
   mutedShort: boolean = true;
@@ -56,6 +57,9 @@ export class MainScreenComponent implements OnInit {
 
   async ngOnInit() {
     console.log("call Init");
+    let cat = await this.mainHelper.loadData("getCategory");   
+    this.indexJ= cat//this.mainHelper.makeCategorieList(cat);
+   
     this.getSectionValue()
     await this.loadDataforSection(this.sectionNum);
     this.readParams();
@@ -115,7 +119,7 @@ export class MainScreenComponent implements OnInit {
         this.reloadTitles();
         let data = await this.mainHelper.loadData('series');
         this.videoList[0] = data;
-        this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
+      //  this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
       }
       if (this.sectionNum == 2) {
         this.reloadTitles();
@@ -123,11 +127,11 @@ export class MainScreenComponent implements OnInit {
       }
       if (this.sectionNum == 4) {
         this.indexJOld = this.indexJ
-        this.indexJ = ['Meine Liste'];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
+        this.indexJ = [{"name":"Meine Liste"}];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
 
         let data = await this.mainHelper.loadData('getMyList');
         this.videoList[0] = data;
-        this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
+       // this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
       }
     }
     else { console.log("alllreade choosen"); }
@@ -162,16 +166,18 @@ export class MainScreenComponent implements OnInit {
   }
 
   async loadVideo() {
-    let data = await this.mainHelper.loadData('videoclip');
-    this.videoList[0] = data;
+    let data = await this.mainHelper.loadData('videoclip');    
+    this.videoListAll=data;
+    this.videoList[0] = this.videoListAll
     this.videoUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
   }
 
   async loadSeries() {
 
     let data = await this.mainHelper.loadData('series');
+    this.videoListAll= this.videoListAll.concat(data);
     this.videoList[0] = this.videoList[0].concat(data);
-    this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
+    //this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
   }
 
 
@@ -230,9 +236,15 @@ export class MainScreenComponent implements OnInit {
 
 
 
-  updateVideoList(data: any) {
-    console.log('data is', data);
-    this.videoList[data['cat']][data['num']][data['field']] = data['value'];
+  // updateVideoList(data: any) {
+  //   console.log('data is', data);
+  //   this.videoList[data['cat']][data['num']][data['field']] = data['value'];
+  // }
+
+  showVideoList(){
+    this.videoListAll[0]['title']= "oooooooooooooooooooooooooooooooooo";
+    console.log(this.videoList);
+    console.log(this.videoListAll);
   }
 
 
@@ -330,7 +342,8 @@ export class MainScreenComponent implements OnInit {
       this.indexJ = this.indexJOld;
     } else {
       this.videoList = this.makeSearchList(this.videoList);
-      this.indexJ = ["Sie suchen nach '" + this.search + "'"];
+      let s = "Sie suchen nach '" + this.search + "'";
+      this.indexJ = [{"name":s}];
     }
 
 

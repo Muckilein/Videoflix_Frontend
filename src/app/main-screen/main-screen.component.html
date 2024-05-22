@@ -3,9 +3,10 @@
     <div class="overlayShadow" *ngIf="detailedView"></div>
     <div class="videoContainer">
         <div class="sections" *ngFor="let name of indexJ,index as j">
-            <div style="color:white;font-weight:bold;">{{name}}</div>
-            <div class="filmCategoryLine">              
-                <app-video-component (videoUpdater)="updateVideoList($event)" (callOpenDetails)="openTheDetails($event)"
+            <div style="color:white;font-weight:bold;">{{name['name']}}</div>
+            <div class="filmCategoryLine"> 
+                <!-- (videoUpdater)="updateVideoList($event)"              -->
+                <app-video-component  (callOpenDetails)="openTheDetails($event)"
                   [j]="j" [i]="i" [section]="sectionNum"  [videoList]="videoList" *ngFor="let v of videoList[j]; index as i"  [enterVideo]="enterVideo"></app-video-component>
             </div>
         </div>
@@ -67,6 +68,7 @@
             </div>
 
         </div>
+        <button (click)="showVideoList()">VideoList</button>
     </div>
     <!-- 
 [class.background]="enterVideo[i]"  -->

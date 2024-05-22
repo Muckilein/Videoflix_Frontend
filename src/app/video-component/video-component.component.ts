@@ -13,7 +13,7 @@ export class VideoComponentComponent {
   @Input() videoList: any[][] = [[]];
   @Input() enterVideo: any = [];
   @Output() callOpenDetails = new EventEmitter<any>();
-  @Output() videoUpdater = new EventEmitter<any>();
+  // @Output() videoUpdater = new EventEmitter<any>();
   mainHelper = new MainHelper()
   videoUrl: string = "";
   episodenUrl: string = "";
@@ -89,27 +89,17 @@ export class VideoComponentComponent {
   }
 
   async addToList(cat: number, num: number) {
-    this.mainHelper.addToList(cat,num,this.videoList);
+    this.mainHelper.addToList(cat, num, this.videoList);
     console.log(this.videoList);
-    // let inList = this.videoList[cat][num]['inList'];
-    // let onjectdata = {
-    //   "type": this.videoList[cat][num]['type'],
-    //   "idObject": this.videoList[cat][num]['id']
-    // }
-    // if (!inList) {
-   
-    //   await this.mainHelper.uploadData("getMyList", onjectdata, 'POST');
-    //   this.videoList[cat][num]['inList'] = true;
-    // }else{
-    //   await this.mainHelper.uploadData("getMyList", onjectdata, 'DELETE');
-    //   this.videoList[cat][num]['inList'] = false;
-    // }
   }
 
   blendInLikes() {
     this.blendIn = true;
   }
-
+  changeValue(cat: number, num: number) {
+    this.videoList[cat][num]['tile'] = "oooooooooooooooooo";
+    console.log(this.videoList);
+  }
 
 
   blendOutLikes(num: number) {
@@ -139,19 +129,20 @@ export class VideoComponentComponent {
     let path = "videoEvaluation";
     if (this.videoList[cat][num]['type'] == 'Serie') { path = "serieEvaluation"; }
     data = await this.mainHelper.uploadData(path, dataSend, type);
-    this.updateVideo(evaluation, 'evaluation', cat, num);
+    //this.updateVideo(evaluation, 'evaluation', cat, num);
+    this.videoList[cat][num]['evaluation'];
     return data;
   }
 
-  updateVideo(value: any, field: string, cat: number, num: number) {
-    let updateData = {
-      "cat": cat,
-      "num": num,
-      "field": field,
-      "value": value
-    }
-    this.videoUpdater.emit(updateData);
-  }
+  // updateVideo(value: any, field: string, cat: number, num: number) {
+  //   let updateData = {
+  //     "cat": cat,
+  //     "num": num,
+  //     "field": field,
+  //     "value": value
+  //   }
+  //   this.videoUpdater.emit(updateData);
+  // }
 
   getEvaluationImage(cat: number, num: number, ev: number) {
     let evaluation = this.videoList[cat][num]['evaluation'];

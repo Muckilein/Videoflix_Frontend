@@ -96,6 +96,14 @@ export class MainHelper {
 
     }
 
+    // makeCategorieList(cat:any){
+    //   let l:any = [];
+    //   cat.forEach((c:any)=>{
+    //     l.push(c['name']);
+    //   });
+    //   return l;
+    // }
+
     
 
      
