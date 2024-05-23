@@ -15,8 +15,8 @@ export class MainScreenComponent implements OnInit {
   videoUrl: string = "";
   episodenUrl: string = "";
   //seriesUrl: string = "";
-  indexJ: any[] = ['Komödien'];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5]; 
-  indexJOld: any[] = ['Komödien'];
+  categoryList: any[] = ['Komödien'];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5]; 
+  categoryListOld: any[] = [];
   enterVideo: any = [[false, false, false]];
   //enterVideo: boolean[][]=[[]];
   showVideo: boolean = false;
@@ -26,7 +26,7 @@ export class MainScreenComponent implements OnInit {
   detailedCatNumber: number = 0;
   videos: ElementRef<any>[] = [];
   blendIn: boolean = false;
-  videoList: any[][] = [[]];
+  videoList: any[][] = [[],[],[]];
   videoListSave: any[][] = [[]];
   videoListAll: any[] = [];
   // myList: any[] = [];
@@ -41,7 +41,7 @@ export class MainScreenComponent implements OnInit {
   sectionNum: any = 0;
   search: string = "";
   enterSearch: boolean = false;
-  loaded:boolean=false;
+  loaded: boolean = false;
 
   // @ViewChild('srcVideo') srcVideo!: ElementRef;
   //@ViewChildren('srcVideo') parents!: QueryList<ElementRef>;
@@ -57,23 +57,31 @@ export class MainScreenComponent implements OnInit {
 
   async ngOnInit() {
     console.log("call Init");
-    let cat = await this.mainHelper.loadData("getCategory");   
-    this.indexJ= cat//this.mainHelper.makeCategorieList(cat);
-   
+    let cat = await this.mainHelper.loadData("getCategory");
+    this.categoryList = cat;
+    this.categoryListOld = cat;
+    await this.makeInitialVideoList()
+    console.log("lenght",this.categoryList.length);   
     this.getSectionValue()
     await this.loadDataforSection(this.sectionNum);
-    this.readParams();
-    console.log(this.videoList);
+    this.readParams();   
     this.makeEnterArray();
-    this.loaded=true;
+    this.loaded = true;
+    
+  }
 
-    // this.myList = await this.mainHelper.loadData("getMyList");
-    // console.log(this.myList)
-
+  async makeInitialVideoList(){
+    this.videoList=[];
+    for(let a = 0;a<this.categoryList.length;a++){
+      this.videoList.push([]);
+    }
+    console.log("Videolist");
+    console.log(this.videoList);
   }
 
   async loadDataforSection(sec: number) {
     this.sectionNum = sec;
+    console.log("data");
     if (sec) {
       await this.setSection(sec);
     }
@@ -109,36 +117,37 @@ export class MainScreenComponent implements OnInit {
   async setSection(event: any) {
     if (this.sectionNum != event || !this.loaded) {
       this.sectionNum = event;
-      console.log("section", this.sectionNum);
+      
       if (this.sectionNum == 0) {
-        this.reloadTitles();
-        await this.loadVideo();
-        await this.loadSeries();
+        this.reloadTitles();       
+        await this.loadAll();
       }
       if (this.sectionNum == 1) {
         this.reloadTitles();
-        let data = await this.mainHelper.loadData('series');
-        this.videoList[0] = data;
-      //  this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
+        await this.loadSeries();
       }
       if (this.sectionNum == 2) {
         this.reloadTitles();
         await this.loadVideo();
       }
-      if (this.sectionNum == 4) {
-        this.indexJOld = this.indexJ
-        this.indexJ = [{"name":"Meine Liste"}];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
+      if (this.sectionNum == 4) {       
+        this.categoryList = [{ "name": "Meine Liste" }];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
 
         let data = await this.mainHelper.loadData('getMyList');
+        console.log(data);
+        this.videoList=[[]];
         this.videoList[0] = data;
-       // this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
+       
       }
     }
     else { console.log("alllreade choosen"); }
   }
 
   reloadTitles() {
-    this.indexJ = this.indexJOld;
+   
+    if (this.loaded) {    
+      this.categoryList = this.categoryListOld;     
+    }
   }
 
   getListIcon() {
@@ -165,19 +174,61 @@ export class MainScreenComponent implements OnInit {
 
   }
 
+  listSortedByCategory() {
+    let i = -1;
+    console.log(this.videoListAll);
+    this.videoListAll.forEach((cat) => {
+      i++;      
+      let catOfObject = cat['category'];     
+      catOfObject.forEach((c: any) => {       
+        let ind = this.getIndexOfCategory(c['name']);
+        this.videoList[ind].push(cat);
+      });
+
+    });
+
+  }
+
+  getIndexOfCategory(cat: string) {
+    let i = -1;
+    let val = 0;
+    this.categoryList.forEach((c) => {
+      i++;
+      if (c['name'] == cat) { val = i; }
+    }
+    );
+    return val;
+  }
+
+  // filterForCat(catName :string,cat:any){
+  //   if (cat['name']==)
+  // }
+
   async loadVideo() {
-    let data = await this.mainHelper.loadData('videoclip');    
-    this.videoListAll=data;
-    this.videoList[0] = this.videoListAll
+    let data = await this.mainHelper.loadData('videoclip');
+    this.videoListAll = data;
+    this.makeInitialVideoList();
+    this.listSortedByCategory();
+    
     this.videoUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
   }
 
   async loadSeries() {
 
     let data = await this.mainHelper.loadData('series');
-    this.videoListAll= this.videoListAll.concat(data);
-    this.videoList[0] = this.videoList[0].concat(data);
-    //this.seriesUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
+    this.videoListAll = data;   
+    this.makeInitialVideoList(); 
+    this.listSortedByCategory(); 
+    this.videoUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
+  }
+
+  async loadAll() {
+    let data = await this.mainHelper.loadData('videoclip');
+    this.videoListAll = data;
+    this.makeInitialVideoList();
+    data = await this.mainHelper.loadData('series');
+    this.videoListAll = this.videoListAll.concat(data);
+    this.listSortedByCategory();   
   }
 
 
@@ -233,16 +284,10 @@ export class MainScreenComponent implements OnInit {
   getUrlVideoDetail(): string {
     return 'http://127.0.0.1:8000' + this.videoList[this.detailedCatNumber][this.detailedNumber]['short_file'];
   }
+ 
 
-
-
-  // updateVideoList(data: any) {
-  //   console.log('data is', data);
-  //   this.videoList[data['cat']][data['num']][data['field']] = data['value'];
-  // }
-
-  showVideoList(){
-    this.videoListAll[0]['title']= "oooooooooooooooooooooooooooooooooo";
+  showVideoList() {
+    console.log(this.categoryList);
     console.log(this.videoList);
     console.log(this.videoListAll);
   }
@@ -298,7 +343,7 @@ export class MainScreenComponent implements OnInit {
   }
 
   addToList() {
-  this.mainHelper.addToList(this.detailedCatNumber,this.detailedNumber,this.videoList);
+    this.mainHelper.addToList(this.detailedCatNumber, this.detailedNumber, this.videoList);
   }
 
   openTheDetails(indices: any) {
@@ -309,23 +354,17 @@ export class MainScreenComponent implements OnInit {
 
   makeSearchList(vList: any) {
     let searchList: any = [[]];
-    let s = this.search.toLowerCase();
-    console.log("s ist", s);
-    console.log(searchList);
+    let s = this.search.toLowerCase();   
     let title = ";"
     vList.forEach((cat: any) => {
       cat.forEach((c: any) => {
-        title = c['title'].toLowerCase();
-        console.log(title);
-        console.log(title.includes(s));
+        title = c['title'].toLowerCase();       
         if (title.includes(s)) {
           searchList[0].push(c);
         }
 
       });
-    });
-
-    console.log(searchList);
+    });    
     return searchList;
   }
 
@@ -333,17 +372,17 @@ export class MainScreenComponent implements OnInit {
     this.search = event;
     if (!this.enterSearch) {
       this.videoListSave = this.videoList;
-      this.indexJOld = this.indexJ;
+      this.categoryListOld = this.categoryList;
       this.enterSearch = true;
     }
     if (this.search == "") {
       this.enterSearch = false;
       this.videoList = this.videoListSave;
-      this.indexJ = this.indexJOld;
+      this.categoryList = this.categoryListOld;
     } else {
       this.videoList = this.makeSearchList(this.videoList);
       let s = "Sie suchen nach '" + this.search + "'";
-      this.indexJ = [{"name":s}];
+      this.categoryList = [{ "name": s }];
     }
 
 

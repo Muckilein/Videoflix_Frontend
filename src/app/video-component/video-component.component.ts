@@ -130,7 +130,7 @@ export class VideoComponentComponent {
     if (this.videoList[cat][num]['type'] == 'Serie') { path = "serieEvaluation"; }
     data = await this.mainHelper.uploadData(path, dataSend, type);
     //this.updateVideo(evaluation, 'evaluation', cat, num);
-    this.videoList[cat][num]['evaluation'];
+    this.videoList[cat][num]['evaluation'] = evaluation;
     return data;
   }
 

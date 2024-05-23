@@ -2,7 +2,7 @@
     <app-header #headerComponent (newItemEvent)="setSection($event)" (searchItem)="searchFor($event)" [number]="sectionNum" ></app-header>
     <div class="overlayShadow" *ngIf="detailedView"></div>
     <div class="videoContainer">
-        <div class="sections" *ngFor="let name of indexJ,index as j">
+        <div class="sections" *ngFor="let name of categoryList,index as j">
             <div style="color:white;font-weight:bold;">{{name['name']}}</div>
             <div class="filmCategoryLine"> 
                 <!-- (videoUpdater)="updateVideoList($event)"              -->
