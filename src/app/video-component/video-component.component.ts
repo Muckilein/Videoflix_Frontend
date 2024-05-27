@@ -11,8 +11,10 @@ export class VideoComponentComponent {
   @Input() i: number = 0;
   @Input() j: number = 0;
   @Input() videoList: any[][] = [[]];
+  @Input() arrowLine: any[] = [];
   @Input() enterVideo: any = [];
   @Output() callOpenDetails = new EventEmitter<any>();
+
   // @Output() videoUpdater = new EventEmitter<any>();
   mainHelper = new MainHelper()
   videoUrl: string = "";
@@ -77,6 +79,7 @@ export class VideoComponentComponent {
         }, 1500);
       } else {
         this.videoNumber = -1;
+
 
       }
     }
@@ -162,10 +165,10 @@ export class VideoComponentComponent {
   openVideo(cat: number, num: number) {
     let elem = this.videoList[cat][num];
     if (elem['type'] == 'Film') {
-      this.router.navigate(['/play'], { queryParams: { file: elem['video_file'], id: elem['id'], type: 'film', section: this.section } });
+      this.router.navigate(['/play'], { queryParams: { file: elem['video_file'], id: elem['id'], type: 'film', section: this.section, cat: cat,transform:this.arrowLine[cat]['transform'] } });
     } else {
 
-      this.router.navigate(['/play'], { queryParams: { file: elem['episodeList'][0]['video_file'], id: elem['episodeList'][0]['id'], type: 'film', section: this.section } });
+      this.router.navigate(['/play'], { queryParams: { file: elem['episodeList'][0]['video_file'], id: elem['episodeList'][0]['id'], type: 'film', section: this.section, cat: cat,transform:this.arrowLine[cat]['transform'] } });
     }
 
 

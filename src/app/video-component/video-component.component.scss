@@ -4,6 +4,8 @@
     height: 170px;
     position: relative;
     background-color: rgb(1, 37, 28);
+    transition: transform 1s;
+    border-radius: 5px;
 
     .shortImg {
         width: 300px;
@@ -25,6 +27,10 @@ video::-webkit-media-controls-enclosure {
     display: none !important;
 }
 
+.moveUp{
+    transform: translateY(-50px);
+}
+
 /* Zeige nur das Lautsprechersymbol */
 
 .videoOverlay {
@@ -32,6 +38,7 @@ video::-webkit-media-controls-enclosure {
     width: 100%;
     height: 180px;
     background-color: rgba(1, 37, 28, 0.5);
+    border-radius: 5px;
 
 }
 
@@ -122,7 +129,7 @@ video::-webkit-media-controls-enclosure {
 
 .shortScreen {
     transform: scale(1.2);
-    //border: 1px solid white;
+    border-radius: 5px;
     background-color: rgb(1, 37, 28);
 
 }
@@ -134,6 +141,7 @@ video::-webkit-media-controls-enclosure {
     position: absolute;
     left: 0;
     top: 0;
+    border-radius: 5px;
 
 
 }

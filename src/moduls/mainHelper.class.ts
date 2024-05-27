@@ -11,6 +11,7 @@ export class MainHelper {
         url.searchParams.delete('type');
         url.searchParams.delete('season');
         url.searchParams.delete('section');
+        url.searchParams.delete('transform');
         window.history.replaceState({}, '', url.toString());
       }
 

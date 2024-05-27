@@ -15,10 +15,11 @@ export class MainScreenComponent implements OnInit {
   videoUrl: string = "";
   episodenUrl: string = "";
   //seriesUrl: string = "";
-  categoryList: any[] = ['Komödien'];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5]; 
-  categoryListOld: any[] = [];
+  categoryList: any[] = [];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5]; 
+  categoryListSave: any[] = [];
+  arrowLine: any[] = [];
+  arrowLineSave: any[] = [];
   enterVideo: any = [[false, false, false]];
-  //enterVideo: boolean[][]=[[]];
   showVideo: boolean = false;
   ignoreImg = false; //del
   videoNumber: number = -1;
@@ -26,10 +27,9 @@ export class MainScreenComponent implements OnInit {
   detailedCatNumber: number = 0;
   videos: ElementRef<any>[] = [];
   blendIn: boolean = false;
-  videoList: any[][] = [[],[],[]];
+  videoList: any[][] = [[], [], []];
   videoListSave: any[][] = [[]];
   videoListAll: any[] = [];
-  // myList: any[] = [];
   episodenList: any[][] = [[]];
   mutedShort: boolean = true;
   detailedView: boolean = false;
@@ -43,42 +43,44 @@ export class MainScreenComponent implements OnInit {
   enterSearch: boolean = false;
   loaded: boolean = false;
 
-  // @ViewChild('srcVideo') srcVideo!: ElementRef;
-  //@ViewChildren('srcVideo') parents!: QueryList<ElementRef>;
-  //@ViewChild('headerComponent') headerComponent!: HeaderComponent;  //merke #headerComponent anstelle id = "headerComponent"
-
   constructor(public router: Router) {
 
   }
 
-  // ngAfterViewInit() {    
-  //  //this.headerComponent.updateSection(this.sectionNum); 
-  // }
 
   async ngOnInit() {
     console.log("call Init");
     let cat = await this.mainHelper.loadData("getCategory");
     this.categoryList = cat;
-    this.categoryListOld = cat;
+    this.categoryListSave = cat;
     await this.makeInitialVideoList()
-    console.log("lenght",this.categoryList.length);   
+    console.log("lenght", this.categoryList.length);
     this.getSectionValue()
     await this.loadDataforSection(this.sectionNum);
-    this.readParams();   
+    this.readParams();
     this.makeEnterArray();
     this.loaded = true;
-    
-  }
 
-  async makeInitialVideoList(){
-    this.videoList=[];
-    for(let a = 0;a<this.categoryList.length;a++){
+  }
+  /**
+   * Sets the videoList to an Array with the same amout of [] as categories exist. 
+   * e.g. When there are 3 categorys videoList=[[],[],[]].
+   * It also sets the initial Array for arrowLine
+   */
+  async makeInitialVideoList() {
+    this.videoList = [];
+    this.arrowLine = [];
+    for (let a = 0; a < this.categoryList.length; a++) {
       this.videoList.push([]);
+      this.arrowLine.push({ "shown": false, "transform": 0 });
     }
-    console.log("Videolist");
-    console.log(this.videoList);
   }
 
+  /**
+   * Loads the videoList for a given section.
+   * 
+   * @param sec number of the section e.g. All is 0, Series are 1 ....
+   */
   async loadDataforSection(sec: number) {
     this.sectionNum = sec;
     console.log("data");
@@ -90,36 +92,56 @@ export class MainScreenComponent implements OnInit {
     }
   }
 
+  /**
+   * Read the section value from the url parameter.
+   */
   getSectionValue() {
     const urlParams = new URLSearchParams(window.location.search);
     this.sectionNum = urlParams.get('section');
   }
 
+  /**
+   * Reads and saves some relevant parameters from the URL and removes them afterwards.
+   * Important when an episode was watched and we are moving back to the main page. The program knows what detailed view should be opened. 
+   */
   async readParams() {
     const urlParams = new URLSearchParams(window.location.search);
     let type = urlParams.get('type');
     let url = new URL(window.location.href);
-
+    let cat: any = urlParams.get('cat');
+    let t: any = urlParams.get('transform');
     if (type == 'serie') {
-      let cat: any = urlParams.get('cat');
       let num: any = urlParams.get('num');
       let seas: any = urlParams.get('season');
       this.season = seas;
       this.showInfos(cat, num);
       this.isSeries = true;
     } else {
-      url = new URL(window.location.href);
-      this.mainHelper.removeQueryParams(url);
+      if (type == 'film') {
+
+      //  url = new URL(window.location.href);
+      //  this.mainHelper.removeQueryParams(url);  //blend in later again
+      }
+
     }
+    if (type) {
+      this.arrowLine[cat]['transform'] = Number(t);
+      console.log(this.arrowLine[cat]['transform']);
+      this.moveSliderTo(cat, this.arrowLine[cat]['transform']);
+
+    }
+
+
+
   }
 
 
   async setSection(event: any) {
     if (this.sectionNum != event || !this.loaded) {
       this.sectionNum = event;
-      
+
       if (this.sectionNum == 0) {
-        this.reloadTitles();       
+        this.reloadTitles();
         await this.loadAll();
       }
       if (this.sectionNum == 1) {
@@ -130,24 +152,30 @@ export class MainScreenComponent implements OnInit {
         this.reloadTitles();
         await this.loadVideo();
       }
-      if (this.sectionNum == 4) {       
+      if (this.sectionNum == 4) {
         this.categoryList = [{ "name": "Meine Liste" }];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
-
+        this.arrowLine = [{ "shown": false, "transform": 0 }];
         let data = await this.mainHelper.loadData('getMyList');
         console.log(data);
-        this.videoList=[[]];
+        this.videoList = [[]];
         this.videoList[0] = data;
-       
+
       }
     }
     else { console.log("alllreade choosen"); }
   }
 
   reloadTitles() {
-   
-    if (this.loaded) {    
-      this.categoryList = this.categoryListOld;     
+
+    if (this.loaded) {
+      this.arrowLine = this.arrowLineSave
+      this.categoryList = this.categoryListSave;
     }
+  }
+
+  showArrowLine(index: number, bool: boolean) {
+    this.arrowLine[index]['shown'] = bool;
+    //console.log(this.arrowLine[index]);
   }
 
   getListIcon() {
@@ -178,11 +206,17 @@ export class MainScreenComponent implements OnInit {
     let i = -1;
     console.log(this.videoListAll);
     this.videoListAll.forEach((cat) => {
-      i++;      
-      let catOfObject = cat['category'];     
-      catOfObject.forEach((c: any) => {       
+      i++;
+      let catOfObject = cat['category'];
+      catOfObject.forEach((c: any) => {
         let ind = this.getIndexOfCategory(c['name']);
         this.videoList[ind].push(cat);
+        this.videoList[ind].push(cat); // delete later
+        this.videoList[ind].push(cat); // delete later
+        this.videoList[ind].push(cat); // delete later
+        this.videoList[ind].push(cat); // delete later
+        this.videoList[ind].push(cat); // delete later
+        this.videoList[ind].push(cat); // delete later
       });
 
     });
@@ -209,16 +243,16 @@ export class MainScreenComponent implements OnInit {
     this.videoListAll = data;
     this.makeInitialVideoList();
     this.listSortedByCategory();
-    
+
     this.videoUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
   }
 
   async loadSeries() {
 
     let data = await this.mainHelper.loadData('series');
-    this.videoListAll = data;   
-    this.makeInitialVideoList(); 
-    this.listSortedByCategory(); 
+    this.videoListAll = data;
+    this.makeInitialVideoList();
+    this.listSortedByCategory();
     this.videoUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
   }
 
@@ -228,7 +262,7 @@ export class MainScreenComponent implements OnInit {
     this.makeInitialVideoList();
     data = await this.mainHelper.loadData('series');
     this.videoListAll = this.videoListAll.concat(data);
-    this.listSortedByCategory();   
+    this.listSortedByCategory();
   }
 
 
@@ -284,12 +318,34 @@ export class MainScreenComponent implements OnInit {
   getUrlVideoDetail(): string {
     return 'http://127.0.0.1:8000' + this.videoList[this.detailedCatNumber][this.detailedNumber]['short_file'];
   }
- 
+
 
   showVideoList() {
-    console.log(this.categoryList);
-    console.log(this.videoList);
-    console.log(this.videoListAll);
+    // console.log(this.categoryList);
+    // console.log(this.videoList);
+    // console.log(this.videoListAll);
+    console.log(this.arrowLine);
+    //elem.classList.add('transformLine');
+
+  }
+
+
+  moveSlider(cat: number, mult: number) {
+    let elem: any = document.getElementById('line' + cat);
+    console.log(this.arrowLine[cat]);
+    let num: number = this.arrowLine[cat]['transform'];
+    this.arrowLine[cat]['transform'] = num + (1 * mult);
+    console.log(this.arrowLine[cat]);
+    let width = window.innerWidth * 0.9 * this.arrowLine[cat]['transform'];
+    // console.log(this.arrowLine[cat]);
+    elem.style = `transform: translateX(${width}px)`;
+
+  }
+  moveSliderTo(cat: number, mult: number) {
+    let elem: any = document.getElementById('line' + cat);
+    let width = window.innerWidth * 0.9 * mult;
+    elem.style = `transform: translateX(${width}px)`;
+
   }
 
 
@@ -330,7 +386,12 @@ export class MainScreenComponent implements OnInit {
 
   openVideo(cat: number, num: number) {
 
-    this.router.navigate(['/play'], { queryParams: { file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'], type: 'film', section: this.sectionNum } });
+    this.router.navigate(['/play'], {
+      queryParams: {
+        file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'], type: 'film', section: this.sectionNum,
+        transform: this.arrowLine[cat]['transform']
+      }
+    });
   }
 
   openEpisode(index: number) {
@@ -338,7 +399,10 @@ export class MainScreenComponent implements OnInit {
     let fileEpisode: any = this.episodenList[this.season][index]['video_file'];
     this.router.navigate(['/play'], {
       queryParams:
-        { file: fileEpisode, id: this.episodenList[this.season][index]['id'], type: 'serie', cat: this.detailedCatNumber, num: this.detailedNumber, season: this.season, section: this.sectionNum }
+      {
+        file: fileEpisode, id: this.episodenList[this.season][index]['id'], type: 'serie', cat: this.detailedCatNumber, num: this.detailedNumber, season: this.season, section: this.sectionNum,
+        transform: this.arrowLine[this.detailedCatNumber]['transform']
+      }
     });
   }
 
@@ -354,17 +418,17 @@ export class MainScreenComponent implements OnInit {
 
   makeSearchList(vList: any) {
     let searchList: any = [[]];
-    let s = this.search.toLowerCase();   
+    let s = this.search.toLowerCase();
     let title = ";"
     vList.forEach((cat: any) => {
       cat.forEach((c: any) => {
-        title = c['title'].toLowerCase();       
+        title = c['title'].toLowerCase();
         if (title.includes(s)) {
           searchList[0].push(c);
         }
 
       });
-    });    
+    });
     return searchList;
   }
 
@@ -372,13 +436,13 @@ export class MainScreenComponent implements OnInit {
     this.search = event;
     if (!this.enterSearch) {
       this.videoListSave = this.videoList;
-      this.categoryListOld = this.categoryList;
+      this.categoryListSave = this.categoryList;
       this.enterSearch = true;
     }
     if (this.search == "") {
       this.enterSearch = false;
       this.videoList = this.videoListSave;
-      this.categoryList = this.categoryListOld;
+      this.categoryList = this.categoryListSave;
     } else {
       this.videoList = this.makeSearchList(this.videoList);
       let s = "Sie suchen nach '" + this.search + "'";

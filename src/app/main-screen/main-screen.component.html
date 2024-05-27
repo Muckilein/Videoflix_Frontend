@@ -1,13 +1,25 @@
 <div id="containerMain">
-    <app-header #headerComponent (newItemEvent)="setSection($event)" (searchItem)="searchFor($event)" [number]="sectionNum" ></app-header>
+    <app-header #headerComponent (newItemEvent)="setSection($event)" (searchItem)="searchFor($event)"
+        [number]="sectionNum"></app-header>
     <div class="overlayShadow" *ngIf="detailedView"></div>
-    <div class="videoContainer">
-        <div class="sections" *ngFor="let name of categoryList,index as j">
-            <div style="color:white;font-weight:bold;">{{name['name']}}</div>
-            <div class="filmCategoryLine"> 
-                <!-- (videoUpdater)="updateVideoList($event)"              -->
-                <app-video-component  (callOpenDetails)="openTheDetails($event)"
-                  [j]="j" [i]="i" [section]="sectionNum"  [videoList]="videoList" *ngFor="let v of videoList[j]; index as i"  [enterVideo]="enterVideo"></app-video-component>
+    <div>
+        <div class="videoContainer">
+            <div class="sections" *ngFor="let name of categoryList,index as j">
+                <div style="color:white;font-weight:bold;">{{name['name']}} {{arrowLine[j]['transform']}}</div>
+                <div class="filmCategoryLine" (mouseenter)="showArrowLine(j,true)"
+                    (mouseleave)="showArrowLine(j,false)">
+                    <!-- (videoUpdater)="updateVideoList($event)"              -->
+                    <div class="filmCategoryInnerLine" id="line{{j}}" >
+                        <app-video-component (callOpenDetails)="openTheDetails($event)" [j]="j" [i]="i"
+                            [section]="sectionNum" [videoList]="videoList" *ngFor="let v of videoList[j]; index as i"
+                            [enterVideo]="enterVideo" [arrowLine]="arrowLine"></app-video-component>
+                    </div>
+                    <img class="arrowShiftLeft" *ngIf="arrowLine[j]['shown']" src="../assets/img/leftShift.png" (click)="moveSlider(j,1)">
+                    <img class="arrowShiftRight" *ngIf="arrowLine[j]['shown']" src="../assets/img/rightShift.png" (click)="moveSlider(j,-1)">
+                </div>
+                <!-- <div class="arrowContainer">
+                  
+                </div> -->
             </div>
         </div>
 
@@ -21,12 +33,13 @@
                 <div class="detailVideoControlls">
                     <div style="display:flex; align-items:center;">
                         <button class="playButtonDetail" (click)="openVideoDetail()">Abspielen</button>
-                        <img class="playbutton" src="{{getListIcon()}}" (click)="addToList()" >
+                        <img class="playbutton" src="{{getListIcon()}}" (click)="addToList()">
                         <div [class.translate40]="blendIn" [class.transparent]="!blendIn" class="likeButtons "
                             (mouseenter)="blendInLikesDetail()" (mouseleave)="blendOutLikesDetail()">
                             <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
                                 src="{{getEvaluationImageDetail(0)}}" (click)="setEvaluationDetail(0)">
-                            <img class="playbutton" src="{{getEvaluationImageDetail(1)}}" (click)="setEvaluationDetail(1)">
+                            <img class="playbutton" src="{{getEvaluationImageDetail(1)}}"
+                                (click)="setEvaluationDetail(1)">
                             <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
                                 src="{{getEvaluationImageDetail(2)}}" (click)="setEvaluationDetail(2)">
                         </div>
