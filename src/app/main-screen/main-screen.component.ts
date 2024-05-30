@@ -47,12 +47,14 @@ export class MainScreenComponent implements OnInit {
 
   }
 
+  getTransform(j: number) {    
+    if (this.arrowLine[j] == undefined) { return 0; }
+    else { return this.arrowLine[j]['transform']; }
+  }
 
   async ngOnInit() {
     console.log("call Init");
-    let cat = await this.mainHelper.loadData("getCategory");
-    this.categoryList = cat;
-    this.categoryListSave = cat;
+    await this.loadcategory();
     await this.makeInitialVideoList()
     console.log("lenght", this.categoryList.length);
     this.getSectionValue()
@@ -61,6 +63,13 @@ export class MainScreenComponent implements OnInit {
     this.makeEnterArray();
     this.loaded = true;
 
+  }
+
+  async loadcategory() {
+    let cat = await this.mainHelper.loadData("getCategory");
+    this.categoryList = cat;
+    this.categoryListSave = cat;
+    console.log(cat);
   }
   /**
    * Sets the videoList to an Array with the same amout of [] as categories exist. 
@@ -118,13 +127,15 @@ export class MainScreenComponent implements OnInit {
       this.isSeries = true;
     } else {
       if (type == 'film') {
-
-      //  url = new URL(window.location.href);
-      //  this.mainHelper.removeQueryParams(url);  //blend in later again
+        //  url = new URL(window.location.href);
+        // this.mainHelper.removeQueryParams(url);  //blend in later again
       }
 
     }
     if (type) {
+      console.log(t);
+      console.log(this.arrowLine);
+      console.log(cat);
       this.arrowLine[cat]['transform'] = Number(t);
       console.log(this.arrowLine[cat]['transform']);
       this.moveSliderTo(cat, this.arrowLine[cat]['transform']);
@@ -152,6 +163,15 @@ export class MainScreenComponent implements OnInit {
         this.reloadTitles();
         await this.loadVideo();
       }
+      if (this.sectionNum == 3) {
+        this.categoryList = [{ "name": "Neu und beliebt" }];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
+        this.arrowLine = [{ "shown": false, "transform": 0 }];
+        let data = await this.mainHelper.loadData("getItemOfCategory/4");
+        console.log(data);
+        this.videoList = [[]];
+        this.videoList[0] = data;
+        
+      }
       if (this.sectionNum == 4) {
         this.categoryList = [{ "name": "Meine Liste" }];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
         this.arrowLine = [{ "shown": false, "transform": 0 }];
@@ -164,6 +184,8 @@ export class MainScreenComponent implements OnInit {
     }
     else { console.log("alllreade choosen"); }
   }
+
+  
 
   reloadTitles() {
 
@@ -320,33 +342,57 @@ export class MainScreenComponent implements OnInit {
   }
 
 
-  showVideoList() {
+  async showVideoList() {
     // console.log(this.categoryList);
     // console.log(this.videoList);
     // console.log(this.videoListAll);
+    console.log('show arrowline');
     console.log(this.arrowLine);
     //elem.classList.add('transformLine');
+    // console.log("callShow");
+    // let list = await this.mainHelper.loadData("getItemOfCategory/2");
+    // console.log(list);
+  
 
   }
 
+  getShowArrowLineLeft(cat: number) {
+    if(this.arrowLine[cat]==undefined)return false;
+    return this.arrowLine[cat]['shown'] && (this.arrowLine[cat]['transform'] < 0)
+  }
+
+  getShowArrowLineRight(cat: number) {
+    if(this.arrowLine[cat]==undefined)return false;
+    return this.arrowLine[cat]['shown'] && this.calcMaxTransform(cat);
+  }
+
+  calcMaxTransform(cat: number) {
+    //let maxNum= window.innerWidth/330;
+    let len = Math.ceil(this.videoList[cat].length / 3);
+    if (Math.abs(this.arrowLine[cat]['transform']) >= len) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
 
   moveSlider(cat: number, mult: number) {
     let elem: any = document.getElementById('line' + cat);
-    console.log(this.arrowLine[cat]);
     let num: number = this.arrowLine[cat]['transform'];
     this.arrowLine[cat]['transform'] = num + (1 * mult);
-    console.log(this.arrowLine[cat]);
-    let width = window.innerWidth * 0.9 * this.arrowLine[cat]['transform'];
-    // console.log(this.arrowLine[cat]);
+    console.log(this.videoList);
+    let width = 990 * this.arrowLine[cat]['transform'];
     elem.style = `transform: translateX(${width}px)`;
 
   }
   moveSliderTo(cat: number, mult: number) {
     let elem: any = document.getElementById('line' + cat);
-    let width = window.innerWidth * 0.9 * mult;
+    let width = 990 * mult;
     elem.style = `transform: translateX(${width}px)`;
 
   }
+
 
 
 
@@ -388,7 +434,7 @@ export class MainScreenComponent implements OnInit {
 
     this.router.navigate(['/play'], {
       queryParams: {
-        file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'], type: 'film', section: this.sectionNum,
+        file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'], type: 'film', section: this.sectionNum, cat: cat,
         transform: this.arrowLine[cat]['transform']
       }
     });

@@ -5,7 +5,7 @@
     <div>
         <div class="videoContainer">
             <div class="sections" *ngFor="let name of categoryList,index as j">
-                <div style="color:white;font-weight:bold;">{{name['name']}} {{arrowLine[j]['transform']}}</div>
+                <div style="color:white;font-weight:bold;">{{name['name']}} {{getTransform(j)}}</div>
                 <div class="filmCategoryLine" (mouseenter)="showArrowLine(j,true)"
                     (mouseleave)="showArrowLine(j,false)">
                     <!-- (videoUpdater)="updateVideoList($event)"              -->
@@ -14,12 +14,9 @@
                             [section]="sectionNum" [videoList]="videoList" *ngFor="let v of videoList[j]; index as i"
                             [enterVideo]="enterVideo" [arrowLine]="arrowLine"></app-video-component>
                     </div>
-                    <img class="arrowShiftLeft" *ngIf="arrowLine[j]['shown']" src="../assets/img/leftShift.png" (click)="moveSlider(j,1)">
-                    <img class="arrowShiftRight" *ngIf="arrowLine[j]['shown']" src="../assets/img/rightShift.png" (click)="moveSlider(j,-1)">
-                </div>
-                <!-- <div class="arrowContainer">
-                  
-                </div> -->
+                    <img class="arrowShiftLeft" *ngIf="getShowArrowLineLeft(j)" src="../assets/img/leftShift.png" (click)="moveSlider(j,1)">
+                    <img class="arrowShiftRight" *ngIf="getShowArrowLineRight(j)" src="../assets/img/rightShift.png" (click)="moveSlider(j,-1)">
+                </div>              
             </div>
         </div>
 

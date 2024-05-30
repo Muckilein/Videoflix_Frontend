@@ -11,6 +11,7 @@
 
 }
 
+
 .episodeContainer{
     // background-color:  grey;
     width:100%;    
@@ -137,14 +138,13 @@
 }
 
 .videoContainer {
-    display: flex;    
-    // flex-wrap: wrap;
-    padding-left: 50px;
-    //padding-right: 50px;
+    display: flex;       
+    padding-left: 50px;   
     flex-direction: column;
     width:95%;
     box-sizing: border-box;
     overflow: hidden;
+    padding-bottom: 80px;
   
 }
 
