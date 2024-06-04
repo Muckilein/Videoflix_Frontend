@@ -17,7 +17,7 @@
                 <img class="playbutton" src="../assets/img/playbutton.png" (click)="openVideo(j,i)">
                 <img class="playbutton" src="{{getListIcon(j,i)}}" (click)="addToList(j,i)">
                 <div [class.translate40]="blendIn" class="likeButtons" (mouseenter)="blendInLikes()"
-                    (mouseleave)="blendOutLikes(i)">
+                    (mouseleave)="blendOutLikes()">
                     <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
                     src="{{getEvaluationImage(j,i,0)}}"  (click)="setEvaluation(0,j,i)">
                     <img class="playbutton" src="{{getEvaluationImage(j,i,1)}}"  (click)="setEvaluation(1,j,i)">

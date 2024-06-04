@@ -99,13 +99,9 @@ export class VideoComponentComponent {
   blendInLikes() {
     this.blendIn = true;
   }
-  changeValue(cat: number, num: number) {
-    this.videoList[cat][num]['tile'] = "oooooooooooooooooo";
-    console.log(this.videoList);
-  }
 
 
-  blendOutLikes(num: number) {
+  blendOutLikes() {
     this.blendIn = false;
   }
 
@@ -117,35 +113,10 @@ export class VideoComponentComponent {
   }
 
   async setEvaluation(evaluation: number, cat: number, num: number) {
-    let data: any;
-    let type = 'POST'
-    if (this.videoList[cat][num]['evaluation'] != -1) {
-      type = 'PUT';
-      console.log("type is PUT");
-    }
-
-    let dataSend = {
-      "eval": evaluation,
-      "filmId": this.videoList[cat][num]['id']
-    };
-
-    let path = "videoEvaluation";
-    if (this.videoList[cat][num]['type'] == 'Serie') { path = "serieEvaluation"; }
-    data = await this.mainHelper.uploadData(path, dataSend, type);
-    //this.updateVideo(evaluation, 'evaluation', cat, num);
-    this.videoList[cat][num]['evaluation'] = evaluation;
-    return data;
+   let data = await this.mainHelper.setEvaluation(this.videoList,evaluation,cat,num);   
+   return data;
   }
 
-  // updateVideo(value: any, field: string, cat: number, num: number) {
-  //   let updateData = {
-  //     "cat": cat,
-  //     "num": num,
-  //     "field": field,
-  //     "value": value
-  //   }
-  //   this.videoUpdater.emit(updateData);
-  // }
 
   getEvaluationImage(cat: number, num: number, ev: number) {
     let evaluation = this.videoList[cat][num]['evaluation'];

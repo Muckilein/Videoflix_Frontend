@@ -16,6 +16,7 @@ import { UrlcheckerPipe } from './urlchecker.pipe';
 import { WatchVideoComponent } from './watch-video/watch-video.component';
 import { PlayFilmComponent } from './play-film/play-film.component';
 import { VideoComponentComponent } from './video-component/video-component.component';
+import { DetailViewComponent } from './detail-view/detail-view.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { VideoComponentComponent } from './video-component/video-component.compo
     WatchVideoComponent,
     PlayFilmComponent,
     VideoComponentComponent,
+    DetailViewComponent,
 
   ],
   imports: [

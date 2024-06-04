@@ -79,6 +79,13 @@ export class MainHelper {
         }
       }
 
+      /**
+       * 
+       * @param evaluation evaluation number
+       * @param blendIn    determindes weather the evaluation window is blend in or not
+       * @param ev         evaluation ss number
+       * @returns          path of the icon that represets the evaluation value
+       */
       getIconEvaluation(evaluation:number,blendIn:boolean,ev:number){
         let path="";
         if (evaluation == -1) { path = "../assets/img/bewerten" + ev + ".png"; }
@@ -97,13 +104,50 @@ export class MainHelper {
 
     }
 
-    // makeCategorieList(cat:any){
-    //   let l:any = [];
-    //   cat.forEach((c:any)=>{
-    //     l.push(c['name']);
-    //   });
-    //   return l;
-    // }
+    
+  makeSearchList(vList: any,search:any) {
+    let searchList: any = [[]];
+    let s = search.toLowerCase();
+    let title = ";"
+    vList.forEach((cat: any) => {
+      cat.forEach((c: any) => {
+        title = c['title'].toLowerCase();
+        if (title.includes(s)) {
+          searchList[0].push(c);
+        }
+
+      });
+    });
+    return searchList;
+  }
+
+  /**
+   * 
+   * Sets the evaluaion of the given video 
+   * videoLost[cat][num]['evaluation']=evaluation
+   */
+  async setEvaluation(videoList:any,evaluation: number, cat: number, num: number) {
+    let data: any;
+    let type = 'POST'
+    if (videoList[cat][num]['evaluation'] != -1) {
+      type = 'PUT';
+      console.log("type is PUT");
+    }
+
+    let dataSend = {
+      "eval": evaluation,
+      "filmId": videoList[cat][num]['id']
+    };
+
+    let path = "videoEvaluation";
+    if (videoList[cat][num]['type'] == 'Serie') { path = "serieEvaluation"; }
+    data = await this.uploadData(path, dataSend, type);
+    //this.updateVideo(evaluation, 'evaluation', cat, num);
+    videoList[cat][num]['evaluation'] = evaluation;
+    return data;
+  }
+
+   
 
     
 

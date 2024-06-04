@@ -1,0 +1,58 @@
+<div class="detailedView" *ngIf="detailedView" [class.animiert]="detailedView">           
+    <div class="videoOverlayDetail ">
+        <button id="closeButtonDetail" (click)="closeDetails()"><i
+                class="fa-regular fa-circle-xmark"></i></button>
+        <video id="videoDetail" [muted]="mutedShort" autoplay>
+            <source src="{{getUrlVideoDetail()}}" type="video/mp4">
+        </video>
+        <div class="detailVideoControlls">
+            <div style="display:flex; align-items:center;">
+                <button class="playButtonDetail" (click)="openVideoDetail()">Abspielen</button>
+                <img class="playbutton" src="{{getListIcon()}}" (click)="addToList()">
+                <div [class.translate40]="blendIn" [class.transparent]="!blendIn" class="likeButtons "
+                    (mouseenter)="blendInLikesDetail()" (mouseleave)="blendOutLikesDetail()">
+                    <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
+                        src="{{getEvaluationImageDetail(0)}}" (click)="setEvaluationDetail(0)">
+                    <img class="playbutton" src="{{getEvaluationImageDetail(1)}}"
+                        (click)="setEvaluationDetail(1)">
+                    <img *ngIf="blendIn" [class.animiert]="blendIn" class="playbutton opaqu"
+                        src="{{getEvaluationImageDetail(2)}}" (click)="setEvaluationDetail(2)">
+                </div>
+            </div>
+            <button (click)="clickMuteDetail()"><i [class.fa-volume-xmark]="mutedShort"
+                    [class.fa-volume-off]="!mutedShort" class="fa-solid "></i></button>
+        </div>
+    </div>
+    <div class="detailsViewBottom">
+        <div style="position:relative;">
+            <div style="font-weight: bold;">{{getTitle()}}</div>
+            <div class="discription">{{getDiscription()}}</div>
+            <div class="seasonSelection" *ngIf="isSeries">{{getSeasonforSelction()}} <button
+                    style="cursor:pointer;" (click)="showSeasons()"></button>
+                <div class="seasonSelectionBox" *ngIf="selectioOpen">
+                    <div *ngFor="let seas of episodenList; index as seasonIndex" class="seasonSelect"
+                        (click)="chooseSeason(seasonIndex)">
+                        Staffel {{seasonIndex+1}} ({{getLengthSeason(seas)}} Folgen)
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="isSeries">
+                <span> Folgen </span>
+                <div class="episodeContainer">
+                    <div *ngFor="let a of getEpisodes();index as indexEpisode " class="episodeDetail"
+                        (click)="openEpisode(indexEpisode)">
+                        {{a.episode}}
+                        <img src="{{getEpisodeURL(a)}}">
+                        <div style="font-size:14px;display:flex;flex-direction:column;">
+                            <div style="font-weight: 800;"> {{a.title}}</div>
+                            <div>{{a.description}}</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
