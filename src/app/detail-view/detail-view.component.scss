@@ -245,3 +245,35 @@ video::-webkit-media-controls-enclosure {
     }
 }
 
+
+@media (max-width:1000px) {
+    .detailedView {
+        width: 500px;
+        height: 445px;  
+       
+        left: calc(50% - 250px);
+       
+    }
+
+    .videoOverlayDetail{
+        height: 245px; 
+    }
+
+    .detailVideoControlls {     
+        top: 225px;      
+        height: 40px;
+        padding: 0 10px 0 20px;      
+            
+    }
+    .detailsViewBottom{
+        height: 180px;
+        padding: 30px 15px 30px 15px;
+       
+    }
+    .videoOverlayDetail button{
+        font-size:13px;
+    }
+    .playButtonDetail{
+        height: 20px;
+    }
+ }

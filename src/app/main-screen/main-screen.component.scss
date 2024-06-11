@@ -37,7 +37,7 @@
 
 .filmCategoryLine {
     display: flex;
-    gap: 30px;
+    // gap: 30px;
     transition:transform 2s ease;
     position: relative; 
     z-index: 1;  
@@ -63,9 +63,12 @@
     z-index: 0;
 }
 
-.arrowShiftLeft{
+.arrowSize{
     height:60px;
     width:auto;
+}
+
+.arrowShiftLeft{   
     position: absolute;
     left:10px;
     top:calc(50% - 30px);
@@ -73,9 +76,7 @@
     cursor: pointer;
 }
 
-.arrowShiftRight{
-    height:60px;
-    width:auto;
+.arrowShiftRight{   
     position: absolute;
     right:10px;
     top:calc(50% - 30px);
@@ -134,5 +135,16 @@ video::-webkit-media-controls-enclosure {
     display: none !important;
 } 
 
+
+@media (max-width:1000px) {
+   .filmCategoryInnerLine{
+    gap:15px;
+   }
+
+   .arrowSize{
+    height:50px;
+   
+   }
+}
 
 

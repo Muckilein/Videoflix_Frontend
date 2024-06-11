@@ -11,15 +11,13 @@ export class DetailViewComponent {
   //seriesUrl: string = "";
   categoryList: any[] = [];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5]; 
   categoryListSave: any[] = [];
-  @Input() arrowLine: any[] = [];
-  arrowLineSave: any[] = [];
+  @Input() arrowLine: any[] = []; 
   enterVideo: any = [[false, false, false]];
   showVideo: boolean = false;  
   @Input() detailedNumber: number = -1;
   @Input() detailedCatNumber: number = 0; 
   blendIn: boolean = false;
-  @Input() videoList: any[][] = [[]];
-  videoListSave: any[][] = [[]];
+  @Input() videoList: any[][] = [[]]; 
   @Input() videoListAll: any[] = [];
   episodenList: any[][] = [[]];
   mutedShort: boolean = true;

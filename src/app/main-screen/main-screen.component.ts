@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren ,HostListener} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
@@ -34,11 +34,17 @@ export class MainScreenComponent implements OnInit {
   search: string = "";
   enterSearch: boolean = false;
   loaded: boolean = false;
+  width:number=0;
 
   @ViewChild(DetailViewComponent) detailView!: DetailViewComponent;
 
   constructor(public router: Router) {
+    this.width = window.innerWidth;
+  }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {   
+    this.width = window.innerWidth;   
   }
 
   getTransform(j: number) {    
@@ -46,11 +52,10 @@ export class MainScreenComponent implements OnInit {
     else { return this.arrowLine[j]['transform']; }
   }
 
-  async ngOnInit() {
-    console.log("call Init");
+  async ngOnInit() {  
+ 
     await this.loadcategory();
-    await this.makeInitialVideoList()
-    console.log("lenght", this.categoryList.length);
+    await this.makeInitialVideoList();   
     this.getSectionValue()
     await this.loadDataforSection(this.sectionNum);
     this.readParams();
@@ -62,8 +67,7 @@ export class MainScreenComponent implements OnInit {
   async loadcategory() {
     let cat = await this.mainHelper.loadData("getCategory");
     this.categoryList = cat;
-    this.categoryListSave = cat;
-    console.log(cat);
+    this.categoryListSave = cat;   
   }
   /**
    * Sets the videoList to an Array with the same amout of [] as categories exist. 
@@ -85,8 +89,7 @@ export class MainScreenComponent implements OnInit {
    * @param sec number of the section e.g. All is 0, Series are 1 ....
    */
   async loadDataforSection(sec: number) {
-    this.sectionNum = sec;
-    console.log("data");
+    this.sectionNum = sec;  
     if (sec) {
       await this.setSection(sec);
     }
@@ -158,17 +161,14 @@ export class MainScreenComponent implements OnInit {
       if (this.sectionNum == 3) {
         this.categoryList = [{ "name": "Neu und beliebt" }];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
         this.arrowLine = [{ "shown": false, "transform": 0 }];
-        let data = await this.mainHelper.loadData("getItemOfCategory/4");
-        console.log(data);
+        let data = await this.mainHelper.loadData("getItemOfCategory/4");      
         this.videoList = [[]];
-        this.videoList[0] = data;
-        
+        this.videoList[0] = data;        
       }
       if (this.sectionNum == 4) {
         this.categoryList = [{ "name": "Meine Liste" }];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
         this.arrowLine = [{ "shown": false, "transform": 0 }];
-        let data = await this.mainHelper.loadData('getMyList');
-        console.log(data);
+        let data = await this.mainHelper.loadData('getMyList');       
         this.videoList = [[]];
         this.videoList[0] = data;
 
@@ -260,9 +260,7 @@ export class MainScreenComponent implements OnInit {
     let data = await this.mainHelper.loadData('videoclip');
     this.videoListAll = data;
     this.makeInitialVideoList();
-    this.listSortedByCategory();
-
-    //this.videoUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
+    this.listSortedByCategory();   
   }
 
   async loadSeries() {
@@ -271,8 +269,7 @@ export class MainScreenComponent implements OnInit {
     this.videoListAll = data;
     this.makeInitialVideoList();
     this.listSortedByCategory();
-    //this.videoUrl = 'http://127.0.0.1:8000' + data[0]['short_file'];
-  }
+     }
 
   async loadAll() {
     let data = await this.mainHelper.loadData('videoclip');
@@ -284,16 +281,10 @@ export class MainScreenComponent implements OnInit {
   }
 
 
-  async showVideoList() {
-    // console.log(this.categoryList);
-     console.log(this.videoList);
-    // console.log(this.videoListAll);
+  async showVideoList() {    
+    console.log(this.videoList);   
     console.log('show arrowline');
-    console.log(this.arrowLine);
-    //elem.classList.add('transformLine');
-    // console.log("callShow");
-    // let list = await this.mainHelper.loadData("getItemOfCategory/2");
-    // console.log(list);  
+    console.log(this.arrowLine);  
 
   }
 
@@ -339,14 +330,16 @@ export class MainScreenComponent implements OnInit {
     let cV: any = document.getElementById('videoContainer');
     let w = Math.floor(cV.getBoundingClientRect().width);
     let amount = Math.floor(w/330);  
-    this.arrowLine[cat]['transform'] = num + (1 * mult);    
-    let width = 330*amount * this.arrowLine[cat]['transform'];     
+    this.arrowLine[cat]['transform'] = num + (1 * mult);
+    let wArray= this.mainHelper.getVideoWidth(this.width) ;   
+    let width = (wArray[0]+wArray[1])*amount * this.arrowLine[cat]['transform'];     
     elem.style = `transform: translateX(${width}px)`;
   }
 
   moveSliderTo(cat: number, mult: number) {
     let elem: any = document.getElementById('line' + cat);
-    let width = 990 * mult;
+    let wArray= this.mainHelper.getVideoWidth(this.width);
+    let width = (wArray[0]+wArray[1])*3 * mult;
     elem.style = `transform: translateX(${width}px)`;
   }
  

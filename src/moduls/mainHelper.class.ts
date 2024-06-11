@@ -147,7 +147,15 @@ export class MainHelper {
     return data;
   }
 
-   
+   getVideoWidth(width:number){
+    
+    if(width>1000)
+      {return [300,30];}
+    if(width<=1000)
+      {return [200,15];}
+    return [200,15];
+
+   }
 
     
 

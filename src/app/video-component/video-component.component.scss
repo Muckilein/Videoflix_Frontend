@@ -1,4 +1,3 @@
-
 .videoDiv {
     width: 300px;
     height: 170px;
@@ -27,7 +26,7 @@ video::-webkit-media-controls-enclosure {
     display: none !important;
 }
 
-.moveUp{
+.moveUp {
     transform: translateY(-50px);
 }
 
@@ -109,8 +108,8 @@ video::-webkit-media-controls-enclosure {
     cursor: pointer;
     width: 30px;
     height: 30px;
-    margin: 5px 5px 5px 5px;    
- 
+    margin: 5px 5px 5px 5px;
+
     &:hover {
         filter: brightness(80%);
     }
@@ -120,7 +119,7 @@ video::-webkit-media-controls-enclosure {
     background-color: rgb(10, 193, 148);
     width: 30px;
     height: 30px;
-    border-radius: 10px;    
+    border-radius: 10px;
 }
 
 .foreground {
@@ -142,10 +141,43 @@ video::-webkit-media-controls-enclosure {
     left: 0;
     top: 0;
     border-radius: 5px;
-
-
 }
 
 .scale {
     transform: scale(1.2);
+}
+
+@media (max-width:1000px) {
+    .videoDiv {
+        width: 200px;
+        height: 113px;
+
+        .shortImg {
+            width: 200px;
+            height: 113px;
+        }
+    }
+
+    .video {
+        width: 200px;
+        height: auto;       
+    }
+
+    .videoOverlay{
+        height:110px
+    }
+
+    .playbutton{
+        width: 20px;
+        height: 20px;
+    }
+
+    .videoOverlay button {        
+        bottom: 5px;
+       
+    }
+
+    .translate40 {       
+        transform: translateX(-30px);      
+    }
 }
