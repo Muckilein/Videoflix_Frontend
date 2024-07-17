@@ -17,13 +17,13 @@ export class PlayFilmComponent implements OnInit {
   controlBar: any;
   blendInPanel: boolean = true;
   time: string = "00:00";
-  showSlider:boolean = false;
-  type:any ="";
-  cat:any=0;  // important when going back to  main  page
-  num:any=0;
-  season :any=1;
-  section:any="";
-  tranform:any=0;
+  showSlider: boolean = false;
+  type: any = "";
+  cat: any = 0;  // important when going back to  main  page
+  num: any = 0;
+  season: any = 1;
+  section: any = "";
+  tranform: any = 0;
 
 
 
@@ -35,44 +35,56 @@ export class PlayFilmComponent implements OnInit {
     this.redParam();
 
     this.video = document.getElementById('video');
-    this.bar = document.getElementById('bar');   
-    this.controlBar = document.getElementById('controlBar');   
+    this.bar = document.getElementById('bar');
+    this.controlBar = document.getElementById('controlBar');
     this.video.addEventListener('timeupdate', this.updateBar.bind(this));
     this.controlBar.addEventListener('click', (event: any) => this.clickBar(event));
     setTimeout(() => { this.time = this.getTime(Math.floor(this.video.duration)); }, 2000);
 
   }
 
-  mouseInAudio(){
+  /**
+   * blend in the audio-slider
+   */
+  mouseInAudio() {
     console.log("mouseIn");
-    this.showSlider=true;
-    setTimeout(()=>{
+    this.showSlider = true;
+    setTimeout(() => {
       this.slider = document.getElementById('volumeSlider');
       this.slider.addEventListener("input", this.changeVolume.bind(this));
-    },500);
-   
+    }, 500);
+
   }
 
-  mouseOut(){
+  /**
+ * blend in the audio-slider
+ */
+  mouseOut() {
     this.slider.removeEventListener("input", this.changeVolume.bind(this));
-    this.showSlider=false;
+    this.showSlider = false;
   }
 
+  /**
+   * Changes the Value of the slide. Is calles when the user
+   */
   changeVolume() {
-    let value = this.slider.value / 100;    
+    let value = this.slider.value / 100;
     this.video.volume = value;
-    if (value == 0) {  this.mutedVideo = true; }
+    if (value == 0) { this.mutedVideo = true; }
     else { this.mutedVideo = false; }
   }
 
   blendOut() {
-    this.blendInPanel =false;
+    this.blendInPanel = false;
   }
 
   blendIn() {
     this.blendInPanel = true;
   }
-
+  
+ /**
+  * Updates the bar when watching a film
+  */
   updateBar() {
     let position = this.video.currentTime / this.video.duration;
     this.bar.style.width = position * 100 + '%';
@@ -121,7 +133,7 @@ export class PlayFilmComponent implements OnInit {
 
   pageBack() {
     //this.router.navigateByUrl('/main');
-    this.router.navigate(['/main'], { queryParams: {type: this.type,cat: this.cat, num:this.num , season:this.season,section:this.section , transform:this.tranform} });
+    this.router.navigate(['/main'], { queryParams: { type: this.type, cat: this.cat, num: this.num, season: this.season, section: this.section, transform: this.tranform } });
   }
 
 
@@ -143,15 +155,14 @@ export class PlayFilmComponent implements OnInit {
     const urlParams = new URLSearchParams(window.location.search);
     this.playedFilmFile = 'http://127.0.0.1:8000' + urlParams.get('file');
     this.filmId = urlParams.get('id');
-    this.type = urlParams.get('type'); 
-    this.section = urlParams.get('section'); 
-    this.tranform = urlParams.get('transform');  
-    if(this.type=='serie')
-      {      
-        this.num= urlParams.get('num'); 
-        this.season= urlParams.get('season');
-      }
-    this.cat= urlParams.get('cat'); 
+    this.type = urlParams.get('type');
+    this.section = urlParams.get('section');
+    this.tranform = urlParams.get('transform');
+    if (this.type == 'serie') {
+      this.num = urlParams.get('num');
+      this.season = urlParams.get('season');
+    }
+    this.cat = urlParams.get('cat');
     console.log(this.playedFilmFile);
     console.log(this.filmId);
 

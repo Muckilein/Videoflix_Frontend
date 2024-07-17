@@ -1,4 +1,4 @@
-<div class="header">
+eClickedchancheClicked<div class="header">
     <div class="left">
         <img class="logo" src="../assets/img/Logo.png">
         <div class="links">
@@ -19,6 +19,11 @@
 
         <a style="margin:0;">Kids</a>
         <img class="bell" src="../assets/img/bell.png">
-        <button></button>
+        <button style="width:30px; height:30px;cursor:pointer" (click)="openMenu()"></button>
+        <div *ngIf="popUp" class="menuPopUp" >           
+            <a   routerLink="/main"><img class="editIcon" src="../assets/img/editing.png">  Profil bearbeiten</a>
+            <div class="line"></div>
+            <a (click)="logout()"> aus Videoflix ausloggen</a>
+        </div>
     </div>
 </div>

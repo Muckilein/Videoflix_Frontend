@@ -7,15 +7,15 @@ a {
     text-decoration: none;
     font-size: 12px;
     color: white;
-    margin: 0 15px 0 15px;  
-    cursor: pointer;  
+    margin: 0 15px 0 15px;
+    cursor: pointer;
 }
 
-a:hover{    
+a:hover {
     text-shadow: 1px 1px rgb(189, 188, 188);
 }
 
-.shine{
+.shine {
     text-shadow: 1px 1px rgb(189, 188, 188);
 }
 
@@ -24,16 +24,16 @@ a:hover{
 .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;  
+    justify-content: space-between;
     box-sizing: border-box;
-    overflow: hidden;
-    height:60px;
+    //overflow: hidden;
+    height: 60px;
 
     .big {
         width: 250px !important;
     }
 
-    .border{
+    .border {
         border: 1px solid white;
     }
 
@@ -42,7 +42,7 @@ a:hover{
         display: flex;
         align-items: center;
         box-sizing: border-box;
-      
+
     }
 
     .links {
@@ -51,11 +51,12 @@ a:hover{
 
     .right {
         display: flex;
-        align-items: center;      
-        box-sizing: border-box;     
-        
-        .bell{
-            height:20px;
+        align-items: center;
+        box-sizing: border-box;
+        position: relative;
+
+        .bell {
+            height: 20px;
             margin: 0 10px 0 10px;
             cursor: pointer;
         }
@@ -68,25 +69,58 @@ a:hover{
         .searchDiv {
             display: flex;
             align-items: center;
-           // border: 1px solid white;
+            // border: 1px solid white;
             padding-left: 10px;
             transition: width 1s;
             width: 30px;
             padding: 5px 5px 5px 5px;
 
         }
-        
+
         .searchInput {
             background-color: transparent;
             padding: 5px 20px 5px 20px;
             border: none;
             font-size: 14px;
-            color:white;
+            color: white;
 
 
             &:focus {
                 outline: none;
             }
         }
+    }
+
+    .menuPopUp {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(1, 37, 28);
+        width: 200px;
+        height: fit-content;
+        padding: 20px;
+        top: 50px;
+        right: 50px;
+        z-index: 3;
+        gap:20px;
+
+        a {
+            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transform: translateY(5px);
+        }
+    }
+
+    .editIcon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .line{
+        background-color: grey;
+        height: 1px;
+        width: 100%;
     }
 }

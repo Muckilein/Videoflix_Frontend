@@ -14,13 +14,15 @@ export class NewPasswordComponent {
   constructor(public router: Router) {
   }
 
-  async newPassword() {    //change 
+  /**
+   * Resets the password.
+   */
+  async newPassword() {   
 
     const urlParams = new URLSearchParams(window.location.search);   
     let token:any = urlParams.get('token');   
     let url:any = urlParams.get('path');    
     let valid:any = await this.validToken(token);  
-
    
     if (this.password == this.password2 && valid['status'] == 'OK') {
       if (token != null) {
@@ -48,7 +50,12 @@ export class NewPasswordComponent {
     }
   }
 
-  async validToken(token:string) {    //change 
+  /**
+   * Returns a status with 'OK' when the given token is valid
+   * @param token 
+   * @returns 
+   */
+  async validToken(token:string) {    
 
     let url = this.pathBackend+'password_reset/validate_token/'
 

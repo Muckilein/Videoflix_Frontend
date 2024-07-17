@@ -42,14 +42,32 @@ export class MainScreenComponent implements OnInit {
     this.width = window.innerWidth;
   }
 
+  /**
+   * Actualized the size of the screen.
+   * @param event 
+   */
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {   
     this.width = window.innerWidth;   
   }
 
+  /**Retunrn the tranformation vakue of a slide for the given category.
+   * 
+   * @param j category number
+   * @returns 
+   */
   getTransform(j: number) {    
     if (this.arrowLine[j] == undefined) { return 0; }
     else { return this.arrowLine[j]['transform']; }
+  }
+
+  /**
+   * Returns wheather there are videos in a given Category
+   * @param num category number
+   * @returns 
+   */
+  videoExistIncategory(num:number){
+    return this.videoList[num].length!=0;
   }
 
   async ngOnInit() {  
@@ -64,6 +82,9 @@ export class MainScreenComponent implements OnInit {
 
   }
 
+  /**
+   * loads the caterories and saves them.
+   */
   async loadcategory() {
     let cat = await this.mainHelper.loadData("getCategory");
     this.categoryList = cat;
@@ -175,8 +196,7 @@ export class MainScreenComponent implements OnInit {
       }
     }
     else { console.log("alllreade choosen"); }
-  }
-  
+  }  
 
   /**
    * Reloads the category list that was changed when the user visited the section "Neu und beliebt" and "Meine Liste"
@@ -195,8 +215,7 @@ export class MainScreenComponent implements OnInit {
  */
   showArrowLine(cat: number, bool: boolean) {
     this.arrowLine[cat]['shown'] = bool;   
-  }
- 
+  } 
 
   /**
    *  Creates the array that determindes wheather a video is entered or not.
