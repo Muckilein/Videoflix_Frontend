@@ -86,7 +86,7 @@ export class VideoComponentComponent {
 
           }
 
-        }, 1500);
+        }, 1000);
       } else {
         this.videoNumber = -1;
 
@@ -102,8 +102,13 @@ export class VideoComponentComponent {
   }
 
   async addToList(cat: number, num: number) {
-    this.mainHelper.addToList(cat, num, this.videoList);
-    console.log(this.videoList);
+    await this.mainHelper.addToList(cat, num, this.videoList);
+    if(this.section==4)  {
+      console.log("section 4");
+      console.log( this.videoList);
+      this.videoList[0].splice(num,1)
+      console.log( this.videoList);
+    }
   }
 
   blendInLikes() {

@@ -35,7 +35,7 @@ export class MainScreenComponent implements OnInit {
   enterSearch: boolean = false;
   loaded: boolean = false;
   width: number = 0;
-  
+
 
   @ViewChild(DetailViewComponent) detailView!: DetailViewComponent;
 
@@ -68,7 +68,11 @@ export class MainScreenComponent implements OnInit {
    * @returns 
    */
   videoExistIncategory(num: number) {
-    return this.videoList[num].length != 0;
+
+    if (this.videoList[num] === undefined) return false
+    else {     
+      return this.videoList[num].length != 0;
+    }
   }
 
   async ngOnInit() {
@@ -101,7 +105,7 @@ export class MainScreenComponent implements OnInit {
     this.arrowLine = [];
     for (let a = 0; a < this.categoryList.length; a++) {
       this.videoList.push([]);
-      this.arrowLine.push({ "shown": false, "transform": 0, "firstIndex":0});
+      this.arrowLine.push({ "shown": false, "transform": 0, "firstIndex": 0 });
     }
   }
 
@@ -182,14 +186,14 @@ export class MainScreenComponent implements OnInit {
       }
       if (this.sectionNum == 3) {
         this.categoryList = [{ "name": "Neu und beliebt" }];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
-        this.arrowLine = [{ "shown": false, "transform": 0, "firstIndex":0} ];
+        this.arrowLine = [{ "shown": false, "transform": 0, "firstIndex": 0 }];
         let data = await this.mainHelper.loadData("getItemOfCategory/4");
         this.videoList = [[]];
         this.videoList[0] = data;
       }
       if (this.sectionNum == 4) {
         this.categoryList = [{ "name": "Meine Liste" }];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
-        this.arrowLine = [{ "shown": false, "transform": 0, "firstIndex":0} ];
+        this.arrowLine = [{ "shown": false, "transform": 0, "firstIndex": 0 }];
         let data = await this.mainHelper.loadData('getMyList');
         this.videoList = [[]];
         this.videoList[0] = data;
@@ -352,10 +356,10 @@ export class MainScreenComponent implements OnInit {
     let num: number = this.arrowLine[cat]['transform'];
     let cV: any = document.getElementById('videoContainer');
     let w = Math.floor(cV.getBoundingClientRect().width);
-    let amount = Math.floor(w / 330);   
+    let amount = Math.floor(w / 330);
     //console.log("amount "+amount );
-    this.arrowLine[cat]['transform'] = num + (1 * mult);     
-    this.arrowLine[cat]['firstIndex'] = this.arrowLine[cat]['transform']*-1*amount; 
+    this.arrowLine[cat]['transform'] = num + (1 * mult);
+    this.arrowLine[cat]['firstIndex'] = this.arrowLine[cat]['transform'] * -1 * amount;
     //console.log("first is "+this.arrowLine[cat]['firstIndex'] );
     let wArray = this.mainHelper.getVideoWidth(this.width);
     let width = (wArray[0] + wArray[1]) * amount * this.arrowLine[cat]['transform'];

@@ -65,16 +65,16 @@ export class MainHelper {
       }
       async addToList(cat: number, num: number,videoList:any){
         let inList = videoList[cat][num]['inList'];
-        let onjectdata = {
+        let objectdata = {
           "type": videoList[cat][num]['type'],
           "idObject": videoList[cat][num]['id']
         }
         if (!inList) {
        
-          await this.uploadData("getMyList", onjectdata, 'POST');
+          await this.uploadData("getMyList", objectdata, 'POST');
           videoList[cat][num]['inList'] = true;
         }else{
-          await this.uploadData("getMyList", onjectdata, 'DELETE');
+          await this.uploadData("getMyList", objectdata, 'DELETE');
           videoList[cat][num]['inList'] = false;
         }
       }
