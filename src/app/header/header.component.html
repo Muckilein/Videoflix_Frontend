@@ -1,6 +1,14 @@
-eClickedchancheClicked<div class="header">
+<div class="header">
     <div class="left">
-        <img class="logo" src="../assets/img/Logo.png">
+        <img class="logo" src="../assets/img/Logo.png">        
+        <div class="linkSmall"  (click)="blendInMenu()">Durchsuchen <img src="../assets/img/menuDown.png" ></div>
+        <div *ngIf="menuShown" class="linksPopUp">
+            <a [class.shine]="number==0" routerLink="/main" (click)="setSection(0)">Startseite</a>
+            <a [class.shine]="number==1" routerLink="/main" (click)="setSection(1)">Serien</a>         
+            <a [class.shine]="number==2" routerLink="/main" (click)="setSection(2)">Filme</a>
+            <a [class.shine]="number==3" routerLink="/main" (click)="setSection(3)">Neu und beliebt</a>
+            <a [class.shine]="number==4" routerLink="/main" (click)="setSection(4)">Meine Liste</a>  
+        </div>
         <div class="links">
             <a [class.shine]="number==0" routerLink="/main" (click)="setSection(0)">Startseite</a>
             <a [class.shine]="number==1" routerLink="/main" (click)="setSection(1)">Serien</a>

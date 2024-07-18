@@ -42,6 +42,7 @@ a:hover {
         display: flex;
         align-items: center;
         box-sizing: border-box;
+        position: relative;
 
     }
 
@@ -102,7 +103,7 @@ a:hover {
         top: 50px;
         right: 50px;
         z-index: 3;
-        gap:20px;
+        gap: 20px;
 
         a {
             text-align: center;
@@ -118,9 +119,58 @@ a:hover {
         height: 20px;
     }
 
-    .line{
+    .line {
         background-color: grey;
         height: 1px;
         width: 100%;
     }
+}
+
+.linkSmall {
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    transform: translateY(5px);
+    margin-left: 20px;
+
+    img {
+        width: 15px;
+        height: auto;
+        transform: translateY(2px);
+
+    }
+
+}
+
+.linksPopUp {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(1, 37, 28);
+    width: 200px;
+    height: fit-content;
+    padding: 20px;
+    top: 50px;
+    left: 100px;
+    z-index: 3;
+    gap: 20px;
+}
+
+
+@media (max-width:800px) {
+    .links {
+        display: none;
+    }
+
+}
+
+@media (min-width:800px) {
+    .linkSmall {
+        display: none;
+    }
+
+    .linksPopUp {
+        display: none;
+    }
+
 }

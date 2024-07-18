@@ -1,4 +1,4 @@
- <div class="videoDiv" [class.foreground]="enterVideo[j][i]"  > 
+ <div class="videoDiv" [class.foreground]="enterVideo[j][i]" [class.moveToRight]="enterVideo[j][i]&&first" (mouseenter)="showIndex(j,i)" > 
     <!-- [class.moveUp]="enterVideo[j][i]" -->
     <img id="img{{j}}num{{i}}" class="shortImg" [class.scale]="enterVideo[j][i]"
         src="{{getUrlshort(j,i)}}" (mouseenter)="handleImage(j,i,0)" (mouseleave)="handleImage(j,i,1)">

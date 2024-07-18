@@ -1,6 +1,7 @@
 import { Component, Input, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { MainHelper } from '../../moduls/mainHelper.class';
+import { connect } from 'rxjs';
 
 @Component({
   selector: 'app-video-component',
@@ -39,6 +40,7 @@ export class VideoComponentComponent {
   season: number = 0;
   episode: number = 0;
   selectioOpen: boolean = false;
+  first:boolean=true;
   @Input() section: any = 0;
   //section: any = "All";
 
@@ -62,6 +64,13 @@ export class VideoComponentComponent {
     this.showVideo = false;
   }
 
+  showIndex(cat: number, num: number) {
+    //  console.log("firstIndex "+ this.arrowLine[cat]["firstIndex"])
+    console.log("Index: " + num);
+  }
+
+ 
+
   handleImage(cat: number, num: number, enter: number) {
 
     if (!this.ignoreImg) {
@@ -69,6 +78,7 @@ export class VideoComponentComponent {
 
       if (enter == 0) {
         this.videoNumber = num;
+        this.first= this.arrowLine[cat]["firstIndex"] == num
         setTimeout(() => {
           if (this.videoNumber != -1) {
             this.ignoreImg = true;
@@ -113,8 +123,8 @@ export class VideoComponentComponent {
   }
 
   async setEvaluation(evaluation: number, cat: number, num: number) {
-   let data = await this.mainHelper.setEvaluation(this.videoList,evaluation,cat,num);   
-   return data;
+    let data = await this.mainHelper.setEvaluation(this.videoList, evaluation, cat, num);
+    return data;
   }
 
 
@@ -136,10 +146,10 @@ export class VideoComponentComponent {
   openVideo(cat: number, num: number) {
     let elem = this.videoList[cat][num];
     if (elem['type'] == 'Film') {
-      this.router.navigate(['/play'], { queryParams: { file: elem['video_file'], id: elem['id'], type: 'film', section: this.section, cat: cat,transform:this.arrowLine[cat]['transform'] } });
+      this.router.navigate(['/play'], { queryParams: { file: elem['video_file'], id: elem['id'], type: 'film', section: this.section, cat: cat, transform: this.arrowLine[cat]['transform'] } });
     } else {
 
-      this.router.navigate(['/play'], { queryParams: { file: elem['episodeList'][0]['video_file'], id: elem['episodeList'][0]['id'], type: 'film', section: this.section, cat: cat,transform:this.arrowLine[cat]['transform'] } });
+      this.router.navigate(['/play'], { queryParams: { file: elem['episodeList'][0]['video_file'], id: elem['episodeList'][0]['id'], type: 'film', section: this.section, cat: cat, transform: this.arrowLine[cat]['transform'] } });
     }
 
 

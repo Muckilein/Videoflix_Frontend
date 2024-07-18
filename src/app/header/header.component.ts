@@ -15,6 +15,7 @@ export class HeaderComponent {
   @Output() searchItem = new EventEmitter<string>();
   pathBackend:string ="http://127.0.0.1:8000/";
   popUp:boolean=false;
+  menuShown:boolean=false;
 
   constructor(public router: Router) {
   }
@@ -24,6 +25,10 @@ export class HeaderComponent {
    */
   chancheClicked() {
     this.clicked = !this.clicked;
+  }
+
+  blendInMenu(){
+    this.menuShown = !this.menuShown;
   }
 
   /**

@@ -1,11 +1,11 @@
 #containerMain {
     box-sizing: border-box;
-    padding: 20px 20px 20px 20px;
+    padding: 20px 20px 20px 40px;
     display: flex;
     flex-direction: column;
     // justify-content: space-between;
     height: fit-content;
-    gap: 50px;
+    // gap: 50px;
     background: rgb(10, 193, 148);
     background: radial-gradient(circle, rgba(10, 193, 148, 1) 0%, rgba(0, 0, 0, 1) 64%);
 
@@ -91,13 +91,12 @@
 
 .videoContainer {
     display: flex;       
-    padding-left: 50px;   
+    // padding-left: 50px;   
     flex-direction: column;
     width:95%;
     box-sizing: border-box;
     overflow: hidden;
-    padding-bottom: 80px;
-  
+    padding-bottom: 80px;  
 }
 
 .sections {
@@ -146,5 +145,12 @@ video::-webkit-media-controls-enclosure {
    
    }
 }
+
+@media (max-width:600px) {
+    // .videoContainer {           
+    //     padding-left: 0px;        
+      
+    // }
+ }
 
 

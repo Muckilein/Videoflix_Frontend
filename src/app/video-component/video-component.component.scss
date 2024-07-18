@@ -124,6 +124,10 @@ video::-webkit-media-controls-enclosure {
 
 .foreground {
     z-index: 1;
+   
+}
+.moveToRight{
+    transform: translateX(50px);
 }
 
 .shortScreen {
@@ -145,6 +149,8 @@ video::-webkit-media-controls-enclosure {
 
 .scale {
     transform: scale(1.2);
+    
+    
 }
 
 @media (max-width:1000px) {
