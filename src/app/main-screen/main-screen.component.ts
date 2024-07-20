@@ -171,8 +171,7 @@ export class MainScreenComponent implements OnInit {
     if (this.sectionNum != event || !this.loaded) {
       this.sectionNum = event;
 
-      if (this.sectionNum == 0) {
-        console.log("all");
+      if (this.sectionNum == 0) {        
         this.reloadTitles();
         await this.loadAll();
       }
@@ -200,7 +199,8 @@ export class MainScreenComponent implements OnInit {
 
       }
     }
-    else { console.log("alllreade choosen"); }
+    else { console.log("allready choosen"); }
+    this.makeEnterArray();
   }
 
   /**
@@ -243,11 +243,9 @@ export class MainScreenComponent implements OnInit {
   /**
    * Creats videolist
    */
-  listSortedByCategory() {
-    // let i = -1;
-    console.log(this.videoListAll);
+  listSortedByCategory() {    
     this.videoListAll.forEach((cat) => {
-      // i++;
+     
       let catOfObject = cat['category'];
       catOfObject.forEach((c: any) => {
         let ind = this.getIndexOfCategory(c['name']);
@@ -305,13 +303,15 @@ export class MainScreenComponent implements OnInit {
     data = await this.mainHelper.loadData('series');
     this.videoListAll = this.videoListAll.concat(data);
     this.listSortedByCategory();
+   
   }
 
 
   async showVideoList() {
-    console.log(this.videoList);
-    console.log('show arrowline');
-    console.log(this.arrowLine);
+    // console.log(this.videoList);
+    // console.log('show arrowline');
+    // console.log(this.arrowLine);
+    console.log(this.enterVideo);
 
   }
 
@@ -356,11 +356,9 @@ export class MainScreenComponent implements OnInit {
     let num: number = this.arrowLine[cat]['transform'];
     let cV: any = document.getElementById('videoContainer');
     let w = Math.floor(cV.getBoundingClientRect().width);
-    let amount = Math.floor(w / 330);
-    //console.log("amount "+amount );
+    let amount = Math.floor(w / 330);   
     this.arrowLine[cat]['transform'] = num + (1 * mult);
-    this.arrowLine[cat]['firstIndex'] = this.arrowLine[cat]['transform'] * -1 * amount;
-    //console.log("first is "+this.arrowLine[cat]['firstIndex'] );
+    this.arrowLine[cat]['firstIndex'] = this.arrowLine[cat]['transform'] * -1 * amount;   
     let wArray = this.mainHelper.getVideoWidth(this.width);
     let width = (wArray[0] + wArray[1]) * amount * this.arrowLine[cat]['transform'];
     elem.style = `transform: translateX(${width}px)`;
@@ -380,7 +378,11 @@ export class MainScreenComponent implements OnInit {
     this.showInfos(indices['cat'], indices['num']);
   }
 
-
+/**
+ * Handles when we type in the search field
+ * 
+ * @param event 
+ */
   searchFor(event: any) {
     this.search = event;
     if (!this.enterSearch) {

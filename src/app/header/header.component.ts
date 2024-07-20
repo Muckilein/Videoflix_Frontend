@@ -40,8 +40,7 @@ export class HeaderComponent {
   }
  
 
-async logout() {
-  console.log("logout");
+async logout() { 
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 

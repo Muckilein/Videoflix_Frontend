@@ -63,19 +63,28 @@ export class MainHelper {
         return json;
     
       }
-      async addToList(cat: number, num: number,videoList:any){
-        let inList = videoList[cat][num]['inList'];
+
+      
+  /**
+   * Adds the given Video/Series to the List of liked Videos
+   * 
+   * @param video the Video I want to and to the list
+   * @param num index of the video within the given category
+   * @param videoList 
+   */
+      async addToList(video:any){
+        let inList = video['inList'];
         let objectdata = {
-          "type": videoList[cat][num]['type'],
-          "idObject": videoList[cat][num]['id']
+          "type":video['type'],
+          "idObject": video['id']
         }
         if (!inList) {
        
           await this.uploadData("getMyList", objectdata, 'POST');
-          videoList[cat][num]['inList'] = true;
+          video['inList'] = true;
         }else{
           await this.uploadData("getMyList", objectdata, 'DELETE');
-          videoList[cat][num]['inList'] = false;
+          video['inList'] = false;
         }
       }
 
@@ -104,7 +113,13 @@ export class MainHelper {
 
     }
 
-    
+  
+  /**
+   * 
+   * @param vList  actual videoList
+   * @param search  The string we want to search for.
+   * @returns 
+   */
   makeSearchList(vList: any,search:any) {
     let searchList: any = [[]];
     let s = search.toLowerCase();
@@ -121,31 +136,33 @@ export class MainHelper {
     return searchList;
   }
 
-  /**
-   * 
-   * Sets the evaluaion of the given video 
-   * videoLost[cat][num]['evaluation']=evaluation
-   */
-  async setEvaluation(videoList:any,evaluation: number, cat: number, num: number) {
-    let data: any;
-    let type = 'POST'
-    if (videoList[cat][num]['evaluation'] != -1) {
-      type = 'PUT';
-      console.log("type is PUT");
-    }
+  
+/** 
+  * Sets the evaluaion of the given video 
+  * @param video 
+  * @param evaluation  
+  * @returns 
+  */
+ async setEvaluation(video:any,evaluation: number) {
+   let data: any;
+   let type = 'POST'
+   if (video['evaluation'] != -1) {
+     type = 'PUT';
+     console.log("type is PUT");
+   }
 
-    let dataSend = {
-      "eval": evaluation,
-      "filmId": videoList[cat][num]['id']
-    };
+   let dataSend = {
+     "eval": evaluation,
+     "filmId": video['id']
+   };
 
-    let path = "videoEvaluation";
-    if (videoList[cat][num]['type'] == 'Serie') { path = "serieEvaluation"; }
-    data = await this.uploadData(path, dataSend, type);
-    //this.updateVideo(evaluation, 'evaluation', cat, num);
-    videoList[cat][num]['evaluation'] = evaluation;
-    return data;
-  }
+   let path = "videoEvaluation";
+   if (video['type'] == 'Serie') { path = "serieEvaluation"; }
+   data = await this.uploadData(path, dataSend, type);
+   //this.updateVideo(evaluation, 'evaluation', cat, num);
+   video['evaluation'] = evaluation;
+   return data;
+ }
 
    getVideoWidth(width:number){
     

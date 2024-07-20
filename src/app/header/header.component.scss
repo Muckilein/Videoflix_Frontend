@@ -19,7 +19,22 @@ a:hover {
     text-shadow: 1px 1px rgb(189, 188, 188);
 }
 
+.big {
+    width: 250px !important;
+}
 
+.searchInput {
+    background-color: transparent;
+    padding: 5px 20px 5px 20px;
+    border: none;
+    font-size: 14px;
+    color: white;
+
+
+    &:focus {
+        outline: none;
+    }
+}
 
 .header {
     display: flex;
@@ -29,9 +44,7 @@ a:hover {
     //overflow: hidden;
     height: 60px;
 
-    .big {
-        width: 250px !important;
-    }
+
 
     .border {
         border: 1px solid white;
@@ -78,18 +91,7 @@ a:hover {
 
         }
 
-        .searchInput {
-            background-color: transparent;
-            padding: 5px 20px 5px 20px;
-            border: none;
-            font-size: 14px;
-            color: white;
 
-
-            &:focus {
-                outline: none;
-            }
-        }
     }
 
     .menuPopUp {
@@ -156,12 +158,41 @@ a:hover {
     gap: 20px;
 }
 
+.hide {
+    display: none;
+}
+
 
 @media (max-width:800px) {
     .links {
         display: none;
     }
 
+    .move {
+        transform: translateX(-25px);
+    }
+
+    .border {
+        border: 1px solid white;
+    }
+
+
+    .big {
+        width: 150px !important;
+    }
+
+    .searchInput {
+        padding: 5px 5px 5px 5px;
+    }
+
+    .logo {
+        width: 100px;
+    }
+
+    .linkSmall {
+        font-size: 10px;
+    }
+  
 }
 
 @media (min-width:800px) {
@@ -173,4 +204,32 @@ a:hover {
         display: none;
     }
 
+}
+
+@media (max-width:400px) {
+    
+
+    .move {
+        transform: translateX(-10px);
+    }
+
+    .border {
+        border: 1px solid white;
+    }
+
+    .big {
+        width: 100px !important;
+    }  
+
+    .linkSmall {
+        font-size: 8px;
+    }
+
+    .searchInput::placeholder {
+        color: transparent;
+   }
+
+    // .header {       
+    //     justify-content:unset;
+    // }
 }

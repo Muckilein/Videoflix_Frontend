@@ -1,4 +1,4 @@
-import { Component ,Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MainHelper } from '../../moduls/mainHelper.class';
 import { Router } from '@angular/router';
 @Component({
@@ -11,22 +11,22 @@ export class DetailViewComponent {
   //seriesUrl: string = "";
   categoryList: any[] = [];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5]; 
   categoryListSave: any[] = [];
-  @Input() arrowLine: any[] = []; 
+  @Input() arrowLine: any[] = [];
   enterVideo: any = [[false, false, false]];
-  showVideo: boolean = false;  
+  showVideo: boolean = false;
   @Input() detailedNumber: number = -1;
-  @Input() detailedCatNumber: number = 0; 
+  @Input() detailedCatNumber: number = 0;
   blendIn: boolean = false;
-  @Input() videoList: any[][] = [[]]; 
+  @Input() videoList: any[][] = [[]];
   @Input() videoListAll: any[] = [];
   episodenList: any[][] = [[]];
   mutedShort: boolean = true;
-  detailedView: boolean = false; 
+  detailedView: boolean = false;
   isSeries: boolean = false;
   season: number = 0;
   episode: number = 0;
   selectioOpen: boolean = false;
-  sectionNum: any = 0;  
+  sectionNum: any = 0;
 
   constructor(public router: Router) {
 
@@ -84,10 +84,10 @@ export class DetailViewComponent {
   }
 
   addToList() {
-    this.mainHelper.addToList(this.detailedCatNumber, this.detailedNumber, this.videoList);
+    this.mainHelper.addToList(this.videoList[this.detailedCatNumber][this.detailedNumber]);
   }
 
-  
+
   blendInLikesDetail() {
     this.blendIn = true;
   }
@@ -113,11 +113,11 @@ export class DetailViewComponent {
  * @param evaluation value of the evaluation
  * @returns 
  */
-  async setEvaluationDetail(evaluation: number) {   
-   
+  async setEvaluationDetail(evaluation: number) {
+
     let cat = this.detailedCatNumber;
     let num = this.detailedNumber;
-    let data = await this.mainHelper.setEvaluation(this.videoList,evaluation,cat,num);    
+    let data = await this.mainHelper.setEvaluation(this.videoList[cat][num], evaluation);
     return data;
   }
 
@@ -164,8 +164,7 @@ export class DetailViewComponent {
     return this.videoList[this.detailedCatNumber][this.detailedNumber]['title'];
   }
 
-  show(cat: number, num: number){
-    console.log("click show");
+  show(cat: number, num: number) {
     this.detailedNumber = num;
     this.detailedCatNumber = cat;
     this.detailedView = true;
@@ -174,8 +173,6 @@ export class DetailViewComponent {
   }
 
   isSerie() {
-    console.log(this.detailedCatNumber);
-    //debugger;
     return (this.videoList[this.detailedCatNumber][this.detailedNumber]['type'] == "Serie")
   }
 

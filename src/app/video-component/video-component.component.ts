@@ -65,8 +65,7 @@ export class VideoComponentComponent {
   }
 
   showIndex(cat: number, num: number) {
-    //  console.log("firstIndex "+ this.arrowLine[cat]["firstIndex"])
-    console.log("Index: " + num);
+  
   }
 
  
@@ -92,6 +91,8 @@ export class VideoComponentComponent {
 
 
       }
+    }else{
+      console.log("ignoreImgIgnore Image");
     }
   }
 
@@ -101,42 +102,63 @@ export class VideoComponentComponent {
 
   }
 
+  /**
+   * Adds the given Video/Series to the List of liked Videos.
+   * If executed in the category 4 it will rmeoves the Video from the list.
+   * 
+   * @param cat Category index of the Video 
+   * @param num index of the video within the given category
+   */
   async addToList(cat: number, num: number) {
-    await this.mainHelper.addToList(cat, num, this.videoList);
-    if(this.section==4)  {
-      console.log("section 4");
-      console.log( this.videoList);
-      this.videoList[0].splice(num,1)
-      console.log( this.videoList);
+    await this.mainHelper.addToList(this.videoList[cat][num]);
+    if(this.section==4)  {    
+      this.videoList[0].splice(num,1)   
+      this.ignoreImg= false;  
     }
   }
-
+/**
+ * blends in the evaluation window (thumps up, thumps down)
+ */
   blendInLikes() {
     this.blendIn = true;
   }
 
-
+/**
+ * blends out the evaluation window (thumps up, thumps down)
+ */
   blendOutLikes() {
     this.blendIn = false;
   }
 
-  clickMute(cat: number, num: number) {
+  /**
+   * Mute or unmute the video preview
+   * 
+   @param cat Category index of the Video 
+   @param num index of the video within the given category
+   **/
 
+  clickMute(cat: number, num: number) {
     let video: any = document.getElementById('video' + cat + 'num' + num);
     video.muted = !video.muted;
     this.mutedShort = !this.mutedShort;
   }
 
   async setEvaluation(evaluation: number, cat: number, num: number) {
-    let data = await this.mainHelper.setEvaluation(this.videoList, evaluation, cat, num);
+    let data = await this.mainHelper.setEvaluation(this.videoList[cat][num], evaluation);
     return data;
   }
 
 
+  /**
+   * 
+   * @param cat Category index of the Video 
+   * @param num index of the video within the given category
+   * @param ev evaluation value (0 to 3)
+   * @returns 
+   */
   getEvaluationImage(cat: number, num: number, ev: number) {
     let evaluation = this.videoList[cat][num]['evaluation'];
     let path = this.mainHelper.getIconEvaluation(evaluation, this.blendIn, ev);
-
     return path;
   }
 
