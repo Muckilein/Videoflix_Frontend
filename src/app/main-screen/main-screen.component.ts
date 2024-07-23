@@ -70,13 +70,12 @@ export class MainScreenComponent implements OnInit {
   videoExistIncategory(num: number) {
 
     if (this.videoList[num] === undefined) return false
-    else {     
+    else {
       return this.videoList[num].length != 0;
     }
   }
 
   async ngOnInit() {
-
     await this.loadcategory();
     await this.makeInitialVideoList();
     this.getSectionValue()
@@ -84,17 +83,17 @@ export class MainScreenComponent implements OnInit {
     this.readParams();
     this.makeEnterArray();
     this.loaded = true;
-
   }
 
   /**
-   * loads the caterories and saves them.
+   * Loads the caterories and saves them.
    */
   async loadcategory() {
     let cat = await this.mainHelper.loadData("getCategory");
     this.categoryList = cat;
     this.categoryListSave = cat;
   }
+
   /**
    * Sets the videoList to an Array with the same amout of [] as categories exist. 
    * e.g. When there are 3 categorys videoList=[[],[],[]].
@@ -155,9 +154,12 @@ export class MainScreenComponent implements OnInit {
       }
 
     }
-    if (type) {
-      this.arrowLine[cat]['transform'] = Number(t);
-      this.moveSliderTo(cat, this.arrowLine[cat]['transform']);
+    if (type) {     
+      this.arrowLine[cat]['transform'] = Number(t);      
+      setTimeout(() => {
+        this.moveSliderTo(cat, this.arrowLine[cat]['transform']);
+      }, 500);
+
     }
 
   }
@@ -171,7 +173,7 @@ export class MainScreenComponent implements OnInit {
     if (this.sectionNum != event || !this.loaded) {
       this.sectionNum = event;
 
-      if (this.sectionNum == 0) {        
+      if (this.sectionNum == 0) {
         this.reloadTitles();
         await this.loadAll();
       }
@@ -231,7 +233,6 @@ export class MainScreenComponent implements OnInit {
     this.videoList.forEach(list => {
       index++;
       let t: any = [];
-
       list.forEach(elem => {
         t.push(false);
       })
@@ -243,9 +244,9 @@ export class MainScreenComponent implements OnInit {
   /**
    * Creats videolist
    */
-  listSortedByCategory() {    
+  listSortedByCategory() {
     this.videoListAll.forEach((cat) => {
-     
+
       let catOfObject = cat['category'];
       catOfObject.forEach((c: any) => {
         let ind = this.getIndexOfCategory(c['name']);
@@ -277,7 +278,9 @@ export class MainScreenComponent implements OnInit {
     return val;
   }
 
-
+  /**
+   * Loads all Videos and sorts them by the categories.
+   */
   async loadVideo() {
     let data = await this.mainHelper.loadData('videoclip');
     this.videoListAll = data;
@@ -285,8 +288,10 @@ export class MainScreenComponent implements OnInit {
     this.listSortedByCategory();
   }
 
+  /**
+ * Loads all Series and sorts them by the categories.
+ */
   async loadSeries() {
-
     let data = await this.mainHelper.loadData('series');
     this.videoListAll = data;
     this.makeInitialVideoList();
@@ -294,7 +299,7 @@ export class MainScreenComponent implements OnInit {
   }
 
   /**
-   * Loads all Videos and Series and saves them in videoListAll. Addidionally is sorts all Vidos and Series in videoList in the corrects categories.
+   * Loads all Videos and Series and saves them in videoListAll. Addidionally is sorts all Videos and Series in videoList in the corrects categories.
    */
   async loadAll() {
     let data = await this.mainHelper.loadData('videoclip');
@@ -303,23 +308,35 @@ export class MainScreenComponent implements OnInit {
     data = await this.mainHelper.loadData('series');
     this.videoListAll = this.videoListAll.concat(data);
     this.listSortedByCategory();
-   
+
   }
 
-
+  /**
+   * just for testing
+   */
   async showVideoList() {
-    // console.log(this.videoList);
+    console.log(this.videoList);
     // console.log('show arrowline');
     // console.log(this.arrowLine);
-    console.log(this.enterVideo);
+    // console.log(this.enterVideo);
 
   }
 
+  /**
+   * 
+   * @param cat Category index
+   * @returns   returns wheather the left slide arrow is shown or not.
+   */
   getShowArrowLineLeft(cat: number) {
     if (this.arrowLine[cat] == undefined) return false;
     return this.arrowLine[cat]['shown'] && (this.arrowLine[cat]['transform'] < 0)
   }
 
+  /**
+   * 
+   * @param cat Category index
+   * @returns   returns wheather the right slide arrow is shown or not.
+   */
   getShowArrowLineRight(cat: number) {
     if (this.arrowLine[cat] == undefined) return false;
     let bool = this.arrowLine[cat]['shown'] && this.calcMaxTransform(cat);
@@ -356,33 +373,43 @@ export class MainScreenComponent implements OnInit {
     let num: number = this.arrowLine[cat]['transform'];
     let cV: any = document.getElementById('videoContainer');
     let w = Math.floor(cV.getBoundingClientRect().width);
-    let amount = Math.floor(w / 330);   
+    let amount = Math.floor(w / 330);
     this.arrowLine[cat]['transform'] = num + (1 * mult);
-    this.arrowLine[cat]['firstIndex'] = this.arrowLine[cat]['transform'] * -1 * amount;   
+    this.arrowLine[cat]['firstIndex'] = this.arrowLine[cat]['transform'] * -1 * amount;
     let wArray = this.mainHelper.getVideoWidth(this.width);
     let width = (wArray[0] + wArray[1]) * amount * this.arrowLine[cat]['transform'];
     elem.style = `transform: translateX(${width}px)`;
   }
 
-  moveSliderTo(cat: number, mult: number) {
+  /**
+   * It slides videoline of th gien category to a given value. Is called after coming back from a video or episode.
+   * @param cat 
+   * @param transform transform Value of the given category.
+   */
+  moveSliderTo(cat: number, transform: number) {
     let elem: any = document.getElementById('line' + cat);
     if (elem) {
       let wArray = this.mainHelper.getVideoWidth(this.width);
-      let width = (wArray[0] + wArray[1]) * 3 * mult;
+      let width = (wArray[0] + wArray[1]) * 3 * transform;
       elem.style = `transform: translateX(${width}px)`;
-    }
-  }
-
-
-  openTheDetails(indices: any) {
-    this.showInfos(indices['cat'], indices['num']);
+    } 
   }
 
 /**
- * Handles when we type in the search field
- * 
- * @param event 
+ * Shows the details view of a video/series with the given category and index.
+ * @param indices e.g. {cat: 0, num: 1}
  */
+  openTheDetails(indices: any) {
+    console.log("indices");
+    console.log(indices);
+    this.showInfos(indices['cat'], indices['num']);
+  }
+
+  /**
+   * Handles when we type in the search field
+   * 
+   * @param event 
+   */
   searchFor(event: any) {
     this.search = event;
     if (!this.enterSearch) {
@@ -402,6 +429,11 @@ export class MainScreenComponent implements OnInit {
     }
   }
 
+  /**
+   * 
+   * @param cat category of the video
+   * @param num index of the video within the category
+   */
   showInfos(cat: number, num: number) {
     this.detailView.show(cat, num);
   }

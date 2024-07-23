@@ -6,7 +6,7 @@
         <div class="videoContainer" id="videoContainer">
             <div  *ngFor="let name of categoryList,index as j">
               <div *ngIf="videoExistIncategory(j)" class="sections">
-                <div style="color:white;font-weight:bold;">{{name['name']}} </div>
+                <div class="titleCategory" >{{name['name']}} </div>
                 <div class="filmCategoryLine" (mouseenter)="showArrowLine(j,true)"
                     (mouseleave)="showArrowLine(j,false)">
                     <!-- (videoUpdater)="updateVideoList($event)"              -->
@@ -23,5 +23,5 @@
         </div>
     <app-detail-view [videoListAll]="videoListAll" [detailedNumber]="detailedNumber" [detailedCatNumber]="detailedCatNumber" [arrowLine]="arrowLine" [videoList]="videoList" #detailView></app-detail-view>
      
-        <button (click)="showVideoList()">VideoList(will be deleted later)</button>
+        <button (click)="showVideoList()">Infos (will be deleted later)</button>
     </div>

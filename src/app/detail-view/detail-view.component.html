@@ -25,7 +25,7 @@
     </div>
     <div class="detailsViewBottom">
         <div style="position:relative;">
-            <div style="font-weight: bold;">{{getTitle()}}</div>
+            <div class="titleVideo">{{getTitle()}}</div>
             <div class="discription">{{getDiscription()}}</div>
             <div class="seasonSelection" *ngIf="isSeries">{{getSeasonforSelction()}} <button
                     style="cursor:pointer;" (click)="showSeasons()"></button>

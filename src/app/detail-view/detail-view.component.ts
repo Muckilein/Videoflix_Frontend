@@ -29,9 +29,11 @@ export class DetailViewComponent {
   sectionNum: any = 0;
 
   constructor(public router: Router) {
-
   }
 
+  /**
+   * closes the deteiled view.
+   */
   closeDetails() {
     this.detailedView = false;
     this.detailedNumber = -1;
@@ -41,10 +43,16 @@ export class DetailViewComponent {
     window.history.replaceState({}, '', url.toString());
   }
 
+  /**
+   * Returns the URL string of the short that is shown in the detailed view.
+   */
   getUrlVideoDetail(): string {
     return 'http://127.0.0.1:8000' + this.videoList[this.detailedCatNumber][this.detailedNumber]['short_file'];
   }
 
+  /**
+   * Opens the detialed view of a video or series.
+   */
   openVideoDetail() {
     if (this.isSeries) {
       this.openEpisode(this.episode);
@@ -53,8 +61,11 @@ export class DetailViewComponent {
     }
   }
 
+  /**
+   * Navigates to the play screen and plays the currently choosen episode.
+   * @param index  Index of the currently episode.
+   */
   openEpisode(index: number) {
-
     let fileEpisode: any = this.episodenList[this.season][index]['video_file'];
     this.router.navigate(['/play'], {
       queryParams:
@@ -65,8 +76,12 @@ export class DetailViewComponent {
     });
   }
 
+  /**
+    * Navigates to the play screen and plays the currently choosen Video.
+    * @param cat  Category of the video
+    * @param num  Index of the Video within that category.
+    */
   openVideo(cat: number, num: number) {
-
     this.router.navigate(['/play'], {
       queryParams: {
         file: this.videoList[cat][num]['video_file'], id: this.videoList[cat][num]['id'], type: 'film', section: this.sectionNum, cat: cat,
@@ -75,6 +90,10 @@ export class DetailViewComponent {
     });
   }
 
+  /**
+   * 
+   * @returns return the icon for the 'add to list' button. It shows a cross when it is not added to the list yet and a checkmark, when it is added to the list. 
+   */
   getListIcon() {
     let added = this.videoList[this.detailedCatNumber][this.detailedNumber]['inList'];
     if (added) { return "../assets/img/inList.png"; }
@@ -82,6 +101,7 @@ export class DetailViewComponent {
       return "../assets/img/addToList.png";
     }
   }
+
 
   addToList() {
     this.mainHelper.addToList(this.videoList[this.detailedCatNumber][this.detailedNumber]);
@@ -114,26 +134,35 @@ export class DetailViewComponent {
  * @returns 
  */
   async setEvaluationDetail(evaluation: number) {
-
     let cat = this.detailedCatNumber;
     let num = this.detailedNumber;
     let data = await this.mainHelper.setEvaluation(this.videoList[cat][num], evaluation);
     return data;
   }
 
+  /**
+   * Mutes/Unmutes the short-clip in de detailed view.
+   */
   clickMuteDetail() {
     let video: any = document.getElementById('videoDetail');
     video.muted = !video.muted;
     this.mutedShort = !this.mutedShort;
   }
 
+  /**
+   * 
+   * @param e episode for which I want to get the image.
+   * @returns 
+   */
   getEpisodeURL(e: any) {
-
     let url = 'http://127.0.0.1:8000' + e['img'];
     return url;
-
   }
 
+  /**
+   * 
+   * @returns returns a list of all episodes of the current season.
+   */
   getEpisodes() {
     return this.episodenList[this.season];
   }
@@ -142,10 +171,17 @@ export class DetailViewComponent {
     return season.length;
   }
 
+  /**
+   * Sets the value of the actual season correct.
+   * @param index Index of the season we coose in the seceltion Window
+   */
   chooseSeason(index: number) {
     this.season = index;
   }
 
+  /**
+   * Shows/unshows the selection window for choosing the season.
+   */
   showSeasons() {
     this.selectioOpen = !this.selectioOpen;
   }
@@ -164,11 +200,16 @@ export class DetailViewComponent {
     return this.videoList[this.detailedCatNumber][this.detailedNumber]['title'];
   }
 
+  /**
+   * Is calles when we click on the show detailes button of a Video.
+   * It 
+   * @param cat 
+   * @param num 
+   */
   show(cat: number, num: number) {
     this.detailedNumber = num;
     this.detailedCatNumber = cat;
     this.detailedView = true;
-    this.isSeries = this.isSerie();
     this.makeSeasons();
   }
 
@@ -176,19 +217,30 @@ export class DetailViewComponent {
     return (this.videoList[this.detailedCatNumber][this.detailedNumber]['type'] == "Serie")
   }
 
+  /**
+   * Creates the EpisodeList of the recent season.
+   */
   makeSeasons() {
-    let seasonNum = this.videoList[this.detailedCatNumber][this.detailedNumber]['numSeasons'];
-    let ep: any[][] = [];
-    for (let i = 0; i < seasonNum - 1; i++) {
-      ep.push([]);
-    }
+    this.isSeries = this.isSerie();
+    if (this.isSeries) {
+      let seasonNum = this.videoList[this.detailedCatNumber][this.detailedNumber]['numSeasons'];
+      let ep: any[][] = [];
+      for (let i = 0; i < seasonNum - 1; i++) {
+        ep.push([]);
+      }
 
-    for (let j = 1; j <= seasonNum; j++) {
-      ep[j - 1] = this.getSeason(j);
+      for (let j = 1; j <= seasonNum; j++) {
+        ep[j - 1] = this.getSeason(j);
+      }
+      this.episodenList = ep;
     }
-    this.episodenList = ep;
   }
 
+  /**
+   * 
+   * @param season number of the season of the current series
+   * @returns  returns the list with all episodes of the given season.
+   */
   getSeason(season: number): any {
     let e: any = [];
     this.videoList[this.detailedCatNumber][this.detailedNumber]['episodeList'].forEach((elem: any) => {
@@ -196,6 +248,4 @@ export class DetailViewComponent {
     });
     return e;
   }
-
-
 }
