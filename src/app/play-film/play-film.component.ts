@@ -33,7 +33,7 @@ export class PlayFilmComponent implements OnInit {
 
   ngOnInit(): void {
     this.redParam();       
-    this.video = document.getElementById('video');
+    this.video = document.getElementById('video');   
     this.bar = document.getElementById('bar');
     this.controlBar = document.getElementById('controlBar');
     this.video.addEventListener('timeupdate', this.updateBar.bind(this));
@@ -84,7 +84,7 @@ export class PlayFilmComponent implements OnInit {
   /**
    * Updates the bar when watching a film
    */
-  updateBar() {
+  updateBar() {        
     let position = this.video.currentTime / this.video.duration;
     this.bar.style.width = position * 100 + '%';
     let t = Math.floor(this.video.duration) - Math.floor(this.video.currentTime);
@@ -138,11 +138,15 @@ export class PlayFilmComponent implements OnInit {
   clickBar(event: any): void {
     let clickPosition = event.offsetX;
     console.log('Position ' + clickPosition);
+    console.log(this.video);    
     let width = this.controlBar.getBoundingClientRect().width;
     console.log('width ' + width);
+    console.log('duration ' + this.video.duration);
     this.video.currentTime = (clickPosition / width) * this.video.duration;
+    let time = (clickPosition / width) * this.video.duration;
     let position = this.video.currentTime / this.video.duration;
     console.log('this.video.currentTime', this.video.currentTime);
+    console.log('time', time);
     this.bar.style.width = position * 100 + '%';
   }
 
@@ -186,9 +190,20 @@ export class PlayFilmComponent implements OnInit {
   }
 
   play() {
-    if (this.videoPlay) { this.video.pause(); } else { this.video.play(); }
+    if (this.videoPlay) { 
+      this.video.pause(); 
+
+    } else { this.video.play(); }
     this.videoPlay = !this.videoPlay;
 
+  }
+
+  getplaybutton(){
+    if (this.videoPlay)
+    return "../assets/img/playbutton.png"
+  else{
+    return "../assets/img/opendetails.png"
+  }
   }
 
   clickMute() {
