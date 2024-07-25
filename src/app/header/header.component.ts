@@ -36,6 +36,7 @@ export class HeaderComponent {
    * @param num section number e.g. 'Stratseite' = 0, 'Serien'= 1...
    */
   setSection(num: number) {
+    this.menuShown=false;
     this.newItemEvent.emit(num);
   }
  

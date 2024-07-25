@@ -12,7 +12,6 @@ export class ForgotPasswortComponent {
   async resetPassword() {
        
     let url = this.pathBackend + 'password_reset/?email=' + this.email;
-
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -34,7 +33,6 @@ export class ForgotPasswortComponent {
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
         });
-
 }
 
 }

@@ -32,8 +32,7 @@ export class PlayFilmComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.redParam();
-
+    this.redParam();       
     this.video = document.getElementById('video');
     this.bar = document.getElementById('bar');
     this.controlBar = document.getElementById('controlBar');
@@ -81,10 +80,10 @@ export class PlayFilmComponent implements OnInit {
   blendIn() {
     this.blendInPanel = true;
   }
-  
- /**
-  * Updates the bar when watching a film
-  */
+
+  /**
+   * Updates the bar when watching a film
+   */
   updateBar() {
     let position = this.video.currentTime / this.video.duration;
     this.bar.style.width = position * 100 + '%';
@@ -92,6 +91,11 @@ export class PlayFilmComponent implements OnInit {
     this.time = this.getTime(t);
   }
 
+  /**
+   * 
+   * @param num number that should be andjusted.
+   * @returns   writes a 0 in front of each number samler than 10. e.g. 9 -> 09
+   */
   parseTime(num: number) {
     if (num < 10) {
       return "0" + num;
@@ -100,6 +104,11 @@ export class PlayFilmComponent implements OnInit {
     }
   }
 
+  /**
+   * Renders the hour correctly.
+   * @param num timer
+   * @returns 
+   */
   renderTime(num: number) {
     if (num == 0)
       return "";
@@ -109,6 +118,13 @@ export class PlayFilmComponent implements OnInit {
 
   }
 
+  /**
+   * Renders the time with given seconds correctly. 
+   * 5630 -> 01:33:50
+   * 
+   * @param num time in seconds.
+   * @returns 
+   */
   getTime(num: number) {
     let hour = Math.floor(num / 3600);
     let minute = Math.floor((num % 3600) / 60);
