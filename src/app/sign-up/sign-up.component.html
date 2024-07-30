@@ -24,6 +24,8 @@
                         <input [(ngModel)]="password2" class="input" type="password" name="password2">
                     </div>
                     <span *ngIf="notMatch" class="red fs14">Die beiden Passwörter stimmen nicht überein!</span>
+                    <span *ngIf="toShort" class="red fs14">Das Passwort muss mindestesn 8 Zeichen lang sein!</span>
+                    <span *ngIf="toCommon" class="red fs14">Bitte nutzen Sie ein stärkeres Passwort</span>
                     <div>
                         <button type="submit" class="button fullwith">Registrieren</button>
                     </div>

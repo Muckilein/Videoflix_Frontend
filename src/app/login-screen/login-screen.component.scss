@@ -44,6 +44,8 @@
     color: rgba(219, 219, 219, 0.973);
     margin-bottom: 10px;
     text-align: start;
+    display:flex ;
+    flex-direction: column;
 
 }
 
@@ -80,4 +82,5 @@
 
 .falseData{
     color: red;
+    font-size: 16px;
 }

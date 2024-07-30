@@ -9,6 +9,32 @@
     background: radial-gradient(circle, rgb(7, 112, 86) 0%, rgba(0, 0, 0, 1) 64%);
 }
 
+.signUp {
+    color: rgb(180, 180, 180);
+    font-size: 12px;
+}
+
+.links {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.linksContainer {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 50px;
+}
+
+
+.signUpLink {
+    color: white;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+
 .logo {
     width: 250px;
     height: 50px;
@@ -25,7 +51,10 @@
     font-weight: 600;
     //font-family: 'Nunito', sans-serif;
     margin-bottom: 100px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // text-align: center;
 }
 
 h1 {

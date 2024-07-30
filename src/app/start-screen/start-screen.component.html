@@ -9,8 +9,15 @@
        Monatlich kündbar! <br>
        <div>
         <input [(ngModel)]="email" name="email" class="input" type="email" placeholder="E-Mail-Addresse">
-        <button class="button" (click)="toLogin()">Einloggen</button>
+        <button class="button" (click)="toLogin()">Einloggen</button>       
        </div>
+       <span class="signUp">Sind Sie neu bei Videoflix? <a class="signUpLink" routerLink="/signup">Jetzt
+        registrieren</a></span>       
+    </div>
+    <div class="linksContainer">
+        <a class="links"  routerLink="/datenschutz" >Datenschutz</a>
+        
+        <a class="links" routerLink="/impressum" >Impressum</a>
     </div>
     <div class="bottom">Genießen Sie unsere hervorragende Vielfalt.</div>
 </div>

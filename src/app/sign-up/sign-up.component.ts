@@ -15,6 +15,8 @@ export class SignUpComponent {
   password: string = "";
   password2: string = "";
   notMatch = false;
+  toShort = false;
+  toCommon = false;
 
   constructor(public router: Router) {
   }
@@ -37,30 +39,42 @@ export class SignUpComponent {
     console.log("data", userData);
     let state: boolean = false;
 
-    if (this.password == this.password2) {
-      const url = this.pathBackend + "registerAPI/";
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-
-
-      const requestOptions: any = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(userData),
-        redirect: 'follow',
-      };
-      try {
-        let resp = await fetch(url, requestOptions).then(st => state = st.ok);
-        console.log("state", state);
-        if (state) { this.router.navigateByUrl("/login"); }
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    else {
+    if (this.password != this.password2) {
       this.notMatch = true;
       setTimeout(() => { this.notMatch = false; }, 3000);
+    } else {
+      if (this.password.length < 8) {
+        this.toShort = true;
+        setTimeout(() => { this.toShort = false; }, 3000);
+      }
+      else {
+        const url = this.pathBackend + "registerAPI/";
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json")
+
+        const requestOptions: any = {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(userData),
+          redirect: 'follow',
+        };
+        try {
+          let resp = await fetch(url, requestOptions).then(st => state = st.ok);
+          console.log("state", state);
+          if (state) { this.router.navigateByUrl("/login"); }
+          else {
+            this.toCommon = true;
+            setTimeout(() => { this.toCommon = false; }, 3000);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+
+
+      }
     }
+
+
     return state;
   }
 

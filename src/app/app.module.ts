@@ -17,6 +17,8 @@ import { WatchVideoComponent } from './watch-video/watch-video.component';
 import { PlayFilmComponent } from './play-film/play-film.component';
 import { VideoComponentComponent } from './video-component/video-component.component';
 import { DetailViewComponent } from './detail-view/detail-view.component';
+import { DatenschutzComponent } from './datenschutz/datenschutz.component';
+import { ImpressumComponent } from './impressum/impressum.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { DetailViewComponent } from './detail-view/detail-view.component';
     PlayFilmComponent,
     VideoComponentComponent,
     DetailViewComponent,
+    DatenschutzComponent,
+    ImpressumComponent,
 
   ],
   imports: [

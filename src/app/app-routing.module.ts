@@ -8,6 +8,8 @@ import { NewPasswordComponent } from './new-password/new-password.component';
 import { MainScreenComponent } from './main-screen/main-screen.component';
 
 import { PlayFilmComponent } from './play-film/play-film.component';
+import { ImpressumComponent } from './impressum/impressum.component';
+import { DatenschutzComponent } from './datenschutz/datenschutz.component';
 
 const routes: Routes = [
   { path: '', component: StartScreenComponent},
@@ -16,7 +18,9 @@ const routes: Routes = [
   { path: 'signup', component: SignUpComponent},
   { path: 'newPassword', component: NewPasswordComponent},
   { path: 'main', component: MainScreenComponent}, 
-  { path: 'play', component: PlayFilmComponent}
+  { path: 'play', component: PlayFilmComponent},
+  { path: 'impressum', component: ImpressumComponent},
+  { path: 'datenschutz', component: DatenschutzComponent}
   
 ];
 

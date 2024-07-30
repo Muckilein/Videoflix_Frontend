@@ -12,6 +12,7 @@ export class LoginScreenComponent implements OnInit {
   email: any = "";
   password: string = "";
   falseData: boolean = false;
+  notVerified:boolean = false;
 
   constructor(public router: Router) {
   }
@@ -46,8 +47,15 @@ export class LoginScreenComponent implements OnInit {
         this.falseData = true;
         setTimeout(() => { this.falseData = false; }, 3000);
       } else{
-        this.setToken(json.token); 
-        this.router.navigateByUrl("/main");
+
+        if(json['status'] == "Account not yet verified"){
+          this.notVerified = true;
+          setTimeout(() => { this.notVerified = false; }, 3000);
+        }else{
+          this.setToken(json.token); 
+          this.router.navigateByUrl("/main");
+        }
+       
       }    
 
 
