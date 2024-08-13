@@ -253,10 +253,10 @@ export class MainScreenComponent implements OnInit {
         this.videoList[ind].push(cat);
         this.videoList[ind].push(cat); // delete later
         this.videoList[ind].push(cat); // delete later
-        this.videoList[ind].push(cat); // delete later
-        this.videoList[ind].push(cat); // delete later
-        this.videoList[ind].push(cat); // delete later
-        this.videoList[ind].push(cat); // delete later
+        // this.videoList[ind].push(cat); // delete later
+        // this.videoList[ind].push(cat); // delete later
+        // this.videoList[ind].push(cat); // delete later
+        // this.videoList[ind].push(cat); // delete later
       });
 
     });

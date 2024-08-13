@@ -27,6 +27,9 @@ export class DetailViewComponent {
   episode: number = 0;
   selectioOpen: boolean = false;
   sectionNum: any = 0;
+  //pathBackend: string = "http://127.0.0.1:8000";
+  //pathBackend: string = "http://34.32.69.86";
+  pathBackend: string = "http://julia-developer.de";
 
   constructor(public router: Router) {
   }
@@ -47,7 +50,7 @@ export class DetailViewComponent {
    * Returns the URL string of the short that is shown in the detailed view.
    */
   getUrlVideoDetail(): string {
-    return 'http://127.0.0.1:8000' + this.videoList[this.detailedCatNumber][this.detailedNumber]['short_file'];
+    return this.pathBackend + this.videoList[this.detailedCatNumber][this.detailedNumber]['short_file'];
   }
 
   /**
@@ -155,7 +158,7 @@ export class DetailViewComponent {
    * @returns 
    */
   getEpisodeURL(e: any) {
-    let url = 'http://127.0.0.1:8000' + e['img'];
+    let url = this.pathBackend + e['img'];
     return url;
   }
 

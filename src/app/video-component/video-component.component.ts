@@ -40,20 +40,22 @@ export class VideoComponentComponent {
   season: number = 0;
   episode: number = 0;
   selectioOpen: boolean = false;
-  first:boolean=true;
+  first: boolean = true;
   @Input() section: any = 0;
   //section: any = "All";
-
+  //pathBackend: string = "http://127.0.0.1:8000/";
+  //pathBackend: string = "http://34.32.69.86";
+  pathBackend: string = "http://julia-developer.de";
 
   constructor(public router: Router) {
-
+  
   }
-  getUrlVideo(cat: number, num: number): string {
-    return 'http://127.0.0.1:8000' + this.videoList[cat][num]['short_file'];
+  getUrlVideo(cat: number, num: number): string {  
+    return this.pathBackend + this.videoList[cat][num]['short_file'];
   }
 
-  getUrlshort(cat: number, num: number): string {
-    return 'http://127.0.0.1:8000' + this.videoList[cat][num]['img'];
+  getUrlshort(cat: number, num: number): string {   
+    return this.pathBackend + this.videoList[cat][num]['img'];
   }
 
 
@@ -65,10 +67,10 @@ export class VideoComponentComponent {
   }
 
   showIndex(cat: number, num: number) {
-  
+
   }
 
- 
+
 
   handleImage(cat: number, num: number, enter: number) {
 
@@ -77,7 +79,7 @@ export class VideoComponentComponent {
 
       if (enter == 0) {
         this.videoNumber = num;
-        this.first= this.arrowLine[cat]["firstIndex"] == num
+        this.first = this.arrowLine[cat]["firstIndex"] == num
         setTimeout(() => {
           if (this.videoNumber != -1) {
             this.ignoreImg = true;
@@ -91,7 +93,7 @@ export class VideoComponentComponent {
 
 
       }
-    }else{
+    } else {
       console.log("ignoreImgIgnore Image");
     }
   }
@@ -111,21 +113,21 @@ export class VideoComponentComponent {
    */
   async addToList(cat: number, num: number) {
     await this.mainHelper.addToList(this.videoList[cat][num]);
-    if(this.section==4)  {    
-      this.videoList[0].splice(num,1)   
-      this.ignoreImg= false;  
+    if (this.section == 4) {
+      this.videoList[0].splice(num, 1)
+      this.ignoreImg = false;
     }
   }
-/**
- * blends in the evaluation window (thumps up, thumps down)
- */
+  /**
+   * blends in the evaluation window (thumps up, thumps down)
+   */
   blendInLikes() {
     this.blendIn = true;
   }
 
-/**
- * blends out the evaluation window (thumps up, thumps down)
- */
+  /**
+   * blends out the evaluation window (thumps up, thumps down)
+   */
   blendOutLikes() {
     this.blendIn = false;
   }

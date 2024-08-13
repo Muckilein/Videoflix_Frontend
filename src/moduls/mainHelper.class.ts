@@ -1,5 +1,7 @@
 export class MainHelper {
-   
+    //pathBackend: string = "http://127.0.0.1:8000/";
+    //pathBackend: string = "http://34.32.69.86/";
+    pathBackend: string = "http://julia-developer.de/";
 
     constructor(obj?: any) {
        
@@ -17,7 +19,7 @@ export class MainHelper {
 
 
       async uploadData(path:string,data:any,type:string){
-        let url = 'http://127.0.0.1:8000/' + path + '/';
+        let url = this.pathBackend + path + '/';
 
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -42,7 +44,7 @@ export class MainHelper {
       async loadData(path: string) {
 
         let json;
-        let url = 'http://127.0.0.1:8000/' + path + '/';
+        let url = this.pathBackend + path + '/';
     
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");

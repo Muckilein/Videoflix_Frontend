@@ -3,24 +3,39 @@
     <div class="videoOverlay " (mouseleave)="blendOut()" (mouseenter)="blendIn()">
         <img src="../assets/img/backarrow.png" class="back" [class.toBackgorund]="!blendInPanel" (click)="pageBack()">
         <video id="video" class="video" [muted]="mutedVideo" (click)="play()">
-            <source src="{{playedFilmFile}}" type="video/mp4">
+            <source [src]="playedFilmFile" type="video/mp4">
+            <!-- [src] for dynamic changes -->
         </video>
 
-        <div style="position:relative" [class.toBackgorund]="!blendInPanel">
+        <div style="position:relative" [class.toBackgorund]="!blendInPanel">         
             <div class="controlPanel">
-                <!-- <button (click)="play()">Play</button> -->
-                <img class="videoButton" (click)="play()" src="{{getplaybutton()}}">
-                <img class="videoButton" (click)="back10()" src="../assets/img/10back.png">
-                <img class="videoButton" (click)="for10()" src="../assets/img/10for.png">
+               
+                <div style="display:flex;position:relative;">
+                    <img class="videoButton" (click)="play()" src="{{getplaybutton()}}">
+                    <img class="videoButton" (click)="back10()" src="../assets/img/10back.png">
+                    <img class="videoButton" (click)="for10()" src="../assets/img/10for.png">
 
-                <div  (mouseenter)="mouseInAudio()" (mouseleave)="mouseOut()">
-                    <button (click)="clickMute()"><i [class.fa-volume-xmark]="mutedVideo"
-                            [class.fa-volume-off]="!mutedVideo" class="fa-solid "></i></button>
-                    <input *ngIf="showSlider" class="rangeBar" type="range" value="50" min="0" max="100" id="volumeSlider">
+                    <div (mouseenter)="mouseInAudio()" (mouseleave)="mouseOut()">
+                        <button (click)="clickMute()"><i [class.fa-volume-xmark]="mutedVideo"
+                                [class.fa-volume-off]="!mutedVideo" class="fa-solid "></i></button>
+                        <input [class.notShown]="!showSlider"  class="rangeBar" type="range" value="50" min="0" max="100"
+                            id="volumeSlider">
+                            <!-- *ngIf="showSlider" -->
+                    </div>
+                </div>
+                <div style="position:relative;">
+                    <div class="qualityBox" *ngIf="qualityShown">
+                        <div class="quality" (click)="setQualityIndex(1)">480p</div>
+                        <div class="quality" (click)="setQualityIndex(2)">720p</div>
+                        <div class="quality" (click)="setQualityIndex(3)">1080p</div>
+                    </div>
+                    <img class="videoButton" src="../assets/img/opendetails.png" (click)="unshowQuality()">
                 </div>
             </div>
-            <div id="controlBar">
-                <div id="bar"></div>
+            <div>
+                <div id="controlBar">
+                    <div id="bar"></div>
+                </div>
                 <div id="timer">{{time}}</div>
             </div>
         </div>

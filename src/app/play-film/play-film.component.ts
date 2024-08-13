@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -24,22 +24,32 @@ export class PlayFilmComponent implements OnInit {
   season: any = 1;
   section: any = "";
   tranform: any = 0;
+  quality: any = ["", "_480.mp4", "_720.mp4", "_1080.mp4"];
+  qualityIndex = 1;
+  file:any="";
+  qualityShown:boolean=false;
+  currentTime:number =0;
+  // @ViewChild('video', { static: false }) videoElement: ElementRef;
 
-
-
+  //pathBackend: string = "http://127.0.0.1:8000/";
+  //pathBackend: string = "http://34.32.69.86";
+  pathBackend: string = "http://julia-developer.de";
 
   constructor(public router: Router) {
   }
 
   ngOnInit(): void {
-    this.redParam();       
-    this.video = document.getElementById('video');   
+    this.redParam();
+    this.video = document.getElementById('video');
     this.bar = document.getElementById('bar');
     this.controlBar = document.getElementById('controlBar');
     this.video.addEventListener('timeupdate', this.updateBar.bind(this));
     this.controlBar.addEventListener('click', (event: any) => this.clickBar(event));
     setTimeout(() => { this.time = this.getTime(Math.floor(this.video.duration)); }, 2000);
-
+    setTimeout(() => {
+      this.slider = document.getElementById('volumeSlider');
+      this.slider.addEventListener("input", this.changeVolume.bind(this));
+    }, 500);
   }
 
   /**
@@ -48,20 +58,21 @@ export class PlayFilmComponent implements OnInit {
   mouseInAudio() {
     console.log("mouseIn");
     this.showSlider = true;
-    setTimeout(() => {
-      this.slider = document.getElementById('volumeSlider');
-      this.slider.addEventListener("input", this.changeVolume.bind(this));
-    }, 500);
-
   }
 
-  /**
+    /**
  * blend in the audio-slider
  */
-  mouseOut() {
-    this.slider.removeEventListener("input", this.changeVolume.bind(this));
-    this.showSlider = false;
+    mouseOut() {
+      // this.slider.removeEventListener("input", this.changeVolume.bind(this));
+       this.showSlider = false;
+     }
+
+  unshowQuality(){
+    this.qualityShown =!this.qualityShown;
   }
+
+
 
   /**
    * Changes the Value of the slide. Is calles when the user
@@ -84,7 +95,7 @@ export class PlayFilmComponent implements OnInit {
   /**
    * Updates the bar when watching a film
    */
-  updateBar() {        
+  updateBar() {
     let position = this.video.currentTime / this.video.duration;
     this.bar.style.width = position * 100 + '%';
     let t = Math.floor(this.video.duration) - Math.floor(this.video.currentTime);
@@ -137,8 +148,9 @@ export class PlayFilmComponent implements OnInit {
 
   clickBar(event: any): void {
     let clickPosition = event.offsetX;
-    console.log('Position ' + clickPosition);
-    console.log(this.video);    
+    console.log("----------------------------------------");
+    console.log(this.video);
+    console.log('Position ' + clickPosition);   
     let width = this.controlBar.getBoundingClientRect().width;
     console.log('width ' + width);
     console.log('duration ' + this.video.duration);
@@ -170,10 +182,30 @@ export class PlayFilmComponent implements OnInit {
     this.bar.style.width = position * 100 + '%';
   }
 
+  setQualityIndex(index: number) {
+    this.qualityIndex = index;
+    this.currentTime = this.video.currentTime
+    this.playedFilmFile  = this.pathBackend + this.file+ this.quality[this.qualityIndex];
+    console.log(this.playedFilmFile); 
+    this.reloadVideo();
+  }
+
+  reloadVideo(): void {   
+    this.video.load();
+    this.video.play();
+    this.video.currentTime =this.currentTime; 
+    let position = this.video.currentTime / this.video.duration;
+    this.bar.style.width = position * 100 + '%';
+  }
+
 
   redParam() {
     const urlParams = new URLSearchParams(window.location.search);
-    this.playedFilmFile = 'http://127.0.0.1:8000' + urlParams.get('file');
+    let f = urlParams.get('file');
+    this.file = f;
+    this.file = this.file.slice(0, -4); // delete in VSC version
+    this.playedFilmFile  =  this.pathBackend + this.file+ this.quality[this.qualityIndex];    
+    console.log(this.playedFilmFile);
     this.filmId = urlParams.get('id');
     this.type = urlParams.get('type');
     this.section = urlParams.get('section');
@@ -190,20 +222,20 @@ export class PlayFilmComponent implements OnInit {
   }
 
   play() {
-    if (this.videoPlay) { 
-      this.video.pause(); 
+    if (this.videoPlay) {
+      this.video.pause();
 
     } else { this.video.play(); }
     this.videoPlay = !this.videoPlay;
 
   }
 
-  getplaybutton(){
+  getplaybutton() {
     if (this.videoPlay)
-    return "../assets/img/playbutton.png"
-  else{
-    return "../assets/img/opendetails.png"
-  }
+      return "../assets/img/pausebutton.png";
+    else {     
+       return "../assets/img/playbutton.png";
+    }
   }
 
   clickMute() {
