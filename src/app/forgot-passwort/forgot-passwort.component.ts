@@ -7,8 +7,8 @@ import { Component } from '@angular/core';
 })
 export class ForgotPasswortComponent {
   email:string ="";
-  pathBackend:string ="http://127.0.0.1:8000/";
-
+  //pathBackend:string ="http://127.0.0.1:8000/";
+  pathBackend: string = "https://julia-developer.de/";
   async resetPassword() {
        
     let url = this.pathBackend + 'password_reset/?email=' + this.email;

@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 export class NewPasswordComponent {
   password: string = "";
   password2: string = "";
-  pathBackend: string = "http://127.0.0.1:8000/";
+  //pathBackend: string = "http://127.0.0.1:8000/";
+  pathBackend: string = "https://julia-developer.de/";
   showMessage: boolean = false;
 
   constructor(public router: Router) {

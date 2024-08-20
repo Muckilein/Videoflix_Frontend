@@ -44,8 +44,8 @@ export class VideoComponentComponent {
   @Input() section: any = 0;
   //section: any = "All";
   //pathBackend: string = "http://127.0.0.1:8000/";
-  //pathBackend: string = "http://34.32.69.86";
-  pathBackend: string = "http://julia-developer.de";
+  //pathBackend: string = "http://34.32.69.86/";
+  pathBackend: string = "https://julia-developer.de"; //correct
 
   constructor(public router: Router) {
   

@@ -33,7 +33,7 @@ export class PlayFilmComponent implements OnInit {
 
   //pathBackend: string = "http://127.0.0.1:8000/";
   //pathBackend: string = "http://34.32.69.86";
-  pathBackend: string = "http://julia-developer.de";
+  pathBackend: string = "https://julia-developer.de";
 
   constructor(public router: Router) {
   }
@@ -203,7 +203,7 @@ export class PlayFilmComponent implements OnInit {
     const urlParams = new URLSearchParams(window.location.search);
     let f = urlParams.get('file');
     this.file = f;
-    this.file = this.file.slice(0, -4); // delete in VSC version
+   // this.file = this.file.slice(0, -4); // delete in VSC version
     this.playedFilmFile  =  this.pathBackend + this.file+ this.quality[this.qualityIndex];    
     console.log(this.playedFilmFile);
     this.filmId = urlParams.get('id');

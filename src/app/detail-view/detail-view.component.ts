@@ -29,7 +29,7 @@ export class DetailViewComponent {
   sectionNum: any = 0;
   //pathBackend: string = "http://127.0.0.1:8000";
   //pathBackend: string = "http://34.32.69.86";
-  pathBackend: string = "http://julia-developer.de";
+  pathBackend: string = "https://julia-developer.de";
 
   constructor(public router: Router) {
   }
@@ -204,7 +204,7 @@ export class DetailViewComponent {
   }
 
   /**
-   * Is calles when we click on the show detailes button of a Video.
+   * Is called when we click on the show detailes button of a Video.
    * It 
    * @param cat 
    * @param num 
@@ -249,6 +249,13 @@ export class DetailViewComponent {
     this.videoList[this.detailedCatNumber][this.detailedNumber]['episodeList'].forEach((elem: any) => {
       if (elem['season'] == season) { e.push(elem); }
     });
+    this.sortEpisodesByNumber(this.videoList[this.detailedCatNumber][this.detailedNumber]['episodeList']);
+    console.log(e);
     return e;
   }
+
+  sortEpisodesByNumber(episodes:any) {
+    return episodes.sort((a:any, b:any) => a.episode - b.episode);
+  }
 }
+

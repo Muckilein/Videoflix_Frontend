@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent {
 
-  pathBackend: string = "http://127.0.0.1:8000/";
+  //pathBackend: string = "http://127.0.0.1:8000/";
+  pathBackend: string = "https://julia-developer.de/";
 
   username: string = "";
   email: string = "";
@@ -30,9 +31,6 @@ export class SignUpComponent {
     }
     return data;
   }
-
-
-
 
   async registerUser() {
     let userData: any = this.makeUserdata();
