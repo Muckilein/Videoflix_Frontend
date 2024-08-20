@@ -12,15 +12,12 @@ export class StartScreenComponent {
 
   constructor(public router: Router) {}
 
-  
  
 
   toLogin(){
     
     this.router.navigateByUrl('/login');
     localStorage.setItem('email',this.email);
-  }
-
- 
+  } 
 
 }

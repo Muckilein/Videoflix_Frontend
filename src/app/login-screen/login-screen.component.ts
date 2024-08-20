@@ -7,8 +7,7 @@ import { Router } from '@angular/router';
   styleUrl: './login-screen.component.scss'
 })
 export class LoginScreenComponent implements OnInit {
-  //pathBackend: string = "http://127.0.0.1:8000/";
-  //pathBackend: string = "http://34.32.69.86/";
+  
   pathBackend: string = "https://julia-developer.de/";
   email: any = "";
   password: string = "";
@@ -57,14 +56,12 @@ export class LoginScreenComponent implements OnInit {
           this.router.navigateByUrl("/main");
         }
        
-      }    
+      }   
 
 
     } catch (e) {
       // Show error message    
       console.error(e);
-
-
     }
   }
 

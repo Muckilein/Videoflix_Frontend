@@ -16,13 +16,12 @@ export class VideoComponentComponent {
   @Input() enterVideo: any = [];
   @Output() callOpenDetails = new EventEmitter<any>();
 
-  // @Output() videoUpdater = new EventEmitter<any>();
+ 
   mainHelper = new MainHelper()
   videoUrl: string = "";
   episodenUrl: string = "";
   seriesUrl: string = "";
-  indexJ: string[] = ['Komödien'];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
-  //enterVideo: boolean[][]=[[]];
+  indexJ: string[] = ['Komödien']; 
   showVideo: boolean = false;
   ignoreImg = false; //del
   videoNumber: number = -1;
@@ -41,11 +40,8 @@ export class VideoComponentComponent {
   episode: number = 0;
   selectioOpen: boolean = false;
   first: boolean = true;
-  @Input() section: any = 0;
-  //section: any = "All";
-  //pathBackend: string = "http://127.0.0.1:8000/";
-  //pathBackend: string = "http://34.32.69.86/";
-  pathBackend: string = "https://julia-developer.de"; //correct
+  @Input() section: any = 0;  
+  pathBackend: string = "https://julia-developer.de"; 
 
   constructor(public router: Router) {
   

@@ -13,7 +13,6 @@ import { MainScreenComponent } from './main-screen/main-screen.component';
 import { HeaderComponent } from './header/header.component';
 
 import { UrlcheckerPipe } from './urlchecker.pipe';
-import { WatchVideoComponent } from './watch-video/watch-video.component';
 import { PlayFilmComponent } from './play-film/play-film.component';
 import { VideoComponentComponent } from './video-component/video-component.component';
 import { DetailViewComponent } from './detail-view/detail-view.component';
@@ -30,8 +29,7 @@ import { ImpressumComponent } from './impressum/impressum.component';
     NewPasswordComponent,
     MainScreenComponent,
     HeaderComponent,
-    UrlcheckerPipe,
-    WatchVideoComponent,
+    UrlcheckerPipe,   
     PlayFilmComponent,
     VideoComponentComponent,
     DetailViewComponent,

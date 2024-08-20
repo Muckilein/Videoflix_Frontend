@@ -12,8 +12,7 @@ import { DetailViewComponent } from '../detail-view/detail-view.component';
   styleUrl: './main-screen.component.scss'
 })
 export class MainScreenComponent implements OnInit {
-  mainHelper = new MainHelper();
-  //seriesUrl: string = "";
+  mainHelper = new MainHelper(); 
   categoryList: any[] = [];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5]; 
   categoryListSave: any[] = [];
   arrowLine: any[] = [];
@@ -85,12 +84,12 @@ export class MainScreenComponent implements OnInit {
     this.loaded = true;
   }
 
-  openDatenschutz(){
-   this.router.navigate(['/datenschutz'], { queryParams: { link: 'main'}});
+  openDatenschutz() {
+    this.router.navigate(['/datenschutz'], { queryParams: { link: 'main' } });
   }
 
-  openImpressum(){
-    this.router.navigate(['/impressum'], { queryParams: { link: 'main'}});
+  openImpressum() {
+    this.router.navigate(['/impressum'], { queryParams: { link: 'main' } });
   }
 
   /**
@@ -162,8 +161,8 @@ export class MainScreenComponent implements OnInit {
       }
 
     }
-    if (type) {     
-      this.arrowLine[cat]['transform'] = Number(t);      
+    if (type) {
+      this.arrowLine[cat]['transform'] = Number(t);
       setTimeout(() => {
         this.moveSliderTo(cat, this.arrowLine[cat]['transform']);
       }, 500);
@@ -259,12 +258,6 @@ export class MainScreenComponent implements OnInit {
       catOfObject.forEach((c: any) => {
         let ind = this.getIndexOfCategory(c['name']);
         this.videoList[ind].push(cat);
-        this.videoList[ind].push(cat); // delete later
-        this.videoList[ind].push(cat); // delete later
-        // this.videoList[ind].push(cat); // delete later
-        // this.videoList[ind].push(cat); // delete later
-        // this.videoList[ind].push(cat); // delete later
-        // this.videoList[ind].push(cat); // delete later
       });
 
     });
@@ -318,17 +311,7 @@ export class MainScreenComponent implements OnInit {
     this.listSortedByCategory();
 
   }
-
-  /**
-   * just for testing
-   */
-  async showVideoList() {
-    console.log(this.videoList);
-    // console.log('show arrowline');
-    // console.log(this.arrowLine);
-    // console.log(this.enterVideo);
-
-  }
+ 
 
   /**
    * 
@@ -400,16 +383,14 @@ export class MainScreenComponent implements OnInit {
       let wArray = this.mainHelper.getVideoWidth(this.width);
       let width = (wArray[0] + wArray[1]) * 3 * transform;
       elem.style = `transform: translateX(${width}px)`;
-    } 
+    }
   }
 
-/**
- * Shows the details view of a video/series with the given category and index.
- * @param indices e.g. {cat: 0, num: 1}
- */
-  openTheDetails(indices: any) {
-    console.log("indices");
-    console.log(indices);
+  /**
+   * Shows the details view of a video/series with the given category and index.
+   * @param indices e.g. {cat: 0, num: 1}
+   */
+  openTheDetails(indices: any) {  
     this.showInfos(indices['cat'], indices['num']);
   }
 

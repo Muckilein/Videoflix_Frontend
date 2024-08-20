@@ -10,8 +10,7 @@ export class DatenschutzComponent {
   readParams() {
 
     const urlParams = new URLSearchParams(window.location.search);
-    let link = urlParams.get('link');
-    console.log(link);
+    let link = urlParams.get('link');    
     if(link ==undefined)
       return "/";
     else{

@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -26,13 +26,9 @@ export class PlayFilmComponent implements OnInit {
   tranform: any = 0;
   quality: any = ["", "_480.mp4", "_720.mp4", "_1080.mp4"];
   qualityIndex = 1;
-  file:any="";
-  qualityShown:boolean=false;
-  currentTime:number =0;
-  // @ViewChild('video', { static: false }) videoElement: ElementRef;
-
-  //pathBackend: string = "http://127.0.0.1:8000/";
-  //pathBackend: string = "http://34.32.69.86";
+  file: any = "";
+  qualityShown: boolean = false;
+  currentTime: number = 0;
   pathBackend: string = "https://julia-developer.de";
 
   constructor(public router: Router) {
@@ -56,20 +52,18 @@ export class PlayFilmComponent implements OnInit {
    * blend in the audio-slider
    */
   mouseInAudio() {
-    console.log("mouseIn");
     this.showSlider = true;
   }
 
-    /**
- * blend in the audio-slider
- */
-    mouseOut() {
-      // this.slider.removeEventListener("input", this.changeVolume.bind(this));
-       this.showSlider = false;
-     }
+  /**
+* blend in the audio-slider
+*/
+  mouseOut() {
+    this.showSlider = false;
+  }
 
-  unshowQuality(){
-    this.qualityShown =!this.qualityShown;
+  unshowQuality() {
+    this.qualityShown = !this.qualityShown;
   }
 
 
@@ -149,9 +143,9 @@ export class PlayFilmComponent implements OnInit {
   clickBar(event: any): void {
     let clickPosition = event.offsetX;
     console.log("----------------------------------------");
-    console.log(this.video);
-    console.log('Position ' + clickPosition);   
+    console.log(this.video);    
     let width = this.controlBar.getBoundingClientRect().width;
+    console.log('Position ' + clickPosition);
     console.log('width ' + width);
     console.log('duration ' + this.video.duration);
     this.video.currentTime = (clickPosition / width) * this.video.duration;
@@ -164,7 +158,6 @@ export class PlayFilmComponent implements OnInit {
 
 
   pageBack() {
-    //this.router.navigateByUrl('/main');
     this.router.navigate(['/main'], { queryParams: { type: this.type, cat: this.cat, num: this.num, season: this.season, section: this.section, transform: this.tranform } });
   }
 
@@ -185,15 +178,14 @@ export class PlayFilmComponent implements OnInit {
   setQualityIndex(index: number) {
     this.qualityIndex = index;
     this.currentTime = this.video.currentTime
-    this.playedFilmFile  = this.pathBackend + this.file+ this.quality[this.qualityIndex];
-    console.log(this.playedFilmFile); 
+    this.playedFilmFile = this.pathBackend + this.file + this.quality[this.qualityIndex];
     this.reloadVideo();
   }
 
-  reloadVideo(): void {   
+  reloadVideo(): void {
     this.video.load();
     this.video.play();
-    this.video.currentTime =this.currentTime; 
+    this.video.currentTime = this.currentTime;
     let position = this.video.currentTime / this.video.duration;
     this.bar.style.width = position * 100 + '%';
   }
@@ -203,9 +195,7 @@ export class PlayFilmComponent implements OnInit {
     const urlParams = new URLSearchParams(window.location.search);
     let f = urlParams.get('file');
     this.file = f;
-   // this.file = this.file.slice(0, -4); // delete in VSC version
-    this.playedFilmFile  =  this.pathBackend + this.file+ this.quality[this.qualityIndex];    
-    console.log(this.playedFilmFile);
+    this.playedFilmFile = this.pathBackend + this.file + this.quality[this.qualityIndex];
     this.filmId = urlParams.get('id');
     this.type = urlParams.get('type');
     this.section = urlParams.get('section');
@@ -214,11 +204,7 @@ export class PlayFilmComponent implements OnInit {
       this.num = urlParams.get('num');
       this.season = urlParams.get('season');
     }
-    this.cat = urlParams.get('cat');
-    console.log(this.playedFilmFile);
-    console.log(this.filmId);
-
-
+    this.cat = urlParams.get('cat');   
   }
 
   play() {
@@ -233,8 +219,8 @@ export class PlayFilmComponent implements OnInit {
   getplaybutton() {
     if (this.videoPlay)
       return "../assets/img/pausebutton.png";
-    else {     
-       return "../assets/img/playbutton.png";
+    else {
+      return "../assets/img/playbutton.png";
     }
   }
 

@@ -12,8 +12,7 @@ export class HeaderComponent {
   @Input() number: number = 0;
   search:string=""; 
   @Output() newItemEvent = new EventEmitter<any>();
-  @Output() searchItem = new EventEmitter<string>();
-  //pathBackend:string ="http://127.0.0.1:8000/";
+  @Output() searchItem = new EventEmitter<string>();  
   pathBackend: string = "https://julia-developer.de/";
   popUp:boolean=false;
   menuShown:boolean=false;
@@ -51,8 +50,7 @@ async logout() {
       headers: myHeaders,   
       redirect: 'follow'
   };
-  try {
-      //let resp = await fetch( "http://127.0.0.1:8000/logout/", requestOptions);
+  try {    
       let resp = await fetch( "https://julia-developer.de/logout/", requestOptions);
       this.router.navigateByUrl("/login");   
      
