@@ -52,7 +52,8 @@ async logout() {
       redirect: 'follow'
   };
   try {
-      let resp = await fetch( "http://127.0.0.1:8000/logout/", requestOptions);
+      //let resp = await fetch( "http://127.0.0.1:8000/logout/", requestOptions);
+      let resp = await fetch( "https://julia-developer.de/logout/", requestOptions);
       this.router.navigateByUrl("/login");   
      
   } catch (e) {

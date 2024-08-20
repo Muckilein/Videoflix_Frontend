@@ -85,6 +85,14 @@ export class MainScreenComponent implements OnInit {
     this.loaded = true;
   }
 
+  openDatenschutz(){
+   this.router.navigate(['/datenschutz'], { queryParams: { link: 'main'}});
+  }
+
+  openImpressum(){
+    this.router.navigate(['/impressum'], { queryParams: { link: 'main'}});
+  }
+
   /**
    * Loads the caterories and saves them.
    */

@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 })
 export class DatenschutzComponent {
 
+  readParams() {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let link = urlParams.get('link');
+    console.log(link);
+    if(link ==undefined)
+      return "/";
+    else{
+      return '/'+link;
+    }
+  }
+
 }

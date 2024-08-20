@@ -4,24 +4,33 @@
     <div class="overlayShadow" *ngIf="detailedView"></div>
     <div>
         <div class="videoContainer" id="videoContainer">
-            <div  *ngFor="let name of categoryList,index as j">
-              <div *ngIf="videoExistIncategory(j)" class="sections">
-                <div class="titleCategory" >{{name['name']}} </div>
-                <div class="filmCategoryLine" (mouseenter)="showArrowLine(j,true)"
-                    (mouseleave)="showArrowLine(j,false)">
-                    <!-- (videoUpdater)="updateVideoList($event)"              -->
-                    <div class="filmCategoryInnerLine" id="line{{j}}" >
-                        <app-video-component (callOpenDetails)="openTheDetails($event)" [j]="j" [i]="i"
-                            [section]="sectionNum" [videoList]="videoList" *ngFor="let v of videoList[j]; index as i"
-                            [enterVideo]="enterVideo" [arrowLine]="arrowLine"></app-video-component>
+            <div *ngFor="let name of categoryList,index as j">
+                <div *ngIf="videoExistIncategory(j)" class="sections">
+                    <div class="titleCategory">{{name['name']}} </div>
+                    <div class="filmCategoryLine" (mouseenter)="showArrowLine(j,true)"
+                        (mouseleave)="showArrowLine(j,false)">
+                        <!-- (videoUpdater)="updateVideoList($event)"              -->
+                        <div class="filmCategoryInnerLine" id="line{{j}}">
+                            <app-video-component (callOpenDetails)="openTheDetails($event)" [j]="j" [i]="i"
+                                [section]="sectionNum" [videoList]="videoList"
+                                *ngFor="let v of videoList[j]; index as i" [enterVideo]="enterVideo"
+                                [arrowLine]="arrowLine"></app-video-component>
+                        </div>
+                        <img class="arrowSize arrowShiftLeft" *ngIf="getShowArrowLineLeft(j)"
+                            src="../assets/img/leftShift.png" (click)="moveSlider(j,1)">
+                        <img class="arrowSize arrowShiftRight" *ngIf="getShowArrowLineRight(j)"
+                            src="../assets/img/rightShift.png" (click)="moveSlider(j,-1)">
                     </div>
-                    <img class="arrowSize arrowShiftLeft" *ngIf="getShowArrowLineLeft(j)" src="../assets/img/leftShift.png" (click)="moveSlider(j,1)">
-                    <img class="arrowSize arrowShiftRight" *ngIf="getShowArrowLineRight(j)" src="../assets/img/rightShift.png" (click)="moveSlider(j,-1)">
-                </div>  
-              </div>            
+                </div>
             </div>
         </div>
-    <app-detail-view [videoListAll]="videoListAll" [detailedNumber]="detailedNumber" [detailedCatNumber]="detailedCatNumber" [arrowLine]="arrowLine" [videoList]="videoList" #detailView></app-detail-view>
-     
+        <app-detail-view [videoListAll]="videoListAll" [detailedNumber]="detailedNumber"
+            [detailedCatNumber]="detailedCatNumber" [arrowLine]="arrowLine" [videoList]="videoList"
+            #detailView></app-detail-view>
+
         <button (click)="showVideoList()">Infos (will be deleted later)</button>
+        <div class="linksContainer">
+            <p class="links" (click)="openDatenschutz()">Datenschutz</p>
+            <p class="links" (click)="openImpressum()">Impressum</p>
+        </div>
     </div>

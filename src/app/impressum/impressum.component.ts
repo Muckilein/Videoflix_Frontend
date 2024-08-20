@@ -7,4 +7,15 @@ import { Component } from '@angular/core';
 })
 export class ImpressumComponent {
 
+  readParams() {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let link = urlParams.get('link');
+    console.log(link);
+    if(link ==undefined)
+      return "/";
+    else{
+      return '/'+link;
+    }
+  }
 }
