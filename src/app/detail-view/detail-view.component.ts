@@ -27,8 +27,6 @@ export class DetailViewComponent {
   episode: number = 0;
   selectioOpen: boolean = false;
   sectionNum: any = 0;
-  //pathBackend: string = "http://127.0.0.1:8000";
-  //pathBackend: string = "http://34.32.69.86";
   pathBackend: string = "https://julia-developer.de";
 
   constructor(public router: Router) {
@@ -105,11 +103,9 @@ export class DetailViewComponent {
     }
   }
 
-
   addToList() {
     this.mainHelper.addToList(this.videoList[this.detailedCatNumber][this.detailedNumber]);
   }
-
 
   blendInLikesDetail() {
     this.blendIn = true;

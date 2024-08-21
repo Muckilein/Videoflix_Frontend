@@ -5,15 +5,17 @@
     flex-direction: column;
     // justify-content: space-between;
     height: fit-content;
+    min-height: 100vh;  
     // gap: 50px;
     background: rgb(10, 193, 148);
     background: radial-gradient(circle, rgba(10, 193, 148, 1) 0%, rgba(0, 0, 0, 1) 64%);
 
 }
 
-.linksContainer {
+.linksContainer {  
     display: flex;
     justify-content: center;
+    //align-items: flex-end;
     gap: 50px;
     margin-top: 50px;
     cursor: pointer;
@@ -21,6 +23,10 @@
         color: white;
         font-size: 16px;
     }
+}
+
+.videoContainer{
+    min-height: 80vh;  
 }
 
 .titleCategory {

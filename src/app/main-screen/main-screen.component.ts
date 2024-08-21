@@ -193,9 +193,11 @@ export class MainScreenComponent implements OnInit {
         await this.loadVideo();
       }
       if (this.sectionNum == 3) {
+        console.log(this.categoryList);
+        let id= this.getIfOfCategory("Neu und beliebt");
         this.categoryList = [{ "name": "Neu und beliebt" }];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
         this.arrowLine = [{ "shown": false, "transform": 0, "firstIndex": 0 }];
-        let data = await this.mainHelper.loadData("getItemOfCategory/4");
+        let data = await this.mainHelper.loadData("getItemOfCategory/"+id);
         this.videoList = [[]];
         this.videoList[0] = data;
       }
@@ -210,6 +212,15 @@ export class MainScreenComponent implements OnInit {
     }
     else { console.log("allready choosen"); }
     this.makeEnterArray();
+  }
+
+  getIfOfCategory(title:string){
+    let id = 0;
+    this.categoryList.forEach(c=>{
+      if(c['name']=="Neu und beliebt")
+        id = c['id'];
+    });
+    return id;
   }
 
   /**

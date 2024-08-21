@@ -56,9 +56,7 @@ export class LoginScreenComponent implements OnInit {
           this.router.navigateByUrl("/main");
         }
        
-      }   
-
-
+      }    
     } catch (e) {
       // Show error message    
       console.error(e);

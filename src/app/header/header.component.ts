@@ -10,12 +10,12 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   clicked: boolean = false;
   @Input() number: number = 0;
-  search:string=""; 
+  search: string = "";
   @Output() newItemEvent = new EventEmitter<any>();
-  @Output() searchItem = new EventEmitter<string>();  
+  @Output() searchItem = new EventEmitter<string>();
   pathBackend: string = "https://julia-developer.de/";
-  popUp:boolean=false;
-  menuShown:boolean=false;
+  popUp: boolean = false;
+  menuShown: boolean = false;
 
   constructor(public router: Router) {
   }
@@ -27,7 +27,7 @@ export class HeaderComponent {
     this.clicked = !this.clicked;
   }
 
-  blendInMenu(){
+  blendInMenu() {
     this.menuShown = !this.menuShown;
   }
 
@@ -36,43 +36,41 @@ export class HeaderComponent {
    * @param num section number e.g. 'Stratseite' = 0, 'Serien'= 1...
    */
   setSection(num: number) {
-    this.menuShown=false;
+    this.menuShown = false;
     this.newItemEvent.emit(num);
   }
- 
 
-async logout() { 
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+  async logout() {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-  let requestOptions:any = {
+    let requestOptions: any = {
       method: 'GET',
-      headers: myHeaders,   
+      headers: myHeaders,
       redirect: 'follow'
-  };
-  try {    
-      let resp = await fetch( "https://julia-developer.de/logout/", requestOptions);
-      this.router.navigateByUrl("/login");   
-     
-  } catch (e) {
+    };
+    try {
+      let resp = await fetch("https://julia-developer.de/logout/", requestOptions);
+      this.router.navigateByUrl("/login");
+
+    } catch (e) {
       // Show error message    
       console.error(e);
-    
+    }
   }
-}
-  
+
   /**
    * Send the content if the search field to the main component
    * 
    * @param event 
    */
-  searchFor(event: Event): void { 
-   this.searchItem.emit(this.search);
+  searchFor(event: Event): void {
+    this.searchItem.emit(this.search);
   }
   /**
    * Opens the menu.
    */
-  openMenu(){
-    this.popUp=!this.popUp;
+  openMenu() {
+    this.popUp = !this.popUp;
   }
 }
