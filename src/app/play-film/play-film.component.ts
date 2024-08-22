@@ -218,9 +218,9 @@ export class PlayFilmComponent implements OnInit {
 
   getplaybutton() {
     if (this.videoPlay)
-      return "../assets/img/pausebutton.png";
+      return "assets/img/pausebutton.png";
     else {
-      return "../assets/img/playbutton.png";
+      return "assets/img/playbutton.png";
     }
   }
 

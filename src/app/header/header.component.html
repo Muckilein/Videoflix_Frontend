@@ -1,7 +1,7 @@
 <div class="header">
     <div class="left">
-        <img class="logo" src="../assets/img/Logo.png" >        
-        <div class="linkSmall" [class.hide]="clicked"  (click)="blendInMenu()">Durchsuchen <img src="../assets/img/menuDown.png" ></div>
+        <img class="logo" src="assets/img/Logo.png" >        
+        <div class="linkSmall" [class.hide]="clicked"  (click)="blendInMenu()">Durchsuchen <img src="assets/img/menuDown.png" ></div>
         <div *ngIf="menuShown" class="linksPopUp">
             <a [class.shine]="number==0" routerLink="/main" (click)="setSection(0)">Startseite</a>
             <a [class.shine]="number==1" routerLink="/main" (click)="setSection(1)">Serien</a>         
@@ -20,19 +20,16 @@
     </div>
     <div class="right" [class.move]="clicked">
         <div [class.big]="clicked" [class.border]="clicked" class="searchDiv">
-            <img class="search" src="../assets/img/lupe.png" (click)="chancheClicked()">
+            <img class="search" src="assets/img/lupe.png" (click)="chancheClicked()">
             <input *ngIf="clicked" class="searchInput" placeholder="Title, Person,Genres..." [(ngModel)]="search"
                 name="search" (ngModelChange)="searchFor($event)">
         </div>
 
-       <div style="width:100px;">
-        <!-- <a style="margin:0;">Kids</a>
-        <img class="bell" src="../assets/img/bell.png"> -->
-        <img style="cursor:pointer;" src="../assets/img/Menu.png"(click)="openMenu()">
-        <!-- <button style="width:30px; height:30px;cursor:pointer" (click)="openMenu()"></button> -->
-        <div *ngIf="popUp" class="menuPopUp" >           
-            <!-- <a   routerLink="/main"><img class="editIcon" src="../assets/img/editing.png">  Profil bearbeiten</a> -->
-            <!-- <div class="line"></div> -->
+       <div style="width:100px;">      
+        <img style="cursor:pointer;" src="assets/img/Menu.png"(click)="openMenu()">
+      
+        <div *ngIf="popUp" class="menuPopUp" >         
+           
             <a (click)="logout()"> aus Videoflix ausloggen</a>
         </div>
        </div>

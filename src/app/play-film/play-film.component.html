@@ -1,7 +1,7 @@
 <div id="containerMainFilme">
     <!-- <app-header [number]="1"></app-header> -->
     <div class="videoOverlay " (mouseleave)="blendOut()" (mouseenter)="blendIn()">
-        <img src="../assets/img/backarrow.png" class="back" [class.toBackgorund]="!blendInPanel" (click)="pageBack()">
+        <img src="assets/img/backarrow.png" class="back" [class.toBackgorund]="!blendInPanel" (click)="pageBack()">
         <video id="video" class="video" [muted]="mutedVideo" (click)="play()">
             <source [src]="playedFilmFile" type="video/mp4">
             <!-- [src] for dynamic changes -->
@@ -12,8 +12,8 @@
                
                 <div style="display:flex;position:relative;">
                     <img class="videoButton" (click)="play()" src="{{getplaybutton()}}">
-                    <img class="videoButton" (click)="back10()" src="../assets/img/10back.png">
-                    <img class="videoButton" (click)="for10()" src="../assets/img/10for.png">
+                    <img class="videoButton" (click)="back10()" src="assets/img/10back.png">
+                    <img class="videoButton" (click)="for10()" src="assets/img/10for.png">
 
                     <div (mouseenter)="mouseInAudio()" (mouseleave)="mouseOut()">
                         <button (click)="clickMute()"><i [class.fa-volume-xmark]="mutedVideo"
@@ -29,7 +29,7 @@
                         <div class="quality" (click)="setQualityIndex(2)">720p</div>
                         <div class="quality" (click)="setQualityIndex(3)">1080p</div>
                     </div>
-                    <img class="videoButton" src="../assets/img/opendetails.png" (click)="unshowQuality()">
+                    <img class="videoButton" src="assets/img/opendetails.png" (click)="unshowQuality()">
                 </div>
             </div>
             <div>

@@ -162,9 +162,9 @@ export class VideoComponentComponent {
 
   getListIcon(cat: number, num: number) {
     let added = this.videoList[cat][num]['inList'];
-    if (added) { return "../assets/img/inList.png"; }
+    if (added) { return "assets/img/inList.png"; }
     else {
-      return "../assets/img/addToList.png";
+      return "assets/img/addToList.png";
     }
   }
 

@@ -97,9 +97,9 @@ export class DetailViewComponent {
    */
   getListIcon() {
     let added = this.videoList[this.detailedCatNumber][this.detailedNumber]['inList'];
-    if (added) { return "../assets/img/inList.png"; }
+    if (added) { return "assets/img/inList.png"; }
     else {
-      return "../assets/img/addToList.png";
+      return "assets/img/addToList.png";
     }
   }
 
