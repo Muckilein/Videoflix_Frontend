@@ -1,6 +1,4 @@
-export class MainHelper {
-    //pathBackend: string = "http://127.0.0.1:8000/";
-    //pathBackend: string = "http://34.32.69.86/";
+export class MainHelper {   
     pathBackend: string = "https://julia-developer.de/";
 
     constructor(obj?: any) {
@@ -99,15 +97,15 @@ export class MainHelper {
        */
       getIconEvaluation(evaluation:number,blendIn:boolean,ev:number){
         let path="";
-        if (evaluation == -1) { path = "../assets/img/bewerten" + ev + ".png"; }
+        if (evaluation == -1) { path = "assets/img/bewerten" + ev + ".png"; }
         else {
           if (!blendIn) {
-            path = "../assets/img/bewerten" + evaluation + "Choosen.png";
+            path = "assets/img/bewerten" + evaluation + "Choosen.png";
           } else {
             if (evaluation == ev) {
-              path = "../assets/img/bewerten" + ev + "Choosen.png";
+              path = "assets/img/bewerten" + ev + "Choosen.png";
             } else {
-              path = "../assets/img/bewerten" + ev + ".png";
+              path = "assets/img/bewerten" + ev + ".png";
             }
           }
       }
