@@ -1,5 +1,5 @@
 #contentSignUp {
-    padding: 20px 200px 20px 200px;
+    padding: 20px 150px 20px 150px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -81,4 +81,11 @@
 }
 .fullwith{
     width : 100%;
+}
+
+@media (max-width:800px) {
+
+    #contentSignUp {
+        padding: 20px 30px 20px 30px;       
+    }
 }

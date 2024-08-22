@@ -192,8 +192,7 @@ export class MainScreenComponent implements OnInit {
         this.reloadTitles();
         await this.loadVideo();
       }
-      if (this.sectionNum == 3) {
-        console.log(this.categoryList);
+      if (this.sectionNum == 3) {        
         let id= this.getIfOfCategory("Neu und beliebt");
         this.categoryList = [{ "name": "Neu und beliebt" }];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
         this.arrowLine = [{ "shown": false, "transform": 0, "firstIndex": 0 }];

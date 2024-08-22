@@ -61,7 +61,17 @@ h1 {
     color: rgba(219, 219, 219, 0.973);
     margin-bottom: 10px;
     text-align: start;
-    display:flex ;
+    display: flex;
     flex-direction: column;
 
+}
+
+@media (max-width:800px) {
+    #contentPasswordForget {
+        padding: 20px 30px 20px 30px;
+
+    }   
+}
+
+@media (max-width:400px) {
 }

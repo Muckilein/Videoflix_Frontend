@@ -41,11 +41,11 @@ export class PlayFilmComponent implements OnInit {
     this.controlBar = document.getElementById('controlBar');
     this.video.addEventListener('timeupdate', this.updateBar.bind(this));
     this.controlBar.addEventListener('click', (event: any) => this.clickBar(event));
-    setTimeout(() => { this.time = this.getTime(Math.floor(this.video.duration)); }, 2000);
+    setTimeout(() => { this.time = this.getTime(Math.floor(this.video.duration)); }, 1500);
     setTimeout(() => {
       this.slider = document.getElementById('volumeSlider');
       this.slider.addEventListener("input", this.changeVolume.bind(this));
-    }, 500);
+    }, 500);    
   }
 
   /**
