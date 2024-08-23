@@ -15,7 +15,7 @@ export class VideoComponentComponent {
   @Input() arrowLine: any[] = [];
   @Input() enterVideo: any = [];
   @Output() callOpenDetails = new EventEmitter<any>();
-
+  @Output() setMuteDetails = new EventEmitter<any>();
  
   mainHelper = new MainHelper()
   videoUrl: string = "";
@@ -32,7 +32,7 @@ export class VideoComponentComponent {
 
   myList: any[] = [];
   episodenList: any[][] = [[]];
-  mutedShort: boolean = true;
+  @Input() mutedShort: boolean = true;
   detailedView: boolean = false;
   seasonName: string = "Staffel 1";
   isSeries: boolean = false;
@@ -144,6 +144,11 @@ export class VideoComponentComponent {
     let video: any = document.getElementById('video' + cat + 'num' + num);
     video.muted = !video.muted;
     this.mutedShort = !this.mutedShort;
+    this.sendMuteDetails(this.mutedShort);
+  }
+
+  sendMuteDetails(mute:boolean){
+    this.setMuteDetails.emit(mute);
   }
 
   async setEvaluation(evaluation: number, cat: number, num: number) {

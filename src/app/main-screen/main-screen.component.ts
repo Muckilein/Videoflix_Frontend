@@ -34,6 +34,7 @@ export class MainScreenComponent implements OnInit {
   enterSearch: boolean = false;
   loaded: boolean = false;
   width: number = 0;
+  mutedShort:boolean=false;
 
 
   @ViewChild(DetailViewComponent) detailView!: DetailViewComponent;
@@ -220,6 +221,10 @@ export class MainScreenComponent implements OnInit {
         id = c['id'];
     });
     return id;
+  }
+
+  setMute(event:any){
+    this.mutedShort=event;
   }
 
   /**

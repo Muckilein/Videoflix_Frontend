@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input,Output, EventEmitter } from '@angular/core';
 import { MainHelper } from '../../moduls/mainHelper.class';
 import { Router } from '@angular/router';
 @Component({
@@ -20,7 +20,7 @@ export class DetailViewComponent {
   @Input() videoList: any[][] = [[]];
   @Input() videoListAll: any[] = [];
   episodenList: any[][] = [[]];
-  mutedShort: boolean = true;
+  @Input() mutedShort: boolean = true;
   detailedView: boolean = false;
   isSeries: boolean = false;
   season: number = 0;
@@ -28,6 +28,7 @@ export class DetailViewComponent {
   selectioOpen: boolean = false;
   sectionNum: any = 0;
   pathBackend: string = "https://julia-developer.de";
+  @Output() setMuteDetails = new EventEmitter<any>();
 
   constructor(public router: Router) {
   }
@@ -49,6 +50,10 @@ export class DetailViewComponent {
    */
   getUrlVideoDetail(): string {
     return this.pathBackend + this.videoList[this.detailedCatNumber][this.detailedNumber]['short_file'];
+  }
+
+  sendMuteDetails(mute:boolean){
+    this.setMuteDetails.emit(mute);
   }
 
   /**
@@ -146,6 +151,7 @@ export class DetailViewComponent {
     let video: any = document.getElementById('videoDetail');
     video.muted = !video.muted;
     this.mutedShort = !this.mutedShort;
+    this.sendMuteDetails(this.mutedShort);
   }
 
   /**

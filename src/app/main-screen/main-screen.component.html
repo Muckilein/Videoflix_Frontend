@@ -11,8 +11,8 @@
                         (mouseleave)="showArrowLine(j,false)">
                         <!-- (videoUpdater)="updateVideoList($event)"              -->
                         <div class="filmCategoryInnerLine" id="line{{j}}">
-                            <app-video-component (callOpenDetails)="openTheDetails($event)" [j]="j" [i]="i"
-                                [section]="sectionNum" [videoList]="videoList"
+                            <app-video-component (setMuteDetails)="setMute($event)" (callOpenDetails)="openTheDetails($event)" [j]="j" [i]="i"
+                                [section]="sectionNum" [mutedShort]="mutedShort" [videoList]="videoList"
                                 *ngFor="let v of videoList[j]; index as i" [enterVideo]="enterVideo"
                                 [arrowLine]="arrowLine"></app-video-component>
                         </div>
@@ -24,8 +24,8 @@
                 </div>
             </div>
         </div>
-        <app-detail-view [videoListAll]="videoListAll" [detailedNumber]="detailedNumber"
-            [detailedCatNumber]="detailedCatNumber" [arrowLine]="arrowLine" [videoList]="videoList"
+        <app-detail-view [videoListAll]="videoListAll" [detailedNumber]="detailedNumber" (setMuteDetails)="setMute($event)"
+            [detailedCatNumber]="detailedCatNumber" [mutedShort]="mutedShort" [arrowLine]="arrowLine" [videoList]="videoList"
             #detailView></app-detail-view>
       
         <div class="linksContainer">
