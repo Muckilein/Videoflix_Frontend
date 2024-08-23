@@ -45,7 +45,7 @@ export class PlayFilmComponent implements OnInit {
     setTimeout(() => {
       this.slider = document.getElementById('volumeSlider');
       this.slider.addEventListener("input", this.changeVolume.bind(this));
-    }, 500);    
+    }, 500);
   }
 
   /**
@@ -137,31 +137,22 @@ export class PlayFilmComponent implements OnInit {
     return this.renderTime(hour) + this.parseTime(minute) + ':' + this.parseTime(sek);
   }
 
-
-
-
+  /**
+   * Handels the click on the bar.
+   * @param event 
+   */
   clickBar(event: any): void {
     let clickPosition = event.offsetX;
-    console.log("----------------------------------------");
-    console.log(this.video);    
     let width = this.controlBar.getBoundingClientRect().width;
-    console.log('Position ' + clickPosition);
-    console.log('width ' + width);
-    console.log('duration ' + this.video.duration);
     this.video.currentTime = (clickPosition / width) * this.video.duration;
     let time = (clickPosition / width) * this.video.duration;
     let position = this.video.currentTime / this.video.duration;
-    console.log('this.video.currentTime', this.video.currentTime);
-    console.log('time', time);
     this.bar.style.width = position * 100 + '%';
   }
-
 
   pageBack() {
     this.router.navigate(['/main'], { queryParams: { type: this.type, cat: this.cat, num: this.num, season: this.season, section: this.section, transform: this.tranform } });
   }
-
-
 
   back10() {
     this.video.currentTime = this.video.currentTime - 10;
@@ -190,7 +181,9 @@ export class PlayFilmComponent implements OnInit {
     this.bar.style.width = position * 100 + '%';
   }
 
-
+/**
+ * Read the parameters. It is importent for going back.
+ */
   redParam() {
     const urlParams = new URLSearchParams(window.location.search);
     let f = urlParams.get('file');
@@ -204,7 +197,7 @@ export class PlayFilmComponent implements OnInit {
       this.num = urlParams.get('num');
       this.season = urlParams.get('season');
     }
-    this.cat = urlParams.get('cat');   
+    this.cat = urlParams.get('cat');
   }
 
   play() {

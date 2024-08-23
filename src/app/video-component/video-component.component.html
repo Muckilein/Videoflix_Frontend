@@ -12,6 +12,7 @@
                     [class.fa-volume-xmark]="mutedShort" [class.fa-volume-off]="!mutedShort"
                     class="fa-solid "></i></button>
         </div>
+        <div class="title">{{getTitle(j,i)}}</div>
         <div class="videoButtons">
             <div style="display:flex">
                 <img class="playbutton" src="assets/img/playbutton.png" (click)="openVideo(j,i)">

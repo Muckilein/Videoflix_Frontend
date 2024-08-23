@@ -205,7 +205,7 @@ export class MainScreenComponent implements OnInit {
         this.arrowLine = [{ "shown": false, "transform": 0, "firstIndex": 0 }];
         let data = await this.mainHelper.loadData('getMyList');
         this.videoList = [[]];
-        this.videoList[0] = data;
+        this.videoList[0] = data;       
 
       }
     }
@@ -214,7 +214,7 @@ export class MainScreenComponent implements OnInit {
   }
 
   getIfOfCategory(title:string){
-    let id = 0;
+    let id = 5;
     this.categoryList.forEach(c=>{
       if(c['name']=="Neu und beliebt")
         id = c['id'];

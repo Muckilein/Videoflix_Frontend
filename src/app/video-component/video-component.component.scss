@@ -55,9 +55,14 @@ video::-webkit-media-controls-enclosure {
 .videoButtons {
     display: flex;
     justify-content: space-between;
-    padding: 5px;
+    padding: 0px 5px 0px 5px;
 
+}
 
+.title{
+    color:white; 
+    font-size:16px;
+    margin-left:5px; 
 }
 
 

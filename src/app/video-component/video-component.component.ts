@@ -62,6 +62,11 @@ export class VideoComponentComponent {
     this.showVideo = false;
   }
 
+  getTitle(cat: number, num: number)
+  {
+    return this.videoList[cat][num]['title'];
+  }
+
   showIndex(cat: number, num: number) {
 
   }
