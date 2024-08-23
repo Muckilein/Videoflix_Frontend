@@ -32,8 +32,7 @@ export class SignUpComponent {
   }
 
   async registerUser() {
-    let userData: any = this.makeUserdata();
-    console.log("data", userData);
+    let userData: any = this.makeUserdata();  
     let state: boolean = false;
 
     if (this.password != this.password2) {
@@ -56,8 +55,7 @@ export class SignUpComponent {
           redirect: 'follow',
         };
         try {
-          let resp = await fetch(url, requestOptions).then(st => state = st.ok);
-          console.log("state", state);
+          let resp = await fetch(url, requestOptions).then(st => state = st.ok);          
           if (state) { this.router.navigateByUrl("/login"); }
           else {
             this.toCommon = true;
