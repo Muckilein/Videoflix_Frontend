@@ -119,23 +119,20 @@ export class MainHelper {
    * @param vList  actual videoList
    * @param search  The string we want to search for.
    * @returns 
-   */
+   */ 
+
   makeSearchList(vList: any,search:any) {
     let searchList: any = [[]];
     let s = search.toLowerCase();
     let title = ";"
-    vList.forEach((cat: any) => {
-      cat.forEach((c: any) => {
-        title = c['title'].toLowerCase();
+    vList.forEach((vid: any) => {     
+        title = vid['title'].toLowerCase();
         if (title.includes(s)) {
-          searchList[0].push(c);
-        }
-
-      });
+          searchList[0].push(vid);
+        }      
     });
     return searchList;
   }
-
   
 /** 
   * Sets the evaluaion of the given video 

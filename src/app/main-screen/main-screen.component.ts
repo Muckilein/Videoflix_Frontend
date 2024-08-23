@@ -426,7 +426,7 @@ export class MainScreenComponent implements OnInit {
       this.videoList = this.videoListSave;
       this.categoryList = this.categoryListSave;
     } else {
-      this.videoList = this.mainHelper.makeSearchList(this.videoList, this.search);
+      this.videoList = this.mainHelper.makeSearchList(this.videoListAll, this.search);
       let s = "Sie suchen nach '" + this.search + "'";
       this.categoryList = [{ "name": s }];
       this.arrowLine[0] = { "shown": false, "transform": 0 };
