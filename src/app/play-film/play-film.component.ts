@@ -146,6 +146,10 @@ export class PlayFilmComponent implements OnInit {
     let width = this.controlBar.getBoundingClientRect().width;
     this.video.currentTime = (clickPosition / width) * this.video.duration;
     let time = (clickPosition / width) * this.video.duration;
+    console.log("time",time);
+    console.log("this.video.currentTime",this.video.currentTime);
+    console.log(this.video);
+    console.log("-------------------");
     let position = this.video.currentTime / this.video.duration;
     this.bar.style.width = position * 100 + '%';
   }
