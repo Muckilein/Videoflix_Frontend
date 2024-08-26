@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class SignUpComponent {
 
  
-  pathBackend: string = "https://julia-developer.de/";
+  pathBackend: string = "https://backend.julia-developer.de/";
   username: string = "";
   email: string = "";
   password: string = "";

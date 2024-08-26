@@ -1,5 +1,5 @@
 export class MainHelper {   
-    pathBackend: string = "https://julia-developer.de/";
+    pathBackend: string = "https://backend.julia-developer.de/";
 
     constructor(obj?: any) {
        

@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class LoginScreenComponent implements OnInit {
   
-  pathBackend: string = "https://julia-developer.de/";
+  pathBackend: string = "https://backend.julia-developer.de/";
   email: any = "";
   password: string = "";
   falseData: boolean = false;

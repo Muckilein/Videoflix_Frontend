@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class ForgotPasswortComponent {
     email: string = "";
     message: boolean = false;
-    pathBackend: string = "https://julia-developer.de/";
+    pathBackend: string = "https://backend.julia-developer.de/";
     async resetPassword() {
 
         let url = this.pathBackend + 'password_reset/?email=' + this.email;

@@ -41,7 +41,7 @@ export class VideoComponentComponent {
   selectioOpen: boolean = false;
   first: boolean = true;
   @Input() section: any = 0;  
-  pathBackend: string = "https://julia-developer.de"; 
+  pathBackend: string = "https://backend.julia-developer.de"; 
 
   constructor(public router: Router) {
   

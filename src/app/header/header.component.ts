@@ -13,7 +13,7 @@ export class HeaderComponent {
   search: string = "";
   @Output() newItemEvent = new EventEmitter<any>();
   @Output() searchItem = new EventEmitter<string>();
-  pathBackend: string = "https://julia-developer.de/";
+  pathBackend: string = "https://backend.julia-developer.de/";
   popUp: boolean = false;
   menuShown: boolean = false;
 

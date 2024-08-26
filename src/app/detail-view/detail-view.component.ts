@@ -27,7 +27,7 @@ export class DetailViewComponent {
   episode: number = 0;
   selectioOpen: boolean = false;
   sectionNum: any = 0;
-  pathBackend: string = "https://julia-developer.de";
+  pathBackend: string = "https://backend.julia-developer.de";
   @Output() setMuteDetails = new EventEmitter<any>();
 
   constructor(public router: Router) {
