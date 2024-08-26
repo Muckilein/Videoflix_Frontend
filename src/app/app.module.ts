@@ -18,6 +18,7 @@ import { VideoComponentComponent } from './video-component/video-component.compo
 import { DetailViewComponent } from './detail-view/detail-view.component';
 import { DatenschutzComponent } from './datenschutz/datenschutz.component';
 import { ImpressumComponent } from './impressum/impressum.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { ImpressumComponent } from './impressum/impressum.component';
     FormsModule,
 
   ],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
