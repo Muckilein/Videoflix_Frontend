@@ -21,17 +21,12 @@ export class NewPasswordComponent {
    */
   async newPassword() {
 
-    // const urlParams = new URLSearchParams(window.location.search);
-    // let token: any = urlParams.get('token');
-    // console.log("Token",token);
-    //  let url: any = urlParams.get('path');
     const urlFragment = window.location.hash;
     const fragmentParams = new URLSearchParams(urlFragment.substring(1)); // Entfernt das '#' am Anfang
     let token: any = fragmentParams.get('token');   
     let url: any ="https://backend.julia-developer.de/password_reset/confirm/";
 
-    let valid: any = await this.validToken(token);
-    console.log("token "+token + " url "+url);
+    let valid: any = await this.validToken(token);  
 
     if (this.password == this.password2 && valid['status'] == 'OK') {
       if (token != null) {

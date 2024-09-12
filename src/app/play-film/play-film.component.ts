@@ -185,9 +185,12 @@ export class PlayFilmComponent implements OnInit {
  * Read the parameters. It is importent for going back.
  */
   redParam() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let f = urlParams.get('file');
-    this.file = f;
+    // const urlParams = new URLSearchParams(window.location.search);
+    // let f = urlParams.get('file');
+
+    const urlFragment = window.location.hash;
+    const urlParams = new URLSearchParams(urlFragment.substring(6));//URLSearchParams only needs the query part
+    this.file = urlParams.get('file');   
     this.playedFilmFile = this.pathBackend + this.file + this.quality[this.qualityIndex];
     this.filmId = urlParams.get('id');
     this.type = urlParams.get('type');

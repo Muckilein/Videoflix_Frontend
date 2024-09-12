@@ -50,8 +50,11 @@ export class HeaderComponent {
       redirect: 'follow'
     };
     try {
-      let resp = await fetch("https://julia-developer.de/logout/", requestOptions);
+      let resp = await fetch(this.pathBackend+"logout/", requestOptions);
+      localStorage.removeItem('token');
+      localStorage.removeItem('uid');
       this.router.navigateByUrl("/login");
+
 
     } catch (e) {
       // Show error message    

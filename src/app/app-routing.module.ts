@@ -10,6 +10,7 @@ import { MainScreenComponent } from './main-screen/main-screen.component';
 import { PlayFilmComponent } from './play-film/play-film.component';
 import { ImpressumComponent } from './impressum/impressum.component';
 import { DatenschutzComponent } from './datenschutz/datenschutz.component';
+import { AuthGuardService } from './auth-guard.service';
 
 const routes: Routes = [
   { path: '', component: StartScreenComponent},
@@ -17,8 +18,8 @@ const routes: Routes = [
   { path: 'forgotpassword', component: ForgotPasswortComponent},
   { path: 'signup', component: SignUpComponent},
   { path: 'newPassword', component: NewPasswordComponent},
-  { path: 'main', component: MainScreenComponent}, 
-  { path: 'play', component: PlayFilmComponent},
+  { path: 'main', component: MainScreenComponent,canActivate: [AuthGuardService]}, 
+  { path: 'play', component: PlayFilmComponent,canActivate: [AuthGuardService]},
   { path: 'impressum', component: ImpressumComponent},
   { path: 'datenschutz', component: DatenschutzComponent}
   
