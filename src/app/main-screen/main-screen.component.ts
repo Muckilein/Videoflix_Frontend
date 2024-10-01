@@ -12,9 +12,10 @@ import { DetailViewComponent } from '../detail-view/detail-view.component';
   styleUrl: './main-screen.component.scss'
 })
 export class MainScreenComponent implements OnInit {
-  mainHelper = new MainHelper(); 
+  mainHelper = new MainHelper();
   categoryList: any[] = [];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5]; 
   categoryListSave: any[] = [];
+  categoryListSaveSearch: any[] = [];
   arrowLine: any[] = [];
   arrowLineSave: any[] = [];
   enterVideo: any = [[false, false, false]];
@@ -34,7 +35,7 @@ export class MainScreenComponent implements OnInit {
   enterSearch: boolean = false;
   loaded: boolean = false;
   width: number = 0;
-  mutedShort:boolean=false;
+  mutedShort: boolean = false;
 
 
   @ViewChild(DetailViewComponent) detailView!: DetailViewComponent;
@@ -177,11 +178,12 @@ export class MainScreenComponent implements OnInit {
    * 
    * @param event section number
    */
-  async setSection(event: any) {
+  async setSection(event: any) {   
+
     if (this.sectionNum != event || !this.loaded) {
       this.sectionNum = event;
 
-      if (this.sectionNum == 0) {
+      if (this.sectionNum == 0) {      
         this.reloadTitles();
         await this.loadAll();
       }
@@ -193,11 +195,11 @@ export class MainScreenComponent implements OnInit {
         this.reloadTitles();
         await this.loadVideo();
       }
-      if (this.sectionNum == 3) {        
-        let id= this.getIfOfCategory("Neu und beliebt");
+      if (this.sectionNum == 3) {
+        let id = this.getIfOfCategory("Neu und beliebt");
         this.categoryList = [{ "name": "Neu und beliebt" }];//, 'Von der Kritik gelobten Filme'];//,2,3,4,5];
         this.arrowLine = [{ "shown": false, "transform": 0, "firstIndex": 0 }];
-        let data = await this.mainHelper.loadData("getItemOfCategory/"+id);
+        let data = await this.mainHelper.loadData("getItemOfCategory/" + id);
         this.videoList = [[]];
         this.videoList[0] = data;
       }
@@ -206,25 +208,26 @@ export class MainScreenComponent implements OnInit {
         this.arrowLine = [{ "shown": false, "transform": 0, "firstIndex": 0 }];
         let data = await this.mainHelper.loadData('getMyList');
         this.videoList = [[]];
-        this.videoList[0] = data;       
+        this.videoList[0] = data;
 
       }
+      
     }
     else { console.log("allready choosen"); }
     this.makeEnterArray();
   }
 
-  getIfOfCategory(title:string){
+  getIfOfCategory(title: string) {
     let id = 5;
-    this.categoryList.forEach(c=>{
-      if(c['name']=="Neu und beliebt")
+    this.categoryList.forEach(c => {
+      if (c['name'] == "Neu und beliebt")
         id = c['id'];
     });
     return id;
   }
 
-  setMute(event:any){
-    this.mutedShort=event;
+  setMute(event: any) {
+    this.mutedShort = event;
   }
 
   /**
@@ -326,7 +329,7 @@ export class MainScreenComponent implements OnInit {
     this.listSortedByCategory();
 
   }
- 
+
 
   /**
    * 
@@ -405,7 +408,7 @@ export class MainScreenComponent implements OnInit {
    * Shows the details view of a video/series with the given category and index.
    * @param indices e.g. {cat: 0, num: 1}
    */
-  openTheDetails(indices: any) {  
+  openTheDetails(indices: any) {
     this.showInfos(indices['cat'], indices['num']);
   }
 
@@ -416,21 +419,25 @@ export class MainScreenComponent implements OnInit {
    */
   searchFor(event: any) {
     this.search = event;
+   
     if (!this.enterSearch) {
       this.videoListSave = this.videoList;
-      this.categoryListSave = this.categoryList;
+      this.categoryListSaveSearch = this.categoryList;
       this.enterSearch = true;
     }
     if (this.search == "") {
       this.enterSearch = false;
       this.videoList = this.videoListSave;
-      this.categoryList = this.categoryListSave;
+      this.categoryList = this.categoryListSaveSearch;
     } else {
-      this.videoList = this.mainHelper.makeSearchList(this.videoListAll, this.search);
+      
+      if (this.sectionNum == 3 || this.sectionNum == 4) { this.videoList = this.mainHelper.makeSearchList(this.videoList[0], this.search); }
+      else { this.videoList = this.mainHelper.makeSearchList(this.videoListAll, this.search); }
       let s = "Sie suchen nach '" + this.search + "'";
       this.categoryList = [{ "name": s }];
       this.arrowLine[0] = { "shown": false, "transform": 0 };
-    }
+    }  
+   
   }
 
   /**

@@ -125,6 +125,7 @@ export class MainHelper {
     let searchList: any = [[]];
     let s = search.toLowerCase();
     let title = ";"
+    console.log(vList);
     vList.forEach((vid: any) => {     
         title = vid['title'].toLowerCase();
         if (title.includes(s)) {
